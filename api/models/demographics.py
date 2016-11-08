@@ -9,7 +9,7 @@ class Gender(models.Model):
         verbose_name_plural = "Genders"
 
     def __str__(self):
-        return super(Gender, self).__str__()
+        return self.gender
 
 class Age(models.Model):
     age = models.CharField(max_length=50)
@@ -19,7 +19,7 @@ class Age(models.Model):
         verbose_name_plural = "Ages"
 
     def __str__(self):
-        return super(Age, self).__str__()
+        return self.age
 
 class Country(models.Model):
     country = models.CharField(max_length=50)
@@ -29,7 +29,7 @@ class Country(models.Model):
         verbose_name_plural = "Countrys"
 
     def __str__(self):
-        return super(Country, self).__str__()
+        return self.country
 
 class Occupation(models.Model):
     occupation = models.CharField(max_length=50)
@@ -39,7 +39,7 @@ class Occupation(models.Model):
         verbose_name_plural = "Occupations"
 
     def __str__(self):
-        return super(Occupation, self).__str__()
+        return self.occupation
 
 class Education(models.Model):
     education = models.CharField(max_length=50)
@@ -49,5 +49,5 @@ class Education(models.Model):
         verbose_name_plural = "Educations"
 
     def __str__(self):
-        return super(Education, self).__str__()
+        return self.education
 
