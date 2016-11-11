@@ -1,48 +1,29 @@
 from api.models import Gender, Age, Occupation, Education, Country
 from api.serializers import GenderSerializer, AgeSerializer, OccupationSerializer, EducationSerializer, CountrySerializer
 from rest_framework import generics
+from rest_framework import viewsets
 
 
-class GenderList(generics.ListAPIView):
+class GenderViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Gender.objects.all()
     serializer_class = GenderSerializer
 
-class GenderDetail(generics.RetrieveAPIView):
-    queryset = Gender.objects.all()
-    serializer_class = GenderSerializer
 
-
-class AgeList(generics.ListAPIView):
-    queryset = Age.objects.all()
-    serializer_class = AgeSerializer
-
-class AgeDetail(generics.RetrieveAPIView):
+class AgeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Age.objects.all()
     serializer_class = AgeSerializer
 
 
-class OccupationList(generics.ListAPIView):
-    queryset = Occupation.objects.all()
-    serializer_class = OccupationSerializer
-
-class OccupationDetail(generics.RetrieveAPIView):
+class OccupationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Occupation.objects.all()
     serializer_class = OccupationSerializer
 
 
-class EducationList(generics.ListAPIView):
-    queryset = Education.objects.all()
-    serializer_class = EducationSerializer
-
-class EducationDetail(generics.RetrieveAPIView):
+class EducationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
 
 
-class CountryList(generics.ListAPIView):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
-
-class CountryDetail(generics.RetrieveAPIView):
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer

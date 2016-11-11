@@ -1,43 +1,23 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework import routers
 from api import views
 
+from api.views import GenderViewSet
+from api.views import AgeViewSet
+from api.views import EducationViewSet
+from api.views import OccupationViewSet
+from api.views import CountryViewSet
+
+
+router = routers.DefaultRouter()
+router.register(r'gender', GenderViewSet)
+router.register(r'age', AgeViewSet)
+router.register(r'education', EducationViewSet)
+router.register(r'occupation', OccupationViewSet)
+router.register(r'country', CountryViewSet)
+
 urlpatterns = [
-
-    url(r'^api/gender/$',
-        views.GenderList.as_view(),
-        name='gender_list'),
-    url(r'^api/gender/(?P<pk>[0-9]+)/$',
-        views.GenderDetail.as_view(),
-        name='gender_detail'),
-
-    url(r'^api/age/$',
-        views.AgeList.as_view(),
-        name='age_list'),
-    url(r'^api/age/(?P<pk>[0-9]+)/$',
-        views.AgeDetail.as_view(),
-        name='age_detail'),
-
-    url(r'^api/education/$',
-        views.EducationList.as_view(),
-        name='education_list'),
-    url(r'^api/education/(?P<pk>[0-9]+)/$',
-        views.EducationDetail.as_view(),
-        name='education_detail'),
-
-    url(r'^api/occupation/$',
-        views.OccupationList.as_view(),
-        name='occupation_list'),
-    url(r'^api/occupation/(?P<pk>[0-9]+)/$',
-        views.OccupationDetail.as_view(),
-        name='occupation_detail'),
-
-    url(r'^api/country/$',
-        views.CountryList.as_view(),
-        name='country_list'),
-    url(r'^api/country/(?P<pk>[0-9]+)/$',
-        views.CountryDetail.as_view(),
-        name='country_detail'),
 
     url(r'^api/user/$',
         views.UserList.as_view(),
@@ -51,8 +31,8 @@ urlpatterns = [
         name='video_list'),
     url(r'^api/video/(?P<euscreen>[A-Za-z0-9]+)/$',
         views.VideoDetail.as_view(),
-        name='video_detail')
+        name='video_detail'),
+
+    url(r'^api/', include(router.urls)),
 
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
