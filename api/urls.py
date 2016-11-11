@@ -4,7 +4,7 @@ from api import views
 
 urlpatterns = [
     url(r'^api/$', views.UserList.as_view()),
-    url(r'^api/(?P<pk>[0-9]+)/$', views.UserDetail.as_view())
+    url(r'^api/(?P<username>[a-z0-9]+)/$', views.UserDetail.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
