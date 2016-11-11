@@ -4,7 +4,7 @@ class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     gender = models.ForeignKey(
         'Gender',
         on_delete=models.CASCADE
