@@ -18,3 +18,4 @@ build/
 tests/report/
 .dev.yaml
 .services.yaml
+api/management/commands/data_files/
