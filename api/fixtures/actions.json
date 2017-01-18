@@ -1,0 +1,50 @@
+[
+  {
+    "model": "api.action", 
+    "pk": 1,
+    "fields": {
+      "action": "play video",
+      "importance": "10"
+    }
+  },
+  {
+    "model": "api.action", 
+    "pk": 2,
+    "fields": {
+      "action": "stop video",
+      "importance": "10"
+    }
+  },
+  {
+    "model": "api.action", 
+    "pk": 3,
+    "fields": {
+      "action": "click enrichment",
+      "importance": "10"
+    }
+  },
+  {
+    "model": "api.action", 
+    "pk": 4,
+    "fields": {
+      "action": "click ad",
+      "importance": "10"
+    }
+  },
+  {
+    "model": "api.action", 
+    "pk": 5,
+    "fields": {
+      "action": "share",
+      "importance": "10"
+    }
+  },
+  {
+    "model": "api.action", 
+    "pk": 6,
+    "fields": {
+      "action": "explicit_rf",
+      "importance": "20"
+    }
+  }
+]
