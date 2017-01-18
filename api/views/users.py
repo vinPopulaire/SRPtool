@@ -1,15 +1,10 @@
 from api.models import User
 from api.serializers import UserSerializer
-from rest_framework import generics
+from rest_framework import viewsets
 
 
-class UserList(generics.ListCreateAPIView):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    lookup_field = 'username'
+    lookup_field = "username"

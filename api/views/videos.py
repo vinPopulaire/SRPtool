@@ -1,15 +1,10 @@
 from api.models import Video
 from api.serializers import VideoSerializer
-from rest_framework import generics
+from rest_framework import viewsets
 
 
-class VideoList(generics.ListCreateAPIView):
+class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
-
-class VideoDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Video.objects.all()
-    serializer_class = VideoSerializer
-
-    lookup_field = 'euscreen'
+    lookup_field = "euscreen"
