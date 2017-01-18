@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^api/video/$',
         views.VideoList.as_view(),
         name='video_list'),
-    url(r'^api/video/(?P<euscreen>[A-Za-z0-9]+)/$',
+    url(r'^api/video/(?P<euscreen>[A-Za-z0-9_]+)/$',
         views.VideoDetail.as_view(),
         name='video_detail'),
 
