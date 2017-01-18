@@ -1,0 +1,100 @@
+[
+  {
+    "model": "api.term",
+    "pk": 1,
+    "fields": {
+      "term": "arts"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 2,
+    "fields": {
+      "term": "disasters"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 3,
+    "fields": {
+      "term": "education"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 4,
+    "fields": {
+      "term": "environment"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 5,
+    "fields": {
+      "term": "health"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 6,
+    "fields": {
+      "term": "lifestyle"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 7,
+    "fields": {
+      "term": "media"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 8,
+    "fields": {
+      "term": "holidays"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 9,
+    "fields": {
+      "term": "politics"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 10,
+    "fields": {
+      "term": "religion"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 11,
+    "fields": {
+      "term": "society"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 12,
+    "fields": {
+      "term": "transportation"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 13,
+    "fields": {
+      "term": "wars"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 14,
+    "fields": {
+      "term": "work"
+    }
+  }
+]
