@@ -8,5 +8,5 @@ class Term(models.Model):
         verbose_name_plural = "Terms"
 
     def __str__(self):
-        return super(Term, self).__str__()
+        return self.term
 
