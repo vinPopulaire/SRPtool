@@ -3,3 +3,4 @@ from .users import UserSerializer
 from .videos import VideoSerializer
 from .actions import ActionSerializer
 from .terms import TermSerializer
+from .enrichments import EnrichmentSerializer
