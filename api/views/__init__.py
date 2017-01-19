@@ -5,3 +5,4 @@ from .demographics import EducationViewSet
 from .demographics import CountryViewSet
 from .users import UserViewSet
 from .videos import VideoViewSet
+from .actions import ActionViewSet
