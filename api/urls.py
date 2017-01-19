@@ -11,6 +11,7 @@ from api.views import CountryViewSet
 from api.views import VideoViewSet
 from api.views import UserViewSet
 from api.views import ActionViewSet
+from api.views import TermViewSet
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
@@ -21,6 +22,7 @@ router.register(r'education', EducationViewSet)
 router.register(r'occupation', OccupationViewSet)
 router.register(r'country', CountryViewSet)
 router.register(r'action', ActionViewSet)
+router.register(r'term', TermViewSet)
 
 urlpatterns = [
 
