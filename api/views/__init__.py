@@ -7,3 +7,4 @@ from .users import UserViewSet
 from .videos import VideoViewSet
 from .actions import ActionViewSet
 from .terms import TermViewSet
+from .enrichments import EnrichmentViewSet
