@@ -1,5 +1,6 @@
 from django.db import models
-from . import User
+from .users import User
+from .terms import Term
 
 class Video(models.Model):
     euscreen = models.CharField(unique=True, max_length=50)
@@ -12,14 +13,14 @@ class Video(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
     users = models.ManyToManyField(User, through="Watched")
-
+    scores = models.ManyToManyField(Term, through="VideoContentScore")
 
     class Meta:
         verbose_name = "Video"
         verbose_name_plural = "Videos"
 
     def __str__(self):
-        return title
+        return self.title
 
 
 class Watched(models.Model):
@@ -28,11 +29,22 @@ class Watched(models.Model):
     liked = models.IntegerField()
     time_watched = models.DateTimeField(auto_now=True)
 
-
     class Meta:
         verbose_name = "Watched"
         verbose_name_plural = "Watcheds"
 
     def __str__(self):
-        return super(Watched, self).__str__()
+        return "user %s watched video %s" % (self.user, self.video)
 
+
+class VideoContentScore(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    term = models.ForeignKey(Term, on_delete=models.CASCADE)
+    score = models.DecimalField(max_digits=6, decimal_places=3)
+
+    class Meta:
+        verbose_name = "VideoContentScore"
+        verbose_name_plural = "VideoContentScores"
+
+    def __str__(self):
+        return self.score
