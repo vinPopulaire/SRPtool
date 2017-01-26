@@ -1,4 +1,6 @@
 from django.db import models
+from .videos import Video
+from .actions import Action
 
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
@@ -25,6 +27,7 @@ class User(models.Model):
         'Country',
         on_delete=models.CASCADE
         )
+    video = models.ManyToManyField(Video, through="VideoWatched")
 
     class Meta:
         verbose_name = "User"
@@ -32,4 +35,33 @@ class User(models.Model):
 
     def __str__(self):
         return username
+
+
+class VideoWatched(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    liked = models.IntegerField()
+    time_watched = models.DateTimeField(auto_now=True)
+    interactions = models.ManyToManyField(Action, through="VideoInteractions")
+
+    class Meta:
+        verbose_name = "VideoWatched"
+        verbose_name_plural = "VideoWatcheds"
+
+    def __str__(self):
+        return "user %s watched video %s" % (self.user, self.video)
+
+
+class VideoInteractions(models.Model):
+    video_watched = models.ForeignKey(VideoWatched, on_delete=models.CASCADE)
+    action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    time_action_performed = models.DateTimeField(auto_now=True)
+    computed = models.BooleanField(default=0)
+
+    class Meta:
+        verbose_name = "VideoInteractions"
+        verbose_name_plural = "VideoInteractionss"
+
+    def __str__(self):
+        return "user %s made action %s to video %s" % (self.user, self.action, self.video)
 
