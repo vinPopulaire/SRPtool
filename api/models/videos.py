@@ -56,6 +56,7 @@ class VideoInteractions(models.Model):
     watched = models.ForeignKey(Watched, on_delete=models.CASCADE)
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
     time_action_performed = models.DateTimeField(auto_now=True)
+    computed = models.BooleanField(default=0)
 
     class Meta:
         verbose_name = "VideoInteractions"
