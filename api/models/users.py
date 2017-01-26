@@ -1,6 +1,7 @@
 from django.db import models
 from .videos import Video
 from .actions import Action
+from .terms import Term
 
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
@@ -28,6 +29,7 @@ class User(models.Model):
         on_delete=models.CASCADE
         )
     video = models.ManyToManyField(Video, through="VideoWatched")
+    score = models.ManyToManyField(Term, through="UserContentScore")
 
     class Meta:
         verbose_name = "User"
@@ -64,4 +66,17 @@ class VideoInteractions(models.Model):
 
     def __str__(self):
         return "user %s made action %s to video %s" % (self.user, self.action, self.video)
+
+
+class UserContentScore(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    term = models.ForeignKey(Term, on_delete=models.CASCADE)
+    score = models.DecimalField(max_digits=6, decimal_places=3)
+
+    class Meta:
+        verbose_name = "UserContentScore"
+        verbose_name_plural = "UserContentScores"
+
+    def __str__(self):
+        return self.score
 
