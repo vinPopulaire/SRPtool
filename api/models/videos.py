@@ -1,6 +1,7 @@
 from django.db import models
 from .terms import Term
 from .actions import Action
+from .enrichments import Enrichment
 
 class Video(models.Model):
     euscreen = models.CharField(unique=True, max_length=50)
@@ -13,6 +14,7 @@ class Video(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
     score = models.ManyToManyField(Term, through="VideoContentScore")
+    enrichements = models.ManyToManyField(Enrichment, through="VideoEnrichments")
 
     class Meta:
         verbose_name = "Video"
@@ -33,4 +35,22 @@ class VideoContentScore(models.Model):
 
     def __str__(self):
         return self.score
+
+
+class VideoEnrichments(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    enrichment = models.ForeignKey(Enrichment, on_delete=models.CASCADE)
+    time = models.IntegerField()
+    height = models.DecimalField(max_digits=6, decimal_places=2)
+    width = models.DecimalField(max_digits=6, decimal_places=2)
+    x_min = models.DecimalField(max_digits=6, decimal_places=2)
+    y_min = models.DecimalField(max_digits=6, decimal_places=2)
+
+
+    class Meta:
+        verbose_name = "VideoEnrichments"
+        verbose_name_plural = "VideoEnrichmentss"
+
+    def __str__(self):
+        return super(VideoEnrichments, self).__str__()
 
