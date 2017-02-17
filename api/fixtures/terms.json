@@ -3,98 +3,112 @@
     "model": "api.term",
     "pk": 1,
     "fields": {
-      "term": "arts"
+      "term": "arts",
+      "long_name": "Arts and culture"
     }
   },
   {
     "model": "api.term",
     "pk": 2,
     "fields": {
-      "term": "disasters"
+      "term": "disasters",
+      "long_name": "Disasters"
     }
   },
   {
     "model": "api.term",
     "pk": 3,
     "fields": {
-      "term": "education"
+      "term": "education",
+      "long_name": "Education"
     }
   },
   {
     "model": "api.term",
     "pk": 4,
     "fields": {
-      "term": "environment"
+      "term": "environment",
+      "long_name": "Environment and Nature"
     }
   },
   {
     "model": "api.term",
     "pk": 5,
     "fields": {
-      "term": "health"
+      "term": "health",
+      "long_name": "Health"
     }
   },
   {
     "model": "api.term",
     "pk": 6,
     "fields": {
-      "term": "lifestyle"
+      "term": "lifestyle",
+      "long_name": "Lifestyle and consumerism"
     }
   },
   {
     "model": "api.term",
     "pk": 7,
     "fields": {
-      "term": "media"
+      "term": "media",
+      "long_name": "The media"
     }
   },
   {
     "model": "api.term",
     "pk": 8,
     "fields": {
-      "term": "holidays"
+      "term": "holidays",
+      "long_name": "National holidays, festivals, anniversaries and annual events"
     }
   },
   {
     "model": "api.term",
     "pk": 9,
     "fields": {
-      "term": "politics"
+      "term": "politics",
+      "long_name": "Politics and Economics"
     }
   },
   {
     "model": "api.term",
     "pk": 10,
     "fields": {
-      "term": "religion"
+      "term": "religion",
+      "long_name": "Religion and belief"
     }
   },
   {
     "model": "api.term",
     "pk": 11,
     "fields": {
-      "term": "society"
+      "term": "society",
+      "long_name": "Society and social issues"
     }
   },
   {
     "model": "api.term",
     "pk": 12,
     "fields": {
-      "term": "transportation"
+      "term": "transportation",
+      "long_name": "Transportation, science and technology"
     }
   },
   {
     "model": "api.term",
     "pk": 13,
     "fields": {
-      "term": "wars"
+      "term": "wars",
+      "long_name": "Wars and conflict"
     }
   },
   {
     "model": "api.term",
     "pk": 14,
     "fields": {
-      "term": "work"
+      "term": "work",
+      "long_name": "Work and production"
     }
   }
 ]
