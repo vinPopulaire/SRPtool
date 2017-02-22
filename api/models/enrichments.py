@@ -8,7 +8,7 @@ class Enrichment(models.Model):
     dbpediaURL = models.CharField(max_length=150)
     wikipediaURL = models.CharField(max_length=150)
     description = models.TextField()
-    thumbnail = models.CharField(max_length=150)
+    thumbnail = models.CharField(max_length=250)
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
 
