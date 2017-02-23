@@ -36,7 +36,7 @@ class User(models.Model):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return username
+        return self.username
 
 
 class VideoWatched(models.Model):
