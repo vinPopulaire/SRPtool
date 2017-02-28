@@ -11,6 +11,7 @@ class Video(models.Model):
     geographical_coverage = models.CharField(max_length=150)
     thesaurus_terms = models.CharField(max_length=250)
     summary = models.TextField()
+    duration = models.IntegerField(default=0)
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
     score = models.ManyToManyField(Term, through="VideoContentScore")
