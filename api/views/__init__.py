@@ -8,3 +8,5 @@ from .videos import VideoViewSet
 from .actions import ActionViewSet
 from .terms import TermViewSet
 from .enrichments import EnrichmentViewSet
+
+from .user_actions import user_actions, user_watch

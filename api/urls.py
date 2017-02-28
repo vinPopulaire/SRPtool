@@ -30,4 +30,7 @@ urlpatterns = [
 
     url(r'^api/', include(router.urls)),
 
+    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/watch$', views.user_watch),
+    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/actions$', views.user_actions)
+
 ]
