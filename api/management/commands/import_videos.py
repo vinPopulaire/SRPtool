@@ -37,18 +37,25 @@ class Command(BaseCommand):
         for i in data['fsxml']['video']:
             euscreen = i.get('@id')
 
-            if not Video.objects.filter(euscreen=euscreen).exists():
 
-                genre = i['properties'].get('genre')
-                topic = i['properties'].get('topic')
-                title = i['properties'].get('TitleSet_TitleSetInEnglish_title')
-                geographical_coverage = i['properties'].get('SpatioTemporalInformation_SpatialInformation_GeographicalCoverage')
-                summary = i['properties'].get('summaryInEnglish')
-                thesaurus_terms = i['properties'].get('ThesaurusTerm')
+            genre = i['properties'].get('genre')
+            topic = i['properties'].get('topic')
+            title = i['properties'].get('TitleSet_TitleSetInEnglish_title')
+            geographical_coverage = i['properties'].get('SpatioTemporalInformation_SpatialInformation_GeographicalCoverage')
+            summary = i['properties'].get('summaryInEnglish')
+            thesaurus_terms = i['properties'].get('ThesaurusTerm')
 
-                geographical_coverage = geographical_coverage if geographical_coverage != None else 'Unknown'
-                thesaurus_terms = thesaurus_terms if thesaurus_terms != None else "Unknown"
+            geographical_coverage = geographical_coverage if geographical_coverage != None else 'Unknown'
+            thesaurus_terms = thesaurus_terms if thesaurus_terms != None else "Unknown"
 
+            item_duration = i['properties'].get('TechnicalInformation_itemDuration').split(":")
+
+            # Metadata should have duration
+            # duration = int(item_duration[0])*60*60 + int(item_duration[1])*60 + int(item_duration[2])
+            # print(duration)
+
+            video = Video.objects.filter(euscreen=euscreen)
+            if not video.exists():
                 video = Video(
                         euscreen=euscreen,
                         genre=genre,
@@ -57,7 +64,20 @@ class Command(BaseCommand):
                         geographical_coverage=geographical_coverage,
                         thesaurus_terms=thesaurus_terms,
                         summary=summary
+                        # duration=duration
                     )
                 video.save()
+                print("ok")
+
+            else:
+                video.update(
+                        genre=genre,
+                        topic=topic,
+                        title=title,
+                        geographical_coverage=geographical_coverage,
+                        thesaurus_terms=thesaurus_terms,
+                        summary=summary
+                        # duration=duration
+                    )
 
         print("Done with importing videos")
