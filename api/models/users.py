@@ -57,6 +57,10 @@ class VideoWatched(models.Model):
 class VideoInteractions(models.Model):
     video_watched = models.ForeignKey(VideoWatched, on_delete=models.CASCADE)
     action = models.ForeignKey(Action, on_delete=models.CASCADE)
+    content_id = models.CharField(null=True, max_length=150)
+    video_time = models.IntegerField(null=True)
+    explicit_rf = models.IntegerField(null=True)
+    weight = models.FloatField(null=True)
     time_action_performed = models.DateTimeField(auto_now=True)
     computed = models.BooleanField(default=0)
 
