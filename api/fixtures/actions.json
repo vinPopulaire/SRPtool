@@ -3,7 +3,7 @@
     "model": "api.action",
     "pk": 1,
     "fields": {
-      "action": "play video",
+      "action": "play_video",
       "importance": "10"
     }
   },
@@ -11,7 +11,7 @@
     "model": "api.action",
     "pk": 2,
     "fields": {
-      "action": "stop video",
+      "action": "stop_video",
       "importance": "10"
     }
   },
@@ -19,7 +19,7 @@
     "model": "api.action",
     "pk": 3,
     "fields": {
-      "action": "click enrichment",
+      "action": "click_enrichment",
       "importance": "10"
     }
   },
@@ -27,7 +27,7 @@
     "model": "api.action",
     "pk": 4,
     "fields": {
-      "action": "click ad",
+      "action": "click_ad",
       "importance": "10"
     }
   },
