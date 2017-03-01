@@ -69,7 +69,7 @@ class VideoInteractions(models.Model):
         verbose_name_plural = "VideoInteractionss"
 
     def __str__(self):
-        return "user %s made action %s to video %s" % (self.user, self.action, self.video)
+        return "Action %s to video" % (self.action)
 
 
 class UserContentScore(models.Model):
