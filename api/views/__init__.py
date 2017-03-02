@@ -10,3 +10,4 @@ from .terms import TermViewSet
 from .enrichments import EnrichmentViewSet
 
 from .user_actions import user_actions, user_watch
+from .recommendations import recommend_videos
