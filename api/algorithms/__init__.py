@@ -1,0 +1,1 @@
+from .video_recommendation import video_recommendation
