@@ -35,7 +35,7 @@ class VideoContentScore(models.Model):
         verbose_name_plural = "VideoContentScores"
 
     def __str__(self):
-        return self.score
+        return "Video score: %s" % self.score
 
 
 class VideoEnrichments(models.Model):

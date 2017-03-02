@@ -82,5 +82,5 @@ class UserContentScore(models.Model):
         verbose_name_plural = "UserContentScores"
 
     def __str__(self):
-        return self.score
+        return "Score for user %s on term %s is %f" % (self.user.username, self.term.term, self.score)
 
