@@ -112,18 +112,22 @@ def store_video_interaction(video_watched, action, request):
         message = "enrichment shared"
 
     elif action.id == 6:
-        explicit_rf = request.data["value"]
+        explicit_rf = int(request.data["value"])
 
-        interaction = VideoInteractions(
-                video_watched_id=video_watched.id,
-                action_id=action.id,
-                explicit_rf=explicit_rf
-                )
-        interaction.save()
+        if explicit_rf in [-1, 0, 1]:
+            interaction = VideoInteractions(
+                    video_watched_id=video_watched.id,
+                    action_id=action.id,
+                    explicit_rf=explicit_rf
+                    )
+            interaction.save()
 
-        video_watched.liked = 1
-        video_watched.save()
+            video_watched.liked = explicit_rf
+            video_watched.save()
 
-        message = "explicit feedback considered"
+            message = "explicit feedback considered"
+
+        else:
+            message = "not valid explicit feedback"
 
     return message
