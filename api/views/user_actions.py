@@ -115,15 +115,21 @@ def store_video_interaction(video_watched, action, request):
         explicit_rf = int(request.data["value"])
 
         if explicit_rf in [-1, 0, 1]:
-            interaction = VideoInteractions(
-                    video_watched_id=video_watched.id,
-                    action_id=action.id,
-                    explicit_rf=explicit_rf
-                    )
-            interaction.save()
+            video_interaction = VideoInteractions.objects.filter(computed=False).filter(video_watched_id=video_watched.id).filter(action_id='6')
 
-            video_watched.liked = explicit_rf
-            video_watched.save()
+            if video_interaction:
+                video_interaction[0].explicit_rf = explicit_rf
+                video_interaction[0].save()
+            else:
+                interaction = VideoInteractions(
+                        video_watched_id=video_watched.id,
+                        action_id=action.id,
+                        explicit_rf=explicit_rf
+                        )
+                interaction.save()
+
+                video_watched.liked = explicit_rf
+                video_watched.save()
 
             message = "explicit feedback considered"
 
