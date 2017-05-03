@@ -11,3 +11,4 @@ from .enrichments import EnrichmentViewSet
 
 from .user_actions import user_actions, user_watch
 from .recommendations import recommend_videos
+from .update_profile import update_profile
