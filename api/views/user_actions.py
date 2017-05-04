@@ -57,7 +57,7 @@ def store_video_interaction(video_watched, action, request):
         interaction = VideoInteractions(
                 video_watched_id=video_watched.id,
                 action_id=action.id,
-                video_time=video_stop_time
+                video_time=video_start_time
                 )
         interaction.save()
         message = "video started"
