@@ -51,6 +51,7 @@ def user_actions(request, username, *args, **kwargs):
 
 def store_video_interaction(video_watched, action, request):
 
+    # TODO Cannot start again if already playing
     if action.id == 1:
         video_start_time = int(request.data["time"])
 
@@ -62,6 +63,7 @@ def store_video_interaction(video_watched, action, request):
         interaction.save()
         message = "video started"
 
+    # TODO Cannot stop if it hasn't started playing yet
     elif action.id == 2:
         video_start_time = VideoInteractions.objects.filter(video_watched_id=video_watched.id,action_id=1).last().video_time
         video_stop_time = int(request.data["time"])
