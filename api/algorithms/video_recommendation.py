@@ -2,7 +2,8 @@ from api.models import User, UserContentScore
 from api.models import Term
 from api.models import Video, VideoContentScore
 
-import math
+from .cosine_similarity import cosine_similarity
+
 import operator
 
 # TODO optimize for speed
@@ -19,7 +20,6 @@ def video_recommendation(request, username):
     results_content = user_content_similarity(user)
 
     sorted_results = sorted(results_content.items(), key=operator.itemgetter(1), reverse=True)
-
     sorted_results = sorted_results[0:num_req_videos]
 
     recommended_videos = [None]*num_req_videos
@@ -57,26 +57,5 @@ def user_content_similarity(user):
             video_vector[jj] = video_content_score[jj].score
 
         similarity[video.id] = cosine_similarity(user_vector, video_vector)
-
-    return similarity
-
-
-def cosine_similarity(vector_1, vector_2):
-
-    num_terms = len(vector_1)
-
-    numerator = 0
-    sumA = 0
-    sumB = 0
-
-    for ii in range(num_terms):
-        score_1 = vector_1[ii]
-        score_2 = vector_2[ii]
-
-        numerator += score_1*score_2
-        sumA += math.pow(score_1,2)
-        sumB += math.pow(score_2,2)
-
-    similarity = float(numerator) / (math.sqrt(sumA)+math.sqrt(sumB))
 
     return similarity
