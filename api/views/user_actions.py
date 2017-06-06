@@ -100,7 +100,7 @@ def store_video_interaction(video_watched, action, request):
         #         content_id=enrichment_id
         #         )
         # interaction.save()
-        message = "advertisment clicked"
+        message = "advertisement clicked"
 
     elif action.id == 5:
         enrichment_id = Enrichment.objects.get(enrichment_id=request.data["enrichment_id"]).id
