@@ -1,7 +1,10 @@
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+
 from api.models import User, UserContentScore
 from api.models import Term
 from api.serializers import UserSerializer
-from rest_framework import viewsets
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,3 +28,11 @@ class UserViewSet(viewsets.ModelViewSet):
                     )
             user_score.save()
         return response
+
+
+@api_view(['POST'])
+def representative(request, *args, **kwargs):
+
+    message = "ok"
+
+    return Response({"representatives": message})
