@@ -1,3 +1,4 @@
+import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -5,6 +6,8 @@ from rest_framework import viewsets
 from api.models import User, UserContentScore
 from api.models import Term
 from api.serializers import UserSerializer
+
+from api.algorithms import find_representatives
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,20 +22,35 @@ class UserViewSet(viewsets.ModelViewSet):
 
         # initialize user's content score
         user = User.objects.get(username=request.data["username"])
-        term_list = Term.objects.all()
-        for term in term_list:
+        terms = Term.objects.all()
+        for term in terms:
             user_score = UserContentScore(
-                    user_id = user.id,
-                    term_id = term.id,
-                    score = 0
+                    user_id=user.id,
+                    term_id=term.id,
+                    score=0
                     )
             user_score.save()
         return response
 
 
 @api_view(['POST'])
-def representative(request, *args, **kwargs):
+def target(request, *args, **kwargs):
 
-    message = "ok"
+    representatives = find_representatives(request)
 
-    return Response({"representatives": message})
+    terms = Term.objects.all().order_by('pk')
+
+    # create json output of representatives with terms
+    reps = {}
+    for i in range(0, len(representatives)):
+        rep = {}
+        for j in range(0, len(terms)):
+            rep[terms[j].term] = representatives[i][j]
+        reps['representative %d' % (i+1)] = rep
+
+    if representatives:
+        response = Response(reps)
+    else:
+        response = Response({"message": "no information on target group"})
+
+    return response
