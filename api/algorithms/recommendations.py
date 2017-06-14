@@ -36,7 +36,7 @@ def user_video_similarity(user_vector):
         video_vector = [None]*num_terms
 
         for jj in range(num_terms):
-            video_vector[jj] = video_content_score[jj].score
+            video_vector[jj] = float(video_content_score[jj].score)
 
         similarity[video.id] = cosine_similarity(user_vector, video_vector)
 
