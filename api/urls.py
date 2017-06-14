@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework import routers
 from api import views
 
@@ -37,5 +36,6 @@ urlpatterns = [
 
     url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
 
-    url(r'^api/target$', views.target)
+    url(r'^api/target$', views.target),
+    url(r'^api/recommend_videos_to_target$', views.recommend_videos_to_target)
 ]
