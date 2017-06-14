@@ -35,14 +35,22 @@ def recommend_videos(request, username, *args, **kwargs):
 @api_view(['POST'])
 def recommend_videos_to_target(request, *args, **kwargs):
 
+    if "num" in request.data:
+        num_req_videos = int(request.data["num"])
+    else:
+        num_req_videos = 10
+
     representatives = find_representatives(request)
 
-    # TODO return recommended videos to representatives
+    # create json output of representatives with videos
+    videos = {}
+    for i in range(0, len(representatives)):
 
-    for representative in representatives:
-        print(representative)
+        videos['representative %d' % (i + 1)] = video_recommendation(representatives[i], num_req_videos)
 
-    message = "recommended videos"
-    response = Response({"message": message})
+    if representatives:
+        response = Response(videos)
+    else:
+        response = Response({"message": "no information on target group"})
 
     return response
