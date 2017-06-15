@@ -2,8 +2,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from api.algorithms import video_recommendation, find_representatives
+from api.algorithms import top_enrichments_recommendation
 from api.models import User, UserContentScore
 from api.models import Term
+from api.models import Video
 
 
 @api_view(['POST'])
@@ -61,8 +63,39 @@ def recommend_videos_to_target(request, *args, **kwargs):
 
 
 @api_view(['POST'])
-def top_enrichments(request, euscreen, *args, **kwargs):
+def top_enrichments(request, username, *args, **kwargs):
 
-    message = "top_enrichments"
+    if "num" in request.data:
+        num_enrichments = int(request.data["num"])
+    else:
+        num_enrichments = 10
 
-    return Response({"message": message})
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"message": "user does not exist"})
+
+    if "euscreen" in request.data:
+        euscreen = request.data["euscreen"]
+    else:
+        return Response({"message": "specific video must be selected"})
+
+    try:
+        video = Video.objects.get(euscreen=euscreen)
+    except Video.DoesNotExist:
+        return Response({"message": "video does not exist"})
+
+    user_content_score = UserContentScore.objects.filter(user_id=user.id).order_by('term_id')
+
+    num_terms = Term.objects.count()
+
+    # Force evaluate queryset for fast .score
+    len(user_content_score)
+    user_vector = [None] * num_terms
+
+    for ii in range(num_terms):
+        user_vector[ii] = float(user_content_score[ii].score)
+
+    enrichments_list = top_enrichments_recommendation(user_vector, video.id, num_enrichments)
+
+    return Response({"enrichments": enrichments_list})

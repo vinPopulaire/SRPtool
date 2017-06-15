@@ -1,3 +1,3 @@
-from .recommendations import video_recommendation
+from .recommendations import video_recommendation, top_enrichments_recommendation
 from .update_prof import update_prof
 from .find_representatives import find_representatives
