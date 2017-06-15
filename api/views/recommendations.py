@@ -58,3 +58,11 @@ def recommend_videos_to_target(request, *args, **kwargs):
         response = Response({"message": "no information on target group"})
 
     return response
+
+
+@api_view(['POST'])
+def top_enrichments(request, euscreen, *args, **kwargs):
+
+    message = "top_enrichments"
+
+    return Response({"message": message})

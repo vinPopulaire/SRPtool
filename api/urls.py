@@ -37,5 +37,8 @@ urlpatterns = [
     url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
 
     url(r'^api/target$', views.target),
-    url(r'^api/recommend_videos_to_target$', views.recommend_videos_to_target)
+    url(r'^api/recommend_videos_to_target$', views.recommend_videos_to_target),
+
+    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/top_enrichments$', views.top_enrichments)
+
 ]
