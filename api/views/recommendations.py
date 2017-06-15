@@ -14,7 +14,11 @@ def recommend_videos(request, username, *args, **kwargs):
     else:
         num_req_videos = 10
 
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"message": "user does not exist"})
+
     user_id = user.id
     user_content_score = UserContentScore.objects.filter(user_id=user_id).order_by('term_id')
 
