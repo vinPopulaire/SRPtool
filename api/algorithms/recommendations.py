@@ -10,6 +10,7 @@ import operator
 def video_recommendation(user_vector, num_req_videos):
 
     results_content = user_video_similarity(user_vector)
+    # TODO collaborative filtering
 
     sorted_results = sorted(results_content.items(), key=operator.itemgetter(1), reverse=True)
     sorted_results = sorted_results[0:num_req_videos]

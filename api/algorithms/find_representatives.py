@@ -28,6 +28,8 @@ def find_representatives(request):
     if 'country_id' in request.data:
         users = users.filter(gender_id=request.data["country_id"])
 
+    # TODO filter based on interests
+
     # remove users with no profile yet
     for user in users:
         max_score = float(UserContentScore.objects.filter(user=user).aggregate(Max('score'))['score__max'])
@@ -59,6 +61,7 @@ def find_representatives(request):
         else:
             x = np.array([user_vector])
 
+    # TODO check DBscan
     # TODO PCA to decrease dimensions for fixing curse of dimensionality
     # TODO find optimum number of clusters
     try:

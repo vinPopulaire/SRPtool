@@ -57,6 +57,7 @@ def update_prof(request, username):
                    + float(all_actions.get(id=5).importance)*weight_ads
 
     explicit_rf = actions.filter(action_id=6)
+    
     # TODO check if explicit_rf is the only thing that needs to be checked if it exists
     if explicit_rf:
         k_nominator += float(all_actions.get(id=6).importance)*explicit_rf[0].explicit_rf
