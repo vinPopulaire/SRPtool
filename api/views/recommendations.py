@@ -25,7 +25,7 @@ def recommend_videos(request, username, *args, **kwargs):
     user_vector = [None] * num_terms
 
     for ii in range(num_terms):
-        user_vector[ii] = user_content_score[ii].score
+        user_vector[ii] = float(user_content_score[ii].score)
 
     videos_list = video_recommendation(user_vector, num_req_videos)
 
