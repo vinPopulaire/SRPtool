@@ -99,3 +99,11 @@ def top_enrichments(request, username, *args, **kwargs):
     enrichments_list = top_enrichments_recommendation(user_vector, video.id, num_enrichments)
 
     return Response({"enrichments": enrichments_list})
+
+
+@api_view(['POST'])
+def recommend_enrichments(request, username, *args, **kwargs):
+
+    message = "recommend enrichments"
+
+    return Response({"message": message})
