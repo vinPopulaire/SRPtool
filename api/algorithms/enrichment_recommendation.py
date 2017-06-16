@@ -43,3 +43,10 @@ def user_enrichment_similarity(user_vector, video_id):
         similarity[enrichment_id] = cosine_similarity(user_vector, enrichment_vector)
 
     return similarity
+
+
+def enrichments_recommendation(user_vector, video_id):
+
+    message = "recommended enrichments"
+
+    return message

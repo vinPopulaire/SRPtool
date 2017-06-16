@@ -1,4 +1,4 @@
 from .video_recommendations import video_recommendation
-from .enrichment_recommendation import top_enrichments_recommendation
+from .enrichment_recommendation import top_enrichments_recommendation, enrichments_recommendation
 from .update_prof import update_prof
 from .find_representatives import find_representatives
