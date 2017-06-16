@@ -19,8 +19,4 @@ def cosine_similarity(vector_1, vector_2):
 
     similarity = numerator / (math.sqrt(sumA)*math.sqrt(sumB))
 
-    if similarity > 1.007:
-        print(vector_1)
-        print(vector_2)
-
     return similarity
