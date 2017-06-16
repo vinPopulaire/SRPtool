@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^api/recommend_videos_to_target$', views.recommend_videos_to_target),
 
     url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/top_enrichments$', views.top_enrichments),
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/recommend_enrichments$', views.recommend_enrichments)
+    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/recommend_enrichments$', views.recommend_enrichments),
+
+    url(r'^api/recommend_top_enrichments_to_target$', views.recommend_top_enrichments_to_target)
 
 ]

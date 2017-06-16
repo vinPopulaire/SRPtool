@@ -102,6 +102,39 @@ def top_enrichments(request, username, *args, **kwargs):
 
 
 @api_view(['POST'])
+def recommend_top_enrichments_to_target(request, *args, **kwargs):
+
+    if "num" in request.data:
+        num_enrichments = int(request.data["num"])
+    else:
+        num_enrichments = 10
+
+    if "euscreen" in request.data:
+        euscreen = request.data["euscreen"]
+    else:
+        return Response({"message": "specific video must be selected"})
+
+    try:
+        video = Video.objects.get(euscreen=euscreen)
+    except Video.DoesNotExist:
+        return Response({"message": "video does not exist"})
+
+    representatives = find_representatives(request)
+
+    # create json output of representatives with videos
+    enrichments = {}
+    for i in range(0, len(representatives)):
+        enrichments['representative %d' % (i + 1)] = top_enrichments_recommendation(representatives[i], video.id, num_enrichments)
+
+    if representatives:
+        response = Response(enrichments)
+    else:
+        response = Response({"message": "no information on target group"})
+
+    return response
+
+
+@api_view(['POST'])
 def recommend_enrichments(request, username, *args, **kwargs):
 
     try:
