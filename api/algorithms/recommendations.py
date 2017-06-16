@@ -16,12 +16,10 @@ def video_recommendation(user_vector, num_req_videos):
     sorted_results = sorted(results_content.items(), key=operator.itemgetter(1), reverse=True)
     sorted_results = sorted_results[0:num_req_videos]
 
-    # find actual number of videos in case we asked for too many
-    num_req_videos = len(sorted_results)
+    recommended_videos = []
+    for result in sorted_results:
+        recommended_videos.append(tuple([Video.objects.get(id=result[0]).euscreen, result[1]]))
 
-    recommended_videos = [None] * num_req_videos
-    for ii in range(num_req_videos):
-        recommended_videos[ii] = Video.objects.get(id=sorted_results[ii][0]).euscreen
     return recommended_videos
 
 
@@ -33,8 +31,7 @@ def user_video_similarity(user_vector):
 
     similarity = {}
     for video in videos:
-        video_id = video.id
-        video_content_score = VideoContentScore.objects.filter(video_id=video_id).order_by('term_id')
+        video_content_score = VideoContentScore.objects.filter(video_id=video.id).order_by('term_id')
 
         # Force evaluate queryset for fast .score
         len(video_content_score)
