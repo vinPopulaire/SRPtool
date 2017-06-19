@@ -63,7 +63,7 @@ def recommend_videos_to_target(request, *args, **kwargs):
 
 
 @api_view(['POST'])
-def top_enrichments(request, username, *args, **kwargs):
+def recommend_top_enrichments(request, username, *args, **kwargs):
 
     if "num" in request.data:
         num_enrichments = int(request.data["num"])
