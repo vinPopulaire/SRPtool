@@ -21,17 +21,7 @@ def recommend_videos(request, username, *args, **kwargs):
     except User.DoesNotExist:
         return Response({"message": "user does not exist"})
 
-    user_id = user.id
-    user_content_score = UserContentScore.objects.filter(user_id=user_id).order_by('term_id')
-
-    num_terms = Term.objects.count()
-
-    # Force evaluate queryset for fast .score
-    len(user_content_score)
-    user_vector = [None] * num_terms
-
-    for ii in range(num_terms):
-        user_vector[ii] = float(user_content_score[ii].score)
+    user_vector = user.get_user_vector()
 
     videos_list = video_recommendation(user_vector, num_req_videos)
 
@@ -85,16 +75,7 @@ def recommend_top_enrichments(request, username, *args, **kwargs):
     except Video.DoesNotExist:
         return Response({"message": "video does not exist"})
 
-    user_content_score = UserContentScore.objects.filter(user_id=user.id).order_by('term_id')
-
-    num_terms = Term.objects.count()
-
-    # Force evaluate queryset for fast .score
-    len(user_content_score)
-    user_vector = [None] * num_terms
-
-    for ii in range(num_terms):
-        user_vector[ii] = float(user_content_score[ii].score)
+    user_vector = user.get_user_vector()
 
     enrichments_list = top_enrichments_recommendation(user_vector, video.id, num_enrichments)
 
@@ -152,16 +133,7 @@ def recommend_enrichments(request, username, *args, **kwargs):
     except Video.DoesNotExist:
         return Response({"message": "video does not exist"})
 
-    user_content_score = UserContentScore.objects.filter(user_id=user.id).order_by('term_id')
-
-    num_terms = Term.objects.count()
-
-    # Force evaluate queryset for fast .score
-    len(user_content_score)
-    user_vector = [None] * num_terms
-
-    for ii in range(num_terms):
-        user_vector[ii] = float(user_content_score[ii].score)
+    user_vector = user.get_user_vector()
 
     enrichments_list = enrichments_recommendation(user_vector, video.id)
 

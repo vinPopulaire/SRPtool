@@ -38,6 +38,20 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+    def get_user_vector(self):
+        user_content_score = UserContentScore.objects.filter(user_id=self.id).order_by('term_id')
+
+        num_terms = Term.objects.count()
+
+        # Force evaluate queryset for fast .score
+        len(user_content_score)
+        user_vector = [None] * num_terms
+
+        for ii in range(num_terms):
+            user_vector[ii] = float(user_content_score[ii].score)
+
+        return user_vector
+
 
 class VideoWatched(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
