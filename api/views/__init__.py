@@ -11,6 +11,7 @@ from .enrichments import EnrichmentViewSet
 
 from .user_actions import user_actions, user_watch
 from .recommendations import recommend_videos, recommend_videos_to_target
-from .recommendations import recommend_top_enrichments, recommend_top_enrichments_to_target, recommend_enrichments
+from .recommendations import recommend_top_enrichments, recommend_top_enrichments_to_target
+from .recommendations import recommend_enrichments, recommend_enrichments_to_target
 from .update_profile import update_profile
 from .users import target
