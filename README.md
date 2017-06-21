@@ -1,12 +1,12 @@
-## Social and Personalization Tool
+## Social Recommendation and Personalization Tool
 
-Social and Personalization Tool (SP Tool) consists of three main functionalities/mechanisms, as follows:
+Social Recommendation and Personalization Tool (SRPtool) consists of three main functionalities/mechanisms, as follows:
 
 1. Personalization
 2. Relevance Feedback
 3. Social Recommendation
 
-Those three main mechanisms are efficiently combined towards delivering personalized information to the end user (either professional or viewer) close to his/her interests, improving end users’ Quality of Experience (QoE) and making the overall MECANEX toolkit’s usage more appealing. The output of the SP tool will be the personalized information, which will be offered as appropriately ranked list of multimedia content either to professional users or to the viewers. For the latter, the most relevant content to user’s profile will be ranked higher in the list while for the former higher rank will be assigned to multimedia content that is most relevant to their customers’ characteristics. This personalized information will conclude to significant benefits and profit for the professional users, e.g. production houses, broadcasters, advertising companies, editorial and online publishing companies, etc., as well as it will encourage the usage of the tool by the viewers.
+Those three main mechanisms are efficiently combined towards delivering personalized information to the end user (either professional or viewer) close to his/her interests, improving end users’ Quality of Experience (QoE) and making the overall PRODUCER toolkit’s usage more appealing. The output of the SRPtool will be the personalized information, which will be offered as appropriately ranked list of multimedia content either to professional users or to the viewers. For the latter, the most relevant content to user’s profile will be ranked higher in the list while for the former higher rank will be assigned to multimedia content that is most relevant to their customers’ characteristics. This personalized information will conclude to significant benefits and profit for the professional users, e.g. production houses, broadcasters, advertising companies, editorial and online publishing companies, etc., as well as it will encourage the usage of the tool by the viewers.
 
 The main goal of personalization mechanism is to effectively and efficiently satisfy individual needs. By considering end users as individuals, implicit characteristics such as personal taste, age, origin, innate needs and experience become important integral parts of system design. In the literature, personalized user interface has been popular by using implicit data captured in user interactions.
 
