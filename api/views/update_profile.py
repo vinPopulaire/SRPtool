@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 
 from api.algorithms import update_prof
 
+
 @api_view(['POST'])
 def update_profile(request, username, *args, **kwargs):
 

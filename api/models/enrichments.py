@@ -1,6 +1,7 @@
 from django.db import models
 from .terms import Term
 
+
 class Enrichment(models.Model):
     enrichment_id = models.CharField(unique=True, max_length=50)
     enrichment_class = models.CharField(max_length=50)

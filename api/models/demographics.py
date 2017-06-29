@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Gender(models.Model):
     gender = models.CharField(max_length=50)
 
@@ -10,6 +10,7 @@ class Gender(models.Model):
 
     def __str__(self):
         return self.gender
+
 
 class Age(models.Model):
     age = models.CharField(max_length=50)
@@ -21,6 +22,7 @@ class Age(models.Model):
     def __str__(self):
         return self.age
 
+
 class Country(models.Model):
     country = models.CharField(max_length=50)
 
@@ -31,6 +33,7 @@ class Country(models.Model):
     def __str__(self):
         return self.country
 
+
 class Occupation(models.Model):
     occupation = models.CharField(max_length=50)
 
@@ -40,6 +43,7 @@ class Occupation(models.Model):
 
     def __str__(self):
         return self.occupation
+
 
 class Education(models.Model):
     education = models.CharField(max_length=50)

@@ -3,6 +3,7 @@ from .terms import Term
 from .actions import Action
 from .enrichments import Enrichment
 
+
 class Video(models.Model):
     euscreen = models.CharField(unique=True, max_length=50)
     genre = models.CharField(max_length=50)
@@ -47,10 +48,9 @@ class VideoEnrichments(models.Model):
     x_min = models.DecimalField(max_digits=6, decimal_places=2)
     y_min = models.DecimalField(max_digits=6, decimal_places=2)
 
-
     class Meta:
         verbose_name = "VideoEnrichments"
-        verbose_name_plural = "VideoEnrichmentss"
+        verbose_name_plural = "VideosEnrichments"
 
     def __str__(self):
         return super(VideoEnrichments, self).__str__()

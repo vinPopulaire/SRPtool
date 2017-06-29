@@ -3,8 +3,7 @@ from rest_framework.decorators import api_view
 
 from api.algorithms import video_recommendation, find_representatives
 from api.algorithms import top_enrichments_recommendation, enrichments_recommendation
-from api.models import User, UserContentScore
-from api.models import Term
+from api.models import User
 from api.models import Video
 
 

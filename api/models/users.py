@@ -3,6 +3,7 @@ from .videos import Video
 from .actions import Action
 from .terms import Term
 
+
 class User(models.Model):
     username = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=50)
@@ -62,7 +63,7 @@ class VideoWatched(models.Model):
 
     class Meta:
         verbose_name = "VideoWatched"
-        verbose_name_plural = "VideoWatcheds"
+        verbose_name_plural = "VideosWatched"
 
     def __str__(self):
         return "user %s watched video %s" % (self.user, self.video)
@@ -80,10 +81,10 @@ class VideoInteractions(models.Model):
 
     class Meta:
         verbose_name = "VideoInteractions"
-        verbose_name_plural = "VideoInteractionss"
+        verbose_name_plural = "VideosInteractions"
 
     def __str__(self):
-        return "Action %s to video" % (self.action)
+        return "Action %s to video" % self.action
 
 
 class UserContentScore(models.Model):

@@ -1,4 +1,3 @@
-
 from rest_framework import serializers
 from api.models import Gender, Age, Education, Occupation, Country
 

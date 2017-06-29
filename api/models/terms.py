@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Term(models.Model):
     term = models.CharField(max_length=50)
     long_name = models.CharField(max_length=150, default="TBA")
