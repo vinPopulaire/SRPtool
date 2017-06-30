@@ -15,6 +15,13 @@ def recommend_videos(request, username, *args, **kwargs):
     else:
         num_req_videos = 10
 
+    if "videos" in request.data:
+        videos_list = request.data["videos"].rstrip().split(",")
+        # if it's an empty string make it empty array so that checks can be made later on correctly
+        videos_list = [] if videos_list == [""] else videos_list
+    else:
+        videos_list = []
+
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -22,9 +29,9 @@ def recommend_videos(request, username, *args, **kwargs):
 
     user_vector = user.get_user_vector()
 
-    videos_list = video_recommendation(user_vector, num_req_videos)
+    recommended_videos_list = video_recommendation(user_vector, videos_list, num_req_videos)
 
-    return Response({"videos": videos_list})
+    return Response({"videos": recommended_videos_list})
 
 
 @api_view(['POST'])
@@ -35,13 +42,20 @@ def recommend_videos_to_target(request, *args, **kwargs):
     else:
         num_req_videos = 10
 
+    if "videos" in request.data:
+        videos_list = request.data["videos"].rstrip().split(",")
+        # if it's an empty string make it empty array so that checks can be made later on correctly
+        videos_list = [] if videos_list == [""] else videos_list
+    else:
+        videos_list = []
+
     representatives = find_representatives(request)
 
     # create json output of representatives with videos
     videos = {}
     for i in range(0, len(representatives)):
 
-        videos['representative %d' % (i + 1)] = video_recommendation(representatives[i], num_req_videos)
+        videos['representative %d' % (i + 1)] = video_recommendation(representatives[i], videos_list, num_req_videos)
 
     if representatives:
         response = Response(videos)

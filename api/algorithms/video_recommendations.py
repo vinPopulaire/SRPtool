@@ -7,9 +7,9 @@ import operator
 
 
 # TODO optimize for speed
-def video_recommendation(user_vector, num_req_videos):
+def video_recommendation(user_vector, videos_list, num_req_videos):
 
-    results_content = user_video_similarity(user_vector)
+    results_content = user_video_similarity(user_vector, videos_list)
     # TODO collaborative filtering
 
     sorted_results = sorted(results_content.items(), key=operator.itemgetter(1), reverse=True)
@@ -22,11 +22,15 @@ def video_recommendation(user_vector, num_req_videos):
     return recommended_videos
 
 
-def user_video_similarity(user_vector):
+def user_video_similarity(user_vector, videos_list):
 
     num_terms = Term.objects.count()
 
-    videos = Video.objects.all()
+    # if video_list is not empty search only on those videos, else search on all video database
+    if videos_list:
+        videos = Video.objects.filter(euscreen__in=videos_list)
+    else:
+        videos = Video.objects.all()
 
     similarity = {}
     for video in videos:
