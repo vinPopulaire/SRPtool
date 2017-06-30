@@ -16,7 +16,7 @@ class Video(models.Model):
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
     score = models.ManyToManyField(Term, through="VideoContentScore")
-    enrichements = models.ManyToManyField(Enrichment, through="VideoEnrichments")
+    enrichments = models.ManyToManyField(Enrichment, through="VideoEnrichments")
 
     class Meta:
         verbose_name = "Video"
