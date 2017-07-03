@@ -8,35 +8,6 @@ from .cosine_similarity import cosine_similarity
 import operator
 
 
-def top_enrichments_recommendation(user_vector, video_id, num_req_enrichments):
-
-    results_content = user_enrichment_similarity(user_vector, video_id)
-
-    # TODO collaborative filtering
-
-    sorted_results = sorted(results_content.items(), key=operator.itemgetter(1), reverse=True)
-    sorted_results = sorted_results[0:num_req_enrichments]
-
-    recommended_enrichments = []
-    for result in sorted_results:
-        recommended_enrichments.append(tuple([Enrichment.objects.get(id=result[0]).enrichment_id, result[1]]))
-
-    return recommended_enrichments
-
-
-def user_enrichment_similarity(user_vector, video_id):
-
-    enrichments = VideoEnrichments.objects.filter(video_id=video_id)
-
-    similarity = {}
-    for enrichment in enrichments:
-        enrichment_id = enrichment.enrichment_id
-
-        similarity[enrichment_id] = enrichment_similarity(user_vector, enrichment_id)
-
-    return similarity
-
-
 def enrichments_recommendation(user_vector, video_id):
 
     enrichments = VideoEnrichments.objects.filter(video_id=video_id)

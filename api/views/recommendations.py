@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from api.algorithms import video_recommendation, find_representatives
-from api.algorithms import top_enrichments_recommendation, enrichments_recommendation
+from api.algorithms import enrichments_recommendation
 from api.models import User
 from api.models import Video
 
@@ -66,69 +66,6 @@ def recommend_videos_to_target(request, *args, **kwargs):
 
 
 @api_view(['POST'])
-def recommend_top_enrichments(request, username, *args, **kwargs):
-
-    if "num" in request.data:
-        num_enrichments = int(request.data["num"])
-    else:
-        num_enrichments = 10
-
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response({"message": "user does not exist"})
-
-    if "euscreen" in request.data:
-        euscreen = request.data["euscreen"]
-    else:
-        return Response({"message": "specific video must be selected"})
-
-    try:
-        video = Video.objects.get(euscreen=euscreen)
-    except Video.DoesNotExist:
-        return Response({"message": "video does not exist"})
-
-    user_vector = user.get_user_vector()
-
-    enrichments_list = top_enrichments_recommendation(user_vector, video.id, num_enrichments)
-
-    return Response({"enrichments": enrichments_list})
-
-
-@api_view(['POST'])
-def recommend_top_enrichments_to_target(request, *args, **kwargs):
-
-    if "num" in request.data:
-        num_enrichments = int(request.data["num"])
-    else:
-        num_enrichments = 10
-
-    if "euscreen" in request.data:
-        euscreen = request.data["euscreen"]
-    else:
-        return Response({"message": "specific video must be selected"})
-
-    try:
-        video = Video.objects.get(euscreen=euscreen)
-    except Video.DoesNotExist:
-        return Response({"message": "video does not exist"})
-
-    representatives = find_representatives(request)
-
-    # create json output of representatives with videos
-    enrichments = {}
-    for i in range(0, len(representatives)):
-        enrichments['representative %d' % (i + 1)] = top_enrichments_recommendation(representatives[i], video.id, num_enrichments)
-
-    if representatives:
-        response = Response(enrichments)
-    else:
-        response = Response({"message": "no information on target group"})
-
-    return response
-
-
-@api_view(['POST'])
 def recommend_enrichments(request, username, *args, **kwargs):
 
     try:
@@ -148,9 +85,24 @@ def recommend_enrichments(request, username, *args, **kwargs):
 
     user_vector = user.get_user_vector()
 
+    # list of all enrichments scored and batched if simultanious
     enrichments_list = enrichments_recommendation(user_vector, video.id)
 
-    return Response({"enrichments": enrichments_list})
+    if "num" in request.data:
+        num_enrichments = int(request.data["num"])
+
+        recommended_enrichments = []
+        # insert first enrichment (best score) of the simultaneous ones to the list
+        for enrichments in enrichments_list:
+            recommended_enrichments.append(enrichments[0])
+
+        recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
+        recommended_enrichments = recommended_enrichments[0:num_enrichments]
+
+    else:
+        recommended_enrichments = enrichments_list
+
+    return Response({"enrichments": recommended_enrichments})
 
 
 @api_view(['POST'])
@@ -169,12 +121,30 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
     representatives = find_representatives(request)
 
     # create json output of representatives with videos
-    enrichments = {}
+    result_enrichments = {}
     for i in range(0, len(representatives)):
-        enrichments['representative %d' % (i + 1)] = enrichments_recommendation(representatives[i], video.id)
+
+        enrichments_list = enrichments_recommendation(representatives[i], video.id)
+
+        if "num" in request.data:
+            num_enrichments = int(request.data["num"])
+
+            recommended_enrichments = []
+            # insert first enrichment (best score) to the list for simultaneous enrichments
+            for enrichments in enrichments_list:
+                recommended_enrichments.append(enrichments[0])
+
+            recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
+            recommended_enrichments = recommended_enrichments[0:num_enrichments]
+
+        else:
+            recommended_enrichments = enrichments_list
+
+        # enrichments['representative %d' % (i + 1)] = recommended_enrichments
+        result_enrichments['representative %d' % (i + 1)] = recommended_enrichments
 
     if representatives:
-        response = Response(enrichments)
+        response = Response(result_enrichments)
     else:
         response = Response({"message": "no information on target group"})
 
