@@ -27,19 +27,19 @@ router.register(r'enrichment', EnrichmentViewSet)
 
 urlpatterns = [
 
-    url(r'^api/', include(router.urls)),
+    url(r'^', include(router.urls)),
 
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/watch$', views.user_watch),
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/actions$', views.user_actions),
+    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/watch$', views.user_watch),
+    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/actions$', views.user_actions),
 
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/recommend_videos$', views.recommend_videos),
+    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/recommend_videos$', views.recommend_videos),
 
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
+    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
 
-    url(r'^api/target$', views.target),
-    url(r'^api/videos_to_target$', views.recommend_videos_to_target),
+    url(r'^target$', views.target),
+    url(r'^videos_to_target$', views.recommend_videos_to_target),
 
-    url(r'^api/user/(?P<username>[0-9 a-z A-Z]+)/recommend_enrichments$', views.recommend_enrichments),
-    url(r'^api/enrichments_to_target$', views.recommend_enrichments_to_target)
+    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/recommend_enrichments$', views.recommend_enrichments),
+    url(r'^enrichments_to_target$', views.recommend_enrichments_to_target)
 
 ]
