@@ -8,3 +8,19 @@ def home(request, *args, **kwargs):
     context = {}
 
     return HttpResponse(template.render(context, request))
+
+
+def terms(request, *args, **kwargs):
+
+    template = loader.get_template('gui/terms.html')
+    context = {}
+
+    return HttpResponse(template.render(context, request))
+
+
+def about(request, *args, **kwargs):
+
+    template = loader.get_template('gui/about.html')
+    context = {}
+
+    return HttpResponse(template.render(context, request))

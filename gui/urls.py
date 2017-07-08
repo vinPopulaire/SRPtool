@@ -3,6 +3,7 @@ from gui import views
 
 urlpatterns = [
 
-    url(r'^$', views.home)
-
+    url(r'^$', views.home),
+    url(r'^terms$', views.terms),
+    url(r'^about$', views.about)
 ]

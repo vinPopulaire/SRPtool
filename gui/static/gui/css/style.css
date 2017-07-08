@@ -1,0 +1,44 @@
+/*.navbar-inverse {*/
+    /*background-color: indianred;*/
+/*}*/
+
+/*.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {*/
+    /*background-color: darkred;*/
+/*}*/
+
+/*.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {*/
+    /*color: orangered;*/
+/*}*/
+
+.navbar-brand {
+    font-size: 20px;
+    padding: 5px 21px;
+}
+
+#terms {
+    font-size: .7em;
+}
+
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px;
+}
+
+#main {
+    overflow:auto;
+    padding-bottom:60px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+      position: relative;
+      margin-top: -60px; /* negative value of footer height */
+      height: 60px;
+      clear:both;
+      padding-top:20px;
+}
