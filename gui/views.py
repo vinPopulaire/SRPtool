@@ -24,3 +24,11 @@ def about(request, *args, **kwargs):
     context = {}
 
     return HttpResponse(template.render(context, request))
+
+
+def signup(request, *args, **kwargs):
+
+    template = loader.get_template('gui/signup.html')
+    context = {}
+
+    return HttpResponse(template.render(context, request))
