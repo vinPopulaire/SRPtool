@@ -23,6 +23,11 @@ body {
     margin-bottom: 60px;
 }
 
+.dropdown-menu {
+    width: 200px;
+    color: white;
+}
+
 .footer {
     position: absolute;
     margin-top: -60px; /* negative value of footer height */
