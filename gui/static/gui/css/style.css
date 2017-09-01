@@ -15,30 +15,35 @@
     padding: 5px 21px;
 }
 
-#terms {
-    font-size: .7em;
-}
-
-html, body {
-    height: 100%;
-}
-
-#wrap {
+html {
     min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -60px;
+    position: relative;
 }
-
-#main {
-    overflow:auto;
-    padding-bottom:60px; /* this needs to be bigger than footer height*/
+body {
+    margin-bottom: 60px;
 }
 
 .footer {
-      position: relative;
-      margin-top: -60px; /* negative value of footer height */
-      height: 60px;
-      clear:both;
-      padding-top:20px;
+    position: absolute;
+    margin-top: -60px; /* negative value of footer height */
+    height: 60px;
+    clear:both;
+    padding-top:20px;
+    bottom: 0;
+    width: 100%;
+}
+
+.title {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.subtitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#terms {
+    font-size: .7em;
 }
