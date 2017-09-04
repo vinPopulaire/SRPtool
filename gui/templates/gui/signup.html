@@ -2,42 +2,83 @@
 
 {% block content %}
 
-<div class="container" style="width:500px">
+{#<div class="container" style="width:500px">#}
+{##}
+{#    <div class="title">Sign Up</div>#}
+{#    <hr>#}
+{#    <div class="login-form">#}
+{##}
+{#    <form action="" method="post">#}
+{#         <div class="control-group" style="width:400px" >#}
+{#          <input type="text"  value="" placeholder="Enter your username" id="name" style="width:400px;padding-bottom:15px;margin-bottom:10px" >#}
+{#          <div class="input-icon fui-user"></div>#}
+{#        </div>#}
+{##}
+{#        <div class="control-group" style="width:400px" >#}
+{#          <input type="text"  value="" placeholder="Your E-mail" id="email" style="width:400px;padding-bottom:15px;margin-bottom:10px" >#}
+{#          <div class="input-icon fui-mail"></div>#}
+{#        </div>#}
+{##}
+{#        <div class="control-group" style="width:400px">#}
+{#          <input type="password" value="" placeholder="Password" id="pass" style="width:400px;padding-bottom:15px;margin-bottom:10px">#}
+{#          <div class="input-icon fui-lock"></div>#}
+{#        </div>#}
+{##}
+{#        <div class="control-group" style="width:400px">#}
+{#          <input type="password"  value="" placeholder="Confirm Password" id="login-pass" style="width:400px;padding-bottom:15px;margin-bottom:10px">#}
+{#          <div class="input-icon fui-lock"></div>#}
+{#        </div>#}
+{##}
+{#        <div style="text-align:right">#}
+{#        <a class="btn btn-hg btn-primary btn-wide" href="#">Sign Up</a>#}
+{#        <!--<a class="login-link" href="#">Lost your password ?</a> -->#}
+{#        </div>#}
+{#    </form>#}
+{##}
+{#    </div><!-- /login-form -->#}
+{##}
+{#</div> <!-- /container -->#}
 
+<div class="container" style="width:500px">
     <div class="title">Sign Up</div>
     <hr>
     <div class="login-form">
 
-    <form action="" method="post">
-         <div class="control-group" style="width:400px" >
-          <input type="text"  value="" placeholder="Enter your username" id="name" style="width:400px;padding-bottom:15px;margin-bottom:10px" >
-          <div class="input-icon fui-user"></div>
+    <form action="" method="post"> {% csrf_token %}
+
+        <div class="control-group" style="width:400px" >
+            {{ form.username.errors }}
+            {{ form.username }}
+            <div class="input-icon fui-user" for="login-name"></div>
         </div>
 
         <div class="control-group" style="width:400px" >
-          <input type="text"  value="" placeholder="Your E-mail" id="email" style="width:400px;padding-bottom:15px;margin-bottom:10px" >
-          <div class="input-icon fui-mail"></div>
+            {{ form.email.errors }}
+            {{ form.email }}
+            <div class="input-icon fui-mail" for="login-name"></div>
         </div>
 
         <div class="control-group" style="width:400px">
-          <input type="password" value="" placeholder="Password" id="pass" style="width:400px;padding-bottom:15px;margin-bottom:10px">
-          <div class="input-icon fui-lock"></div>
+            {{ form.pass1.errors }}
+            {{ form.pass1 }}
+            <div class="input-icon fui-lock" for="login-pass"></div>
         </div>
+
 
         <div class="control-group" style="width:400px">
-          <input type="password"  value="" placeholder="Confirm Password" id="login-pass" style="width:400px;padding-bottom:15px;margin-bottom:10px">
-          <div class="input-icon fui-lock"></div>
+            {{ form.pass2.errors }}
+            {{ form.pass2 }}
+            <div class="input-icon fui-lock" for="login-pass"></div>
         </div>
 
-        <div style="text-align:right">
-        <a class="btn btn-hg btn-primary btn-wide" href="#">Sign Up</a>
-        <!--<a class="login-link" href="#">Lost your password ?</a> -->
+        <div style="text-align:center">
+            <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign Up">
+            <!--<a class="login-link" href="#">Lost your password ?</a> -->
         </div>
     </form>
 
-    </div><!-- /login-form -->
+</div><!-- /login-form -->
 
 </div> <!-- /container -->
-
 
 {% endblock %}
