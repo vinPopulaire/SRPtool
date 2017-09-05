@@ -7,9 +7,7 @@ from .forms import SignupForm
 
 def home(request, *args, **kwargs):
 
-    current_user = request.user
-
-    context = {'current_user': current_user}
+    context = {}
 
     return render(request, 'gui/home.html', context)
 
