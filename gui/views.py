@@ -1,6 +1,4 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.template import loader
 
 from django.contrib.auth import login, authenticate
 
@@ -9,26 +7,25 @@ from .forms import SignupForm
 
 def home(request, *args, **kwargs):
 
-    template = loader.get_template('gui/home.html')
-    context = {}
+    current_user = request.user
 
-    return HttpResponse(template.render(context, request))
+    context = {'current_user': current_user}
+
+    return render(request, 'gui/home.html', context)
 
 
 def terms(request, *args, **kwargs):
 
-    template = loader.get_template('gui/terms.html')
     context = {}
 
-    return HttpResponse(template.render(context, request))
+    return render(request, 'gui/terms.html', context)
 
 
 def about(request, *args, **kwargs):
 
-    template = loader.get_template('gui/about.html')
     context = {}
 
-    return HttpResponse(template.render(context, request))
+    return render(request, 'gui/about.html', context)
 
 
 def signup(request):
