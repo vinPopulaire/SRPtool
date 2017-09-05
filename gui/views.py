@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import loader
+
+from django.contrib.auth import login, authenticate
 
 from .forms import SignupForm
 
@@ -29,26 +31,17 @@ def about(request, *args, **kwargs):
     return HttpResponse(template.render(context, request))
 
 
-# def signup(request, *args, **kwargs):
-#
-#     template = loader.get_template('gui/signup.html')
-#     context = {}
-#
-#     return HttpResponse(template.render(context, request))
-
-
 def signup(request):
-    form = SignupForm()
 
-    username = request.POST.get('username', '')
-    email = request.POST.get('email', '')
-    pass1 = request.POST.get('pass1', '')
-    pass2 = request.POST.get('pass2', '')
-
-    # Do some validations here
-
-    # user = User.objects.create_user(name, email, pass2)
-    # if user:
-    #     user.save()
-
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignupForm()
     return render(request, 'gui/signup.html', {'form': form})
