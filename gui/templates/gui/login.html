@@ -2,51 +2,62 @@
 
 {% block content %}
 
-<div class="container" style="width:500px">
-    <div class="title">Sign In</div>
-    <hr>
-    <div class="login-form">
+    {% if user.is_authenticated %}
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You are already logged in!</h4>
+            </div>
+        </div>
 
-    {% if form.errors %}
-         <small style="color: red">Your username and password didn't match. Please try again.</small>
-    {% endif %}
+    {% else %}
 
-    {% if next %}
-        {% if user.is_authenticated %}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
-        {% else %}
-        <p>Please login to see this page.</p>
+    <div class="container" style="width:500px">
+        <div class="title">Sign In</div>
+        <hr>
+        <div class="login-form">
+
+        {% if form.errors %}
+             <small style="color: red">Your username and password didn't match. Please try again.</small>
         {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-user" for="login-name"></div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                <small style="color: red">{{ form.username.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px">
+                <div class="input-icon fui-lock" for="login-pass"></div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                <small style="color: red">{{ form.password.errors }}</small>
+            </div>
+
+            <div style="text-align:center">
+                <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign In">
+            </div>
+        </form>
+
+        {# Assumes you setup the password_reset view in your URLconf #}
+        {#<p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
+
+
+        </div><!-- /login-form -->
+    </div> <!-- /container -->
+
     {% endif %}
-
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-
-        <div class="control-group" style="width:400px" >
-            <div class="input-icon fui-user" for="login-name"></div>
-            {{ form.username.label_tag }}
-            {{ form.username }}
-            <small style="color: red">{{ form.username.errors }}</small>
-        </div>
-
-        <div class="control-group" style="width:400px">
-            <div class="input-icon fui-lock" for="login-pass"></div>
-            {{ form.password.label_tag }}
-            {{ form.password }}
-            <small style="color: red">{{ form.password.errors }}</small>
-        </div>
-
-        <div style="text-align:center">
-            <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign In">
-        </div>
-    </form>
-
-    {# Assumes you setup the password_reset view in your URLconf #}
-    {#<p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
-
-
-    </div><!-- /login-form -->
-</div> <!-- /container -->
 
 {% endblock %}

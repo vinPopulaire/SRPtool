@@ -2,45 +2,57 @@
 
 {% block content %}
 
-<div class="container" style="width:500px">
-    <div class="title">Sign Up</div>
-    <hr>
-    <div class="login-form">
 
-    <form action="" method="post">
-        {% csrf_token %}
-
-        <div class="control-group" style="width:400px" >
-            <div class="input-icon fui-user" for="login-name"></div>
-            {{ form.username }}
-            <small style="color: red">{{ form.username.errors }}</small>
+    {% if user.is_authenticated %}
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You are already logged in!</h4>
+            </div>
         </div>
 
-        <div class="control-group" style="width:400px" >
-            <div class="input-icon fui-mail" for="login-name"></div>
-            {{ form.email }}
-            <small style="color: red">{{ form.email.errors }}</small>
-        </div>
+    {% else %}
 
-        <div class="control-group" style="width:400px">
-            <div class="input-icon fui-lock" for="login-pass"></div>
-            {{ form.password1 }}
-            <small style="color: red">{{ form.password1.errors }}</small>
-        </div>
+    <div class="container" style="width:500px">
+        <div class="title">Sign Up</div>
+        <hr>
+        <div class="login-form">
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-user" for="login-name"></div>
+                {{ form.username }}
+                <small style="color: red">{{ form.username.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-mail" for="login-name"></div>
+                {{ form.email }}
+                <small style="color: red">{{ form.email.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px">
+                <div class="input-icon fui-lock" for="login-pass"></div>
+                {{ form.password1 }}
+                <small style="color: red">{{ form.password1.errors }}</small>
+            </div>
 
 
-        <div class="control-group" style="width:400px">
-            <div class="input-icon fui-lock" for="login-pass"></div>
-            {{ form.password2 }}
-            <small style="color: red">{{ form.password2.errors }}</small>
-        </div>
+            <div class="control-group" style="width:400px">
+                <div class="input-icon fui-lock" for="login-pass"></div>
+                {{ form.password2 }}
+                <small style="color: red">{{ form.password2.errors }}</small>
+            </div>
 
-        <div style="text-align:center">
-            <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign Up">
-        </div>
-    </form>
+            <div style="text-align:center">
+                <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign Up">
+            </div>
+        </form>
 
-    </div><!-- /login-form -->
-</div> <!-- /container -->
+        </div><!-- /login-form -->
+    </div> <!-- /container -->
+
+    {% endif %}
 
 {% endblock %}
