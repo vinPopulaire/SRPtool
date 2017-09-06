@@ -26,6 +26,16 @@ def about(request, *args, **kwargs):
     return render(request, 'gui/about.html', context)
 
 
+def delete(request):
+
+    current_user = request.user
+
+    if current_user.is_authenticated:
+        current_user.delete()
+
+    return redirect('home')
+
+
 def signup(request):
 
     if request.method == 'POST':

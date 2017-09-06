@@ -61,7 +61,9 @@
              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>{{ user.get_username }}</b> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                        <li><a href="{% url 'delete' %}?next={{request.path}}">Delete</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}?next={{request.path}}">Logout</a></li>
                     </ul>
              </li>
 
@@ -134,7 +136,7 @@
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6" ><p align="left" ><a href="/terms"><b>Terms & Conditions</b></a> </p></div>
+            <div class="col-md-6" ><p align="left" ><a href={% url "terms" %}><b>Terms & Conditions</b></a> </p></div>
             <div class="col-md-6" >
                 <p align="right">Copyright &copy; 2017 <a href="http://netmode.ntua.gr" target="_blank"><b>Netmode</b></a></p>
             </div>
