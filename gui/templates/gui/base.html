@@ -80,7 +80,7 @@
                                     <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
                                 </div>
                                 or
-                                 <form class="form" method="post" action="{% url 'login' %}" accept-charset="UTF-8" id="login-nav">
+                                 <form class="form" method="post" action="{% url 'login' %}?next={{request.path}}" accept-charset="UTF-8" id="login-nav">
 
                                     {% csrf_token %}
                                         <div class="form-group">
