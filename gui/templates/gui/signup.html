@@ -26,8 +26,18 @@
                 <small style="color: red">{{ form.username.errors }}</small>
             </div>
 
+            <div class="control-group inline" style="width:199px">
+                {{ form.first_name }}
+                <small style="color: red">{{ form.first_name.errors }}</small>
+            </div>
+
+            <div class="control-group inline" style="width:199px">
+                {{ form.last_name }}
+                <small style="color: red">{{ form.last_name.errors }}</small>
+            </div>
+
             <div class="control-group" style="width:400px" >
-                <div class="input-icon fui-mail" for="login-name"></div>
+                <div class="input-icon fui-mail" for="login-email"></div>
                 {{ form.email }}
                 <small style="color: red">{{ form.email.errors }}</small>
             </div>
@@ -37,7 +47,6 @@
                 {{ form.password1 }}
                 <small style="color: red">{{ form.password1.errors }}</small>
             </div>
-
 
             <div class="control-group" style="width:400px">
                 <div class="input-icon fui-lock" for="login-pass"></div>

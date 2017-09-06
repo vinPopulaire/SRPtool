@@ -49,6 +49,10 @@ body {
     margin-bottom: 10px;
 }
 
+.inline {
+    display: inline-block;
+}
+
 #terms {
     font-size: .7em;
 }
