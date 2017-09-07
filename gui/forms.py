@@ -20,6 +20,11 @@ class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
 
         # dynamically get form fields
+        response = requests.get("http://localhost:8000/api/gender")
+        ages = list(zip(list(d["id"] for d in response.json()), list(d["gender"] for d in response.json())))
+        self.base_fields["gender"] = forms.ChoiceField(choices=[("", "Select your gender")] + ages,
+                                                       label="Gender")
+
         response = requests.get("http://localhost:8000/api/age")
         ages = list(zip(list(d["id"] for d in response.json()), list(d["age"] for d in response.json())))
         self.base_fields["age"] = forms.ChoiceField(choices=[("", "Select your age")] + ages,
