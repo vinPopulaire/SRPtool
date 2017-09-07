@@ -82,7 +82,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sptool_project.wsgi.application'
 
 REST_FRAMEWORK = {
-    'PAGE_SIZE': 10
+    # 'PAGE_SIZE': 10
 }
 
 
