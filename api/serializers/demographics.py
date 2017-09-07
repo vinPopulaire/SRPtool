@@ -5,24 +5,28 @@ from api.models import Gender, Age, Education, Occupation, Country
 class GenderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gender
-        fields = (['gender'])
+        fields = (['id', 'gender'])
+
 
 class AgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Age
-        fields = (['age'])
+        fields = (['id', 'age'])
+
 
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
-        fields = (['education'])
+        fields = (['id', 'education'])
+
 
 class OccupationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Occupation
-        fields = (['occupation'])
+        fields = (['id', 'occupation'])
+
 
 class CountrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = (['country'])
+        fields = (['id', 'country'])
