@@ -42,6 +42,30 @@
                 <small style="color: red">{{ form.email.errors }}</small>
             </div>
 
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-heart"></div>
+                {{ form.age }}
+                <small style="color: red">{{ form.age.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-home"></div>
+                {{ form.country }}
+                <small style="color: red">{{ form.country.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-document"></div>
+                {{ form.occupation }}
+                <small style="color: red">{{ form.occupation.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-bookmark"></div>
+                {{ form.education }}
+                <small style="color: red">{{ form.education.errors }}</small>
+            </div>
+
             <div class="control-group" style="width:400px">
                 <div class="input-icon fui-lock" for="login-pass"></div>
                 {{ form.password1 }}
