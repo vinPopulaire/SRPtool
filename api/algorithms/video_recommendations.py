@@ -9,6 +9,11 @@ import operator
 # TODO optimize for speed
 def video_recommendation(user_vector, videos_list, num_req_videos):
 
+    # if user is new, use 0.1 as profile to avoid division by zero
+    # TODO check better way to propose to new users
+    if user_vector == [0]*len(user_vector):
+        user_vector = [0.1]*len(user_vector)
+
     results_content = user_video_similarity(user_vector, videos_list)
     # TODO collaborative filtering
 
