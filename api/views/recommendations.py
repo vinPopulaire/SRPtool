@@ -31,7 +31,14 @@ def recommend_videos(request, username, *args, **kwargs):
 
     recommended_videos_list = video_recommendation(user_vector, videos_list, num_req_videos)
 
-    return Response({"videos": recommended_videos_list})
+    result = []
+    for video in recommended_videos_list:
+        result.append({
+            "video": video[0],
+            "similarity": video[1]
+        })
+
+    return Response({"videos": result})
 
 
 @api_view(['POST'])
