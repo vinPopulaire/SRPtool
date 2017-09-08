@@ -36,6 +36,10 @@
             <ul class="nav navbar-nav">
                 <li class="{% if request.resolver_match.url_name == "home" %}active{% endif %}">
                     <a href="{% url "home" %}">Home</a></li>
+                {% if user.is_authenticated %}
+                <li class="{% if request.resolver_match.url_name == "videos" %}active{% endif %}">
+                    <a href={% url "videos" %}>Videos</a></li>
+                {% endif %}
                 <li class="{% if request.resolver_match.url_name == "about" %}active{% endif %}">
                     <a href={% url "about" %}>About</a></li>
             </ul>
@@ -146,7 +150,7 @@
     $(".nav li").on("click", function () {
         $(".nav li").removeClass("active");
         $(this).addClass("active");
-    });
+    })
 </script>
 
 </body>

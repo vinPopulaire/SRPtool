@@ -6,22 +6,23 @@ from django.contrib.auth import login, authenticate
 from .forms import SignupForm, ProfileForm
 
 
-def home(request, *args, **kwargs):
-    context = {}
+def videos(request):
+    current_user = request.user
+    response = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_videos",
+                             data={"num": 10}
+                             )
+    print(response.content)
+    videos_list = []
+    for video in response.json()["videos"]:
+        euscreen = video["video"]
+        vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+        videos_list.append({
+            "title": vid["title"],
+            "summary": vid["summary"]
+        })
+    context = {"videos": videos_list}
 
-    return render(request, 'gui/home.html', context)
-
-
-def terms(request, *args, **kwargs):
-    context = {}
-
-    return render(request, 'gui/terms.html', context)
-
-
-def about(request, *args, **kwargs):
-    context = {}
-
-    return render(request, 'gui/about.html', context)
+    return render(request, 'gui/videos.html', context)
 
 
 def profile(request):
@@ -113,3 +114,21 @@ def signup(request):
         form = SignupForm()
 
     return render(request, 'gui/signup.html', {'form': form})
+
+
+def home(request, *args, **kwargs):
+    context = {}
+
+    return render(request, 'gui/home.html', context)
+
+
+def terms(request, *args, **kwargs):
+    context = {}
+
+    return render(request, 'gui/terms.html', context)
+
+
+def about(request, *args, **kwargs):
+    context = {}
+
+    return render(request, 'gui/about.html', context)

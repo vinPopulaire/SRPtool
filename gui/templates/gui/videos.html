@@ -1,0 +1,46 @@
+{% extends 'gui/base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+    <div class="container" style="width:500px; padding-bottom: 50px">
+        <div class="title">Recommended Videos</div>
+        <hr>
+
+        <div class="media attribution">
+            <table class="table">
+                <thead class="the">
+                <tr>
+                    <th style="width: 50px;">Play</th>
+                    <th>Video</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for video in videos %}
+                        <tr>
+                            <td align="center"><a href="" class="fui-play"></a></td>
+                            <td>
+                                <a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ video.title }}</a>
+                                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ video.summary }}</div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div> <!-- /container -->
+
+    {% else %}
+
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You need to login first!</h4>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
