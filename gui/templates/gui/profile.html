@@ -1,0 +1,74 @@
+{% extends 'gui/base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+    <div class="container" style="width:500px; padding-bottom: 50px">
+        <div class="title">Profile</div>
+        <hr>
+        <div class="login-form">
+
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <div class="control-group inline" style="width:199px">
+                <div class="input-icon fui-user" for="login-name"></div>
+                {{ form.first_name }}
+                <small style="color: red">{{ form.first_name.errors }}</small>
+            </div>
+
+            <div class="control-group inline" style="width:199px">
+                {{ form.last_name }}
+                <small style="color: red">{{ form.last_name.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-heart"></div>
+                {{ form.gender }}
+                <small style="color: red">{{ form.gender.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-heart"></div>
+                {{ form.age }}
+                <small style="color: red">{{ form.age.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-home"></div>
+                {{ form.country }}
+                <small style="color: red">{{ form.country.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-document"></div>
+                {{ form.occupation }}
+                <small style="color: red">{{ form.occupation.errors }}</small>
+            </div>
+
+            <div class="control-group" style="width:400px" >
+                <div class="input-icon fui-bookmark"></div>
+                {{ form.education }}
+                <small style="color: red">{{ form.education.errors }}</small>
+            </div>
+
+            <div style="text-align:center; padding-top: 20px">
+                <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Update">
+            </div>
+        </form>
+
+        </div><!-- /login-form -->
+    </div> <!-- /container -->
+
+    {% else %}
+
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You need to login first!</h4>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

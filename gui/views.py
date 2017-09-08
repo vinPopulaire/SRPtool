@@ -3,36 +3,73 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import login, authenticate
 
-from .forms import SignupForm
+from .forms import SignupForm, ProfileForm
 
 
 def home(request, *args, **kwargs):
-
     context = {}
 
     return render(request, 'gui/home.html', context)
 
 
 def terms(request, *args, **kwargs):
-
     context = {}
 
     return render(request, 'gui/terms.html', context)
 
 
 def about(request, *args, **kwargs):
-
     context = {}
 
     return render(request, 'gui/about.html', context)
 
 
-def delete(request):
+def profile(request):
+    current_user = request.user
+    current_profile = requests.get("http://localhost:8000/api/user/" + str(current_user) + "/").json()
 
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+
+            name = form.cleaned_data.get('first_name')
+            surname = form.cleaned_data.get('last_name')
+            age = form.cleaned_data.get('age')
+            gender = form.cleaned_data.get('gender')
+            country = form.cleaned_data.get('country')
+            occupation = form.cleaned_data.get('occupation')
+            education = form.cleaned_data.get('education')
+
+            r = requests.put("http://localhost:8000/api/user/" + str(current_user) + "/",
+                             data={'username': current_profile["username"],
+                                   'email': current_profile["email"],
+                                   'name': name,
+                                   'surname': surname,
+                                   'age': age,
+                                   'gender': gender,
+                                   'country': country,
+                                   'occupation': occupation,
+                                   'education': education})
+
+            return redirect('profile')
+    else:
+        form = ProfileForm(initial={'first_name': current_profile["name"],
+                                    'last_name': current_profile["surname"],
+                                    'age': current_profile["age"],
+                                    'gender': current_profile["gender"],
+                                    'country': current_profile["country"],
+                                    'occupation': current_profile["occupation"],
+                                    'education': current_profile["education"]})
+
+    context = {'form': form}
+
+    return render(request, 'gui/profile.html', context)
+
+
+def delete(request):
     current_user = request.user
 
     if current_user.is_authenticated:
-
         # delete platform user
         r = requests.delete("http://localhost:8000/api/user/" + str(current_user))
 
@@ -43,7 +80,6 @@ def delete(request):
 
 
 def signup(request):
-
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
