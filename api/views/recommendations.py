@@ -92,7 +92,7 @@ def recommend_enrichments(request, username, *args, **kwargs):
 
     user_vector = user.get_user_vector()
 
-    # list of all enrichments scored and batched if simultanious
+    # list of all enrichments scored and batched if simultaneous
     enrichments_list = enrichments_recommendation(user_vector, video.id)
 
     if "num" in request.data:
@@ -104,12 +104,22 @@ def recommend_enrichments(request, username, *args, **kwargs):
             recommended_enrichments.append(enrichments[0])
 
         recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
-        recommended_enrichments = recommended_enrichments[0:num_enrichments]
+        if num_enrichments != 0:
+            recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
     else:
+        # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
         recommended_enrichments = enrichments_list
 
-    return Response({"enrichments": recommended_enrichments})
+    result = []
+    for enrichment in recommended_enrichments:
+        result.append({
+            "frame": enrichment[0],
+            "id": enrichment[1],
+            "similarity": enrichment[2]
+        })
+
+    return Response({"enrichments": result})
 
 
 @api_view(['POST'])
