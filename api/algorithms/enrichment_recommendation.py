@@ -36,7 +36,7 @@ def enrichments_recommendation(user_vector, video_id):
             similarity = enrichment_similarity(user_vector, enrichment_id)
 
             # ATTENTION if tuple is changed, the index in the lambda function for sorting the tuples must also change
-            simultaneous_enrichments = [tuple([key, Enrichment.objects.get(id=enrichment_id).longName, similarity])]
+            simultaneous_enrichments = [tuple([key, Enrichment.objects.get(id=enrichment_id).enrichment_id, similarity])]
             checked_enrichments.add(enrichment_id)
 
             for tmp_enrichment in candidate_enrichments:
@@ -53,7 +53,7 @@ def enrichments_recommendation(user_vector, video_id):
                     similarity = enrichment_similarity(user_vector, tmp_enrichment_id)
 
                     simultaneous_enrichments.append(
-                        tuple([key, Enrichment.objects.get(id=tmp_enrichment_id).longName, similarity]))
+                        tuple([key, Enrichment.objects.get(id=tmp_enrichment_id).enrichment_id, similarity]))
                     checked_enrichments.add(tmp_enrichment_id)
 
             # ATTENTION if tuple is changed, the index in the lambda function for sorting the tuples must also change
