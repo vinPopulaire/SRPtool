@@ -25,7 +25,7 @@ def videos(request):
     return render(request, 'gui/videos.html', context)
 
 
-def play(request, euscreen, *args, **kwargs):
+def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
 
     video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
