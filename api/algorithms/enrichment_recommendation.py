@@ -10,6 +10,11 @@ import operator
 
 def enrichments_recommendation(user_vector, video_id):
 
+    # if user is new, use 0.1 as profile to avoid division by zero
+    # TODO check better way to propose to new users
+    if user_vector == [0] * len(user_vector):
+        user_vector = [0.1] * len(user_vector)
+
     enrichments = VideoEnrichments.objects.filter(video_id=video_id)
 
     # keep enrichments that appear on the same time in a dictionary of lists
