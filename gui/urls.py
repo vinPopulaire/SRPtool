@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^delete_user/$', views.delete, name="delete"),
 
     url(r'^videos/$', views.videos, name="videos"),
+    url(r'^videos/(?P<euscreen>[0-9 a-zA-Z_]+)/$', views.play, name="play"),
 
 ]

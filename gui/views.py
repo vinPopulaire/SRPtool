@@ -11,18 +11,46 @@ def videos(request):
     response = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_videos",
                              data={"num": 10}
                              )
-    print(response.content)
     videos_list = []
     for video in response.json()["videos"]:
         euscreen = video["video"]
         vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
         videos_list.append({
             "title": vid["title"],
-            "summary": vid["summary"]
+            "summary": vid["summary"],
+            "euscreen": vid["euscreen"],
         })
     context = {"videos": videos_list}
 
     return render(request, 'gui/videos.html', context)
+
+
+def play(request, euscreen, *args, **kwargs):
+    current_user = request.user
+
+    video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+
+    enrichments = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_enrichments",
+                                data={"euscreen": str(euscreen),
+                                      "num": 0})
+
+    enrichments_list = []
+    for enrichment in enrichments.json()["enrichments"]:
+        enrichment_id = enrichment["id"]
+        enrich = requests.get("http://localhost:8000/api/enrichment/" + str(enrichment_id) + "/").json()
+        enrichments_list.append({
+            "frame": enrichment["frame"],
+            "id": enrich["enrichment_id"],
+            "longName": enrich["longName"],
+            "dbpedia": enrich["dbpediaURL"],
+            "wikipedia": enrich["wikipediaURL"],
+            "description": enrich["description"],
+            "thumbnail": enrich["thumbnail"]
+        })
+    enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
+    context = {"video": video, "enrichments": enrichments_list}
+
+    return render(request, 'gui/play.html', context)
 
 
 def profile(request):

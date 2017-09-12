@@ -1,0 +1,71 @@
+{% extends 'gui/base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+    <div class="container" style="width:1000px; padding-bottom: 50px">
+        <div class="title">Play Video</div>
+        <hr>
+
+        <div class="media attribution">
+            <div class="col-md-8">
+                {% load static %}
+                <img src="{% static 'gui/images/mountain-lake.jpg' %}" alt="Mock-up image" width="100%" style="padding-top: 50px">
+                <div class="container" style="padding-top: 20px; width: 100%">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#" class="fui-play" style="padding-right: 10px; color: black"></a>
+                            <a href="#" class="fui-pause" style="padding-right: 40px; color: black"></a>
+                            <a href="#" class="fui-link" style="padding-right: 10px; color: black"></a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
+                            <a href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
+                        </div>
+                    </div>
+                </div>
+{#                <video autoplay loop class="embed-responsive-item">#}
+{#                    <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>#}
+{#                </video>#}
+            </div>
+
+            <div class="col-md-4" >
+                <table class="table table-fixed">
+                    <thead>
+                    <tr>
+                        <th>Enrichments</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrichment in enrichments %}
+                            <tr>
+                                <td>
+                                    <img src="{{ enrichment.thumbnail }}" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">
+                                    <a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.id }}</a>
+                                    <div class="inline">[{{ enrichment.frame }}]</div>
+                                    <a href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>
+                                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ enrichment.description }}</div>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div> <!-- /container -->
+
+    {% else %}
+
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You need to login first!</h4>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

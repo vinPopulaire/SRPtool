@@ -10,7 +10,7 @@
 
         <div class="media attribution">
             <table class="table">
-                <thead class="the">
+                <thead>
                 <tr>
                     <th style="width: 50px;">Play</th>
                     <th>Video</th>
@@ -19,7 +19,7 @@
                 <tbody>
                     {% for video in videos %}
                         <tr>
-                            <td align="center"><a href="" class="fui-play"></a></td>
+                            <td align="center"><a href="{% url "play" euscreen=video.euscreen %}" class="fui-play"></a></td>
                             <td>
                                 <a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ video.title }}</a>
                                 <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ video.summary }}</div>
