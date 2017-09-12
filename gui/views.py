@@ -30,6 +30,9 @@ def play_video(request, euscreen, *args, **kwargs):
 
     video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
 
+    r = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/watch",
+                      data={"euscreen": str(euscreen)})
+
     enrichments = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_enrichments",
                                 data={"euscreen": str(euscreen),
                                       "num": 0})
