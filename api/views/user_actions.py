@@ -19,9 +19,9 @@ def user_watch(request, username, *args, **kwargs):
         message = "user has already watched the video"
     else:
         video_watched = VideoWatched(
-                user_id = user.id,
-                video_id = video.id,
-                liked = 0
+                user_id=user.id,
+                video_id=video.id,
+                liked=0
                 )
         video_watched.save()
         message = "video watch saved"
@@ -80,6 +80,7 @@ def store_video_interaction(video_watched, action, request):
         interaction.save()
         message = "video stopped"
 
+    # TODO Cannot click enrichment again if it was clicked and not yet computed
     elif action.id == 3:
         enrichment_id = Enrichment.objects.get(enrichment_id=request.data["enrichment_id"]).id
 
@@ -137,5 +138,8 @@ def store_video_interaction(video_watched, action, request):
 
         else:
             message = "not valid explicit feedback"
+
+    else:
+        message = "Not a valid action"
 
     return message
