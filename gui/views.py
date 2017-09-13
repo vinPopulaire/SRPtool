@@ -43,7 +43,7 @@ def play_video(request, euscreen, *args, **kwargs):
         enrich = requests.get("http://localhost:8000/api/enrichment/" + str(enrichment_id) + "/").json()
         enrichments_list.append({
             "frame": enrichment["frame"],
-            "id": enrich["enrichment_id"],
+            "enrichment_id": enrich["enrichment_id"],
             "longName": enrich["longName"],
             "dbpedia": enrich["dbpediaURL"],
             "wikipedia": enrich["wikipediaURL"],

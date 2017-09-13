@@ -15,13 +15,13 @@
                 <div class="container" style="padding-top: 20px; width: 100%">
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="#" class="fui-play" style="padding-right: 10px; color: black"></a>
-                            <a href="#" class="fui-pause" style="padding-right: 40px; color: black"></a>
-                            <a href="#" class="fui-link" style="padding-right: 10px; color: black"></a>
+                            <a onclick="PlayAction({{ user }}, {{ video }})" href="#" class="fui-play" style="padding-right: 10px; color: black"></a>
+                            <a onclick="StopAction({{ user }}, {{ video }})" href="#" class="fui-pause" style="padding-right: 40px; color: black"></a>
+                            <a onclick="ShareAction({{ user }}, {{ video }})" href="#"  class="fui-link" style="padding-right: 10px; color: black"></a>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
-                            <a href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
+                            <a onclick="LikeAction({{ user }}, {{ video }})" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
+                            <a onclick="DislikeAction({{ user }}, {{ video }})" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
                         </div>
                     </div>
                 </div>
@@ -42,9 +42,9 @@
                             <tr>
                                 <td>
                                     <img src="{{ enrichment.thumbnail }}" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">
-                                    <a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.id }}</a>
+                                    <a onclick="ClickEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.enrichment_id }}</a>
                                     <div class="inline">[{{ enrichment.frame }}]</div>
-                                    <a href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>
+                                    <a onclick="ShareEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>
                                     <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ enrichment.description }}</div>
                                 </td>
                             </tr>
