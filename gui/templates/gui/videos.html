@@ -21,8 +21,10 @@
                         <tr>
                             <td align="center"><a href="{% url "play_video" euscreen=video.euscreen %}" class="fui-play"></a></td>
                             <td>
-                                <a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ video.title }}</a>
-                                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ video.summary }}</div>
+                                <a class="inline" style="color: inherit;" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ video.title }}</a>
+                                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                                    <small>{{ video.summary }}</small>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
