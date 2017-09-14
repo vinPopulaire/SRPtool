@@ -21,6 +21,9 @@ def update_prof(request, username):
     # number of enrichments on video
     num_enrichments_on_video = VideoEnrichments.objects.filter(video=video).count()
 
+    # set number of enrichments to 1 in order to avoid division by zero when video has no enrichments
+    num_enrichments_on_video = num_enrichments_on_video if num_enrichments_on_video else 1
+
     # list of clicked enrichments
     clicked_enrichments = actions.filter(action_id=3)
     num_clicked_enrichments = len(clicked_enrichments)
