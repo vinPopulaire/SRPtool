@@ -12,9 +12,8 @@ function PlayAction(user, video) {
         "action": "play_video",
         "time" : "1"});
 
-    console.log(csrftoken);
+    // console.log(csrftoken);
     xhttp.send(data);
-    console.log(typeof user.toString());
     console.log(video["euscreen"]);
     var response = JSON.parse(xhttp.responseText);
     console.log(response);
@@ -105,6 +104,23 @@ function DislikeAction(user, video) {
         "euscreen": video["euscreen"].toString(),
         "action": "explicit_rf",
         "value": -1});
+
+    xhttp.send(data);
+    var response = JSON.parse(xhttp.responseText);
+    console.log(response);
+}
+
+function UpdateProfile(user, video_euscreen) {
+    var csrftoken = Cookies.get('csrftoken');
+    var xhttp = new XMLHttpRequest();
+    // open(method, url, asynchronous)
+    console.log(video_euscreen);
+    xhttp.open("POST", "http://localhost:8000/api/user/" + user.toString() + "/update_profile", false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+
+    var data = JSON.stringify({
+        "euscreen": video_euscreen});
 
     xhttp.send(data);
     var response = JSON.parse(xhttp.responseText);

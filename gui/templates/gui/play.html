@@ -53,7 +53,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
     </div> <!-- /container -->
@@ -67,5 +66,11 @@
         </div>
 
     {% endif %}
+
+    <script>
+    window.onbeforeunload = function() {
+        UpdateProfile({{ user }}, "{{ video.euscreen }}");
+    }
+    </script>
 
 {% endblock %}
