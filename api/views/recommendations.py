@@ -113,6 +113,9 @@ def recommend_enrichments(request, username, *args, **kwargs):
             recommended_enrichments.append(enrichments[0])
 
         recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
+
+        # checks the number of enrichments and if it is non zero, it returns the appropriate slice
+        # else if it is zero, it returns all the recommended enrichments
         if num_enrichments != 0:
             recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
@@ -161,13 +164,24 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
                 recommended_enrichments.append(enrichments[0])
 
             recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
-            recommended_enrichments = recommended_enrichments[0:num_enrichments]
+
+            # checks the number of enrichments and if it is non zero, it returns the appropriate slice
+            # else if it is zero, it returns all the recommended enrichments
+            if num_enrichments != 0:
+                recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
         else:
+            # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
             recommended_enrichments = enrichments_list
 
-        # enrichments['representative %d' % (i + 1)] = recommended_enrichments
-        result_enrichments['representative %d' % (i + 1)] = recommended_enrichments
+        result = []
+        for enrichment in recommended_enrichments:
+            result.append({
+                "frame": enrichment[0],
+                "id": enrichment[1],
+                "similarity": enrichment[2]
+            })
+        result_enrichments['representative %d' % (i + 1)] = result
 
     if representatives:
         response = Response(result_enrichments)
