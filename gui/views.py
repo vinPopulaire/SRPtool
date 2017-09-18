@@ -8,92 +8,100 @@ from .forms import SignupForm, ProfileForm
 
 def videos(request):
     current_user = request.user
-    response = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_videos",
-                             data={"num": 10}
-                             )
-    videos_list = []
-    for video in response.json()["videos"]:
-        euscreen = video["video"]
-        vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
-        videos_list.append({
-            "title": vid["title"],
-            "summary": vid["summary"],
-            "euscreen": vid["euscreen"],
-        })
-    context = {"videos": videos_list}
+    context = {}
+
+    if current_user.is_authenticated():
+        response = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_videos",
+                                 data={"num": 10}
+                                 )
+        videos_list = []
+        for video in response.json()["videos"]:
+            euscreen = video["video"]
+            vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+            videos_list.append({
+                "title": vid["title"],
+                "summary": vid["summary"],
+                "euscreen": vid["euscreen"],
+            })
+        context = {"videos": videos_list}
 
     return render(request, 'gui/videos.html', context)
 
 
 def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
+    context = {}
 
-    video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+    if current_user.is_authenticated():
+        video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
 
-    r = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/watch",
-                      data={"euscreen": str(euscreen)})
+        r = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/watch",
+                          data={"euscreen": str(euscreen)})
 
-    enrichments = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_enrichments",
-                                data={"euscreen": str(euscreen),
-                                      "num": 0})
+        enrichments = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_enrichments",
+                                    data={"euscreen": str(euscreen),
+                                          "num": 0})
 
-    enrichments_list = []
-    for enrichment in enrichments.json()["enrichments"]:
-        enrichment_id = enrichment["id"]
-        enrich = requests.get("http://localhost:8000/api/enrichment/" + str(enrichment_id) + "/").json()
-        enrichments_list.append({
-            "frame": enrichment["frame"],
-            "enrichment_id": enrich["enrichment_id"],
-            "longName": enrich["longName"],
-            "dbpedia": enrich["dbpediaURL"],
-            "wikipedia": enrich["wikipediaURL"],
-            "description": enrich["description"],
-            "thumbnail": enrich["thumbnail"]
-        })
-    enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
-    context = {"video": video, "enrichments": enrichments_list}
+        enrichments_list = []
+        for enrichment in enrichments.json()["enrichments"]:
+            enrichment_id = enrichment["id"]
+            enrich = requests.get("http://localhost:8000/api/enrichment/" + str(enrichment_id) + "/").json()
+            enrichments_list.append({
+                "frame": enrichment["frame"],
+                "enrichment_id": enrich["enrichment_id"],
+                "longName": enrich["longName"],
+                "dbpedia": enrich["dbpediaURL"],
+                "wikipedia": enrich["wikipediaURL"],
+                "description": enrich["description"],
+                "thumbnail": enrich["thumbnail"]
+            })
+        enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
+        context = {"video": video, "enrichments": enrichments_list}
 
     return render(request, 'gui/play.html', context)
 
 
 def profile(request):
     current_user = request.user
-    current_profile = requests.get("http://localhost:8000/api/user/" + str(current_user) + "/").json()
+    context = {}
 
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
+    if current_user.is_authenticated():
+        current_profile = requests.get("http://localhost:8000/api/user/" + str(current_user) + "/").json()
 
-            name = form.cleaned_data.get('first_name')
-            surname = form.cleaned_data.get('last_name')
-            age = form.cleaned_data.get('age')
-            gender = form.cleaned_data.get('gender')
-            country = form.cleaned_data.get('country')
-            occupation = form.cleaned_data.get('occupation')
-            education = form.cleaned_data.get('education')
+        if request.method == 'POST':
+            form = ProfileForm(request.POST)
+            if form.is_valid():
 
-            r = requests.put("http://localhost:8000/api/user/" + str(current_user) + "/",
-                             data={'username': current_profile["username"],
-                                   'email': current_profile["email"],
-                                   'name': name,
-                                   'surname': surname,
-                                   'age': age,
-                                   'gender': gender,
-                                   'country': country,
-                                   'occupation': occupation,
-                                   'education': education})
+                name = form.cleaned_data.get('first_name')
+                surname = form.cleaned_data.get('last_name')
+                age = form.cleaned_data.get('age')
+                gender = form.cleaned_data.get('gender')
+                country = form.cleaned_data.get('country')
+                occupation = form.cleaned_data.get('occupation')
+                education = form.cleaned_data.get('education')
 
-            return redirect('profile')
-    else:
-        form = ProfileForm(initial={'first_name': current_profile["name"],
-                                    'last_name': current_profile["surname"],
-                                    'age': current_profile["age"],
-                                    'gender': current_profile["gender"],
-                                    'country': current_profile["country"],
-                                    'occupation': current_profile["occupation"],
-                                    'education': current_profile["education"]})
+                r = requests.put("http://localhost:8000/api/user/" + str(current_user) + "/",
+                                 data={'username': current_profile["username"],
+                                       'email': current_profile["email"],
+                                       'name': name,
+                                       'surname': surname,
+                                       'age': age,
+                                       'gender': gender,
+                                       'country': country,
+                                       'occupation': occupation,
+                                       'education': education})
 
-    context = {'form': form}
+                return redirect('profile')
+        else:
+            form = ProfileForm(initial={'first_name': current_profile["name"],
+                                        'last_name': current_profile["surname"],
+                                        'age': current_profile["age"],
+                                        'gender': current_profile["gender"],
+                                        'country': current_profile["country"],
+                                        'occupation': current_profile["occupation"],
+                                        'education': current_profile["education"]})
+
+        context = {'form': form}
 
     return render(request, 'gui/profile.html', context)
 
