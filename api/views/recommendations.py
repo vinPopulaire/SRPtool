@@ -62,7 +62,16 @@ def recommend_videos_to_target(request, *args, **kwargs):
     videos = {}
     for i in range(0, len(representatives)):
 
-        videos['representative %d' % (i + 1)] = video_recommendation(representatives[i], videos_list, num_req_videos)
+        recommended_videos_list = video_recommendation(representatives[i], videos_list, num_req_videos)
+
+        result = []
+        for video in recommended_videos_list:
+            result.append({
+                "video": video[0],
+                "similarity": video[1]
+            })
+
+        videos['representative %d' % (i + 1)] = result
 
     if representatives:
         response = Response(videos)
