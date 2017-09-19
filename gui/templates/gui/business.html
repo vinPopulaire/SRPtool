@@ -81,19 +81,7 @@
             <hr>
             <table class="table table-fixed">
                     <tbody id="enrichments">
-
-{#                        {% for enrichment in enrichments %}#}
-{#                            <tr>#}
-{#                                <td>#}
-{#                                    <img src="{{ enrichment.thumbnail }}" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">#}
-{#                                    <a onclick="ClickEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.enrichment_id }}</a>#}
-{#                                    <div class="inline">[{{ enrichment.frame }}]</div>#}
-{#                                    <a onclick="ShareEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>#}
-{#                                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ enrichment.description }}</div>#}
-{#                                </td>#}
-{#                            </tr>#}
-{##}
-{#                        {% endfor %}#}
+                    <!-- HERE GO THE ENRICHMENTS GENERATED FROM THE API REQUEST -->
                     </tbody>
                 </table>
         </div>
