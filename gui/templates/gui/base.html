@@ -39,6 +39,8 @@
                 {% if user.is_authenticated %}
                 <li class="{% if request.resolver_match.url_name == "videos" %}active{% endif %}">
                     <a href={% url "videos" %}>Videos</a></li>
+                <li class="{% if request.resolver_match.url_name == "business" %}active{% endif %}">
+                    <a href={% url "business" %}>Business</a></li>
                 {% endif %}
                 <li class="{% if request.resolver_match.url_name == "about" %}active{% endif %}">
                     <a href={% url "about" %}>About</a></li>
@@ -140,7 +142,6 @@
             </div>
         </div>
     </div>
-    </div>
 </footer>
 
 <script src="{% static 'gui/js/vendor/jquery.min.js' %}"></script>
@@ -152,6 +153,11 @@
     $(".nav li").on("click", function () {
         $(".nav li").removeClass("active");
         $(this).addClass("active");
+    });
+
+    $(".fui-arrow-right").on("click", function () {
+        $("tr").removeClass("active");
+        $(this).parent().parent().addClass("active");
     })
 </script>
 

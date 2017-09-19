@@ -1,0 +1,176 @@
+{% extends 'gui/base.html' %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+
+    <div class="container" style="padding-bottom: 50px">
+        <div class="title">Business</div>
+        <hr>
+        <div class="col-md-3">
+
+            <div class="tile-title">Select Target Group</div>
+            <hr>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div style="width: 90%;">
+
+            <div class="control-group" style="padding-bottom: 5px;" >
+                {{ form.gender }}
+                <small style="color: red">{{ form.gender.errors }}</small>
+            </div>
+
+            <div class="control-group" style="padding-bottom: 5px;" >
+                {{ form.age }}
+                <small style="color: red">{{ form.age.errors }}</small>
+            </div>
+
+            <div class="control-group" style="padding-bottom: 5px;" >
+                {{ form.country }}
+                <small style="color: red">{{ form.country.errors }}</small>
+            </div>
+
+            <div class="control-group" style="padding-bottom: 5px;" >
+                {{ form.occupation }}
+                <small style="color: red">{{ form.occupation.errors }}</small>
+            </div>
+
+            <div class="control-group" style="padding-bottom: 5px;" >
+                {{ form.education }}
+                <small style="color: red">{{ form.education.errors }}</small>
+            </div>
+
+            <div style="text-align:center; padding-top: 20px">
+                <input type="submit" class="btn btn-sm btn-primary btn-wide" value="Search">
+            </div>
+
+            </div>
+
+
+        </form>
+
+        </div><!-- /form -->
+
+        <div class="col-md-5">
+            <div class="tile-title">Videos</div>
+            <hr>
+            <div class="media attribution">
+            <table class="table">
+                <tbody>
+                    {% for video in videos %}
+                        <tr>
+                            <td>
+                                <a class="inline" style="color: inherit;" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ video.title }}</a>
+                                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">
+                                    <small>{{ video.summary }}</small>
+                                </div>
+                            </td>
+                            <td align="right"><a onclick="Recommend_enrichments({{ video }})" href="#" class="fui-arrow-right"></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="tile-title">Enrichments</div>
+            <hr>
+            <table class="table table-fixed">
+                    <tbody id="enrichments">
+
+{#                        {% for enrichment in enrichments %}#}
+{#                            <tr>#}
+{#                                <td>#}
+{#                                    <img src="{{ enrichment.thumbnail }}" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">#}
+{#                                    <a onclick="ClickEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.enrichment_id }}</a>#}
+{#                                    <div class="inline">[{{ enrichment.frame }}]</div>#}
+{#                                    <a onclick="ShareEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }})" href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>#}
+{#                                    <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ enrichment.description }}</div>#}
+{#                                </td>#}
+{#                            </tr>#}
+{##}
+{#                        {% endfor %}#}
+                    </tbody>
+                </table>
+        </div>
+    </div> <!-- /container -->
+
+    {% else %}
+
+        <div class="container" style="width:500px">
+            <div class="alert alert-primary" role="alert">
+                <h4 class="alert-heading">You need to login first!</h4>
+            </div>
+        </div>
+
+    {% endif %}
+
+    <script>
+    function Recommend_enrichments(video) {
+        var csrftoken = Cookies.get('csrftoken');
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange=function()
+        {
+            if (xhttp.readyState==4 && xhttp.status==200)
+            {
+                var response = JSON.parse(xhttp.responseText);
+                Display_enrichments(response);
+            }
+        };
+        // open(method, url, asynchronous)
+        xhttp.open("POST", "http://localhost:8000/api/enrichments_to_target", false);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        var data = JSON.stringify({
+            "euscreen": video["euscreen"].toString(),
+            "num": 0});
+
+        xhttp.send(data);
+        var response = JSON.parse(xhttp.responseText);
+        console.log(response);
+    }
+
+    function Display_enrichments(response) {
+        var out = "";
+        var i;
+        var enrichments_list = response["representative 1"];
+
+        enrichments_list.sort(function(a, b) {
+            return parseFloat(a.frame) - parseFloat(b.frame);
+        });
+
+        for(i = 0; i < enrichments_list.length; i++) {
+            var request = new XMLHttpRequest();
+            request.open("GET", "http://localhost:8000/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
+            request.send();
+            var enrichment = JSON.parse(request.responseText);
+            out += '<tr>' +
+                    '<td>' +
+                        '<img src="' + enrichment.thumbnail + '" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">' +
+                        '<a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse_enrichment' + i + '">' + enrichment.enrichment_id + '</a>' +
+                        '<div class="inline" style="padding-left: 2px">[' + enrichments_list[i].frame + ']</div>' +
+
+                        '<div class="material-switch pull-right">' +
+                            '<input id="option' + i + '" name="someSwitchOption001" type="checkbox"/>' +
+                            '<label for="option' + i + '" class="label-danger"></label>' +
+                        '</div>' +
+                        '<div id="collapse_enrichment' + i + '" class="panel-collapse collapse">' + enrichment.description + '</div>' +
+
+                    '</td>' +
+                '</tr>';
+{#            out += enrichments_list[i].id#}
+{##}
+
+{##}
+
+        }
+
+        document.getElementById("enrichments").innerHTML= out;
+    }
+    </script>
+
+{% endblock %}

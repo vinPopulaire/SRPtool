@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import login, authenticate
 
-from .forms import SignupForm, ProfileForm
+from .forms import SignupForm, ProfileForm, BusinessForm
 
 
 def videos(request):
@@ -59,6 +59,61 @@ def play_video(request, euscreen, *args, **kwargs):
         context = {"video": video, "enrichments": enrichments_list}
 
     return render(request, 'gui/play.html', context)
+
+
+def business(request):
+
+    if request.method == 'POST':
+        form = BusinessForm(request.POST)
+
+        if form.is_valid():
+
+            data = {}
+
+            age = form.cleaned_data.get('age')
+            gender = form.cleaned_data.get('gender')
+            country = form.cleaned_data.get('country')
+            occupation = form.cleaned_data.get('occupation')
+            education = form.cleaned_data.get('education')
+
+            if age:
+                data["age_id"] = age
+            if gender:
+                data["gender_id"] = gender
+            if country:
+                data["country_id"] = country
+            if occupation:
+                data["occupation_id"] = occupation
+            if education:
+                data["education_id"] = education
+
+            response = requests.post("http://localhost:8000/api/videos_to_target",
+                                     data=data
+                                     ).json()
+
+            first_representative = response["representative 1"]
+
+            videos_list = []
+            for video in first_representative:
+                euscreen = video["video"]
+                vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+                videos_list.append({
+                    "title": vid["title"],
+                    "summary": vid["summary"],
+                    "euscreen": vid["euscreen"],
+                })
+
+            enrichments_list = []
+
+    else:
+        form = BusinessForm()
+
+        videos_list = []
+        enrichments_list = []
+
+    context = {'form': form, 'videos': videos_list, 'enrichments': enrichments_list}
+
+    return render(request, 'gui/business.html', context)
 
 
 def profile(request):

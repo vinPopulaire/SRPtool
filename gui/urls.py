@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^videos/$', views.videos, name="videos"),
     url(r'^videos/(?P<euscreen>[0-9 a-zA-Z_]+)/$', views.play_video, name="play_video"),
 
+    url(r'^business/$', views.business, name="business"),
+
 ]

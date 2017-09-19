@@ -94,3 +94,46 @@ class ProfileForm(forms.Form):
             field.widget.attrs["class"] = input_class
             field.widget.attrs["required"] = 'required'
         super().__init__(*args, **kwargs)
+
+
+class BusinessForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+
+        # dynamically get form fields
+        response = requests.get("http://localhost:8000/api/gender")
+        gender = list(zip(list(d["id"] for d in response.json()), list(d["gender"] for d in response.json())))
+        self.base_fields["gender"] = forms.ChoiceField(choices=[("", "Select gender")] + gender,
+                                                       label="Gender",
+                                                       required=False)
+
+        response = requests.get("http://localhost:8000/api/age")
+        ages = list(zip(list(d["id"] for d in response.json()), list(d["age"] for d in response.json())))
+        self.base_fields["age"] = forms.ChoiceField(choices=[("", "Select age")] + ages,
+                                                    label="Age",
+                                                    required=False)
+
+        response = requests.get("http://localhost:8000/api/country")
+        countries = list(zip(list(d["id"] for d in response.json()), list(d["country"] for d in response.json())))
+        self.base_fields["country"] = forms.ChoiceField(choices=[("", "Select country")] + countries,
+                                                        label="Country",
+                                                        required=False)
+
+        response = requests.get("http://localhost:8000/api/education")
+        educations = list(zip(list(d["id"] for d in response.json()), list(d["education"] for d in response.json())))
+        self.base_fields["education"] = forms.ChoiceField(choices=[("", "Select education")] + educations,
+                                                          label="Education",
+                                                          required=False)
+
+        response = requests.get("http://localhost:8000/api/occupation")
+        occupations = list(zip(list(d["id"] for d in response.json()), list(d["occupation"] for d in response.json())))
+        self.base_fields["occupation"] = forms.ChoiceField(choices=[("", "Select occupation")] + occupations,
+                                                           label="Occupation",
+                                                           required=False)
+
+        input_class = 'form-control'
+
+        for field in self.base_fields.values():
+            field.widget.attrs["placeholder"] = field.label
+            field.widget.attrs["class"] = input_class
+        super().__init__(*args, **kwargs)
