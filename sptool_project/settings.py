@@ -92,7 +92,13 @@ REST_FRAMEWORK = {
 
 DATABASES = {
 
-    'default': env.db(),
+    'default': {
+        'ENGINE': env('ENGINE'),
+        'NAME': env('NAME'),
+        'USER': env('USER'),
+        'HOST': env('HOST'),
+        'PORT': env('PORT'),
+        }
 
 }
 
