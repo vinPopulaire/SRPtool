@@ -1,4 +1,4 @@
-## Social Recommendation and Personalization Tool
+# Social Recommendation and Personalization Tool
 
 Social Recommendation and Personalization Tool (SRPtool) consists of three main functionalities/mechanisms, as follows:
 
@@ -14,7 +14,7 @@ The relevance feedback is utilized by the system to learn users’ specific cont
 
 The general scope of social recommendation mechanism is to collect and analyze different sources of information considering the preferences of the users with respect to a set of items, aiming to provide rankings and scores on these items tailored to each separate user, in order to facilitate the discovery and selection of items by the end user and improve his / her experience.
 
-# To run on your machine
+## To run on your machine
 
 - .env file on root folder
 - data_files folder on commands folder
