@@ -20,33 +20,33 @@ class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
 
         # dynamically get form fields
-        response = requests.get("http://localhost:8000/api/gender")
+        response = requests.get("http://172.22.0.4/api/gender")
         gender = list(zip(list(d["id"] for d in response.json()), list(d["gender"] for d in response.json())))
         self.base_fields["gender"] = forms.ChoiceField(choices=[("", "Select your gender")] + gender,
                                                        label="Gender")
 
-        response = requests.get("http://localhost:8000/api/age")
+        response = requests.get("http://172.22.0.4/api/age")
         ages = list(zip(list(d["id"] for d in response.json()), list(d["age"] for d in response.json())))
         self.base_fields["age"] = forms.ChoiceField(choices=[("", "Select your age")] + ages,
                                                     label="Age")
 
-        response = requests.get("http://localhost:8000/api/country")
+        response = requests.get("http://172.22.0.4/api/country")
         countries = list(zip(list(d["id"] for d in response.json()), list(d["country"] for d in response.json())))
         self.base_fields["country"] = forms.ChoiceField(choices=[("", "Select your country")] + countries,
                                                         label="Country")
 
-        response = requests.get("http://localhost:8000/api/education")
+        response = requests.get("http://172.22.0.4/api/education")
         educations = list(zip(list(d["id"] for d in response.json()), list(d["education"] for d in response.json())))
         self.base_fields["education"] = forms.ChoiceField(choices=[("", "Select your education")] + educations,
                                                           label="Education")
 
-        response = requests.get("http://localhost:8000/api/occupation")
+        response = requests.get("http://172.22.0.4/api/occupation")
         occupations = list(zip(list(d["id"] for d in response.json()), list(d["occupation"] for d in response.json())))
         self.base_fields["occupation"] = forms.ChoiceField(choices=[("", "Select your occupation")] + occupations,
                                                            label="Occupation")
 
         input_class = 'form-control'
-        
+
         for field in self.base_fields.values():
             field.widget.attrs["placeholder"] = field.label
             field.widget.attrs["class"] = input_class
@@ -62,27 +62,27 @@ class ProfileForm(forms.Form):
     def __init__(self, *args, **kwargs):
 
         # dynamically get form fields
-        response = requests.get("http://localhost:8000/api/gender")
+        response = requests.get("http://172.22.0.4/api/gender")
         gender = list(zip(list(d["id"] for d in response.json()), list(d["gender"] for d in response.json())))
         self.base_fields["gender"] = forms.ChoiceField(choices=gender,
                                                        label="Gender")
 
-        response = requests.get("http://localhost:8000/api/age")
+        response = requests.get("http://172.22.0.4/api/age")
         ages = list(zip(list(d["id"] for d in response.json()), list(d["age"] for d in response.json())))
         self.base_fields["age"] = forms.ChoiceField(choices=ages,
                                                     label="Age")
 
-        response = requests.get("http://localhost:8000/api/country")
+        response = requests.get("http://172.22.0.4/api/country")
         countries = list(zip(list(d["id"] for d in response.json()), list(d["country"] for d in response.json())))
         self.base_fields["country"] = forms.ChoiceField(choices=countries,
                                                         label="Country")
 
-        response = requests.get("http://localhost:8000/api/education")
+        response = requests.get("http://172.22.0.4/api/education")
         educations = list(zip(list(d["id"] for d in response.json()), list(d["education"] for d in response.json())))
         self.base_fields["education"] = forms.ChoiceField(choices=educations,
                                                           label="Education")
 
-        response = requests.get("http://localhost:8000/api/occupation")
+        response = requests.get("http://172.22.0.4/api/occupation")
         occupations = list(zip(list(d["id"] for d in response.json()), list(d["occupation"] for d in response.json())))
         self.base_fields["occupation"] = forms.ChoiceField(choices=occupations,
                                                            label="Occupation")
@@ -101,31 +101,31 @@ class BusinessForm(forms.Form):
     def __init__(self, *args, **kwargs):
 
         # dynamically get form fields
-        response = requests.get("http://localhost:8000/api/gender")
+        response = requests.get("http://172.22.0.4/api/gender")
         gender = list(zip(list(d["id"] for d in response.json()), list(d["gender"] for d in response.json())))
         self.base_fields["gender"] = forms.ChoiceField(choices=[("", "Select gender")] + gender,
                                                        label="Gender",
                                                        required=False)
 
-        response = requests.get("http://localhost:8000/api/age")
+        response = requests.get("http://172.22.0.4/api/age")
         ages = list(zip(list(d["id"] for d in response.json()), list(d["age"] for d in response.json())))
         self.base_fields["age"] = forms.ChoiceField(choices=[("", "Select age")] + ages,
                                                     label="Age",
                                                     required=False)
 
-        response = requests.get("http://localhost:8000/api/country")
+        response = requests.get("http://172.22.0.4/api/country")
         countries = list(zip(list(d["id"] for d in response.json()), list(d["country"] for d in response.json())))
         self.base_fields["country"] = forms.ChoiceField(choices=[("", "Select country")] + countries,
                                                         label="Country",
                                                         required=False)
 
-        response = requests.get("http://localhost:8000/api/education")
+        response = requests.get("http://172.22.0.4/api/education")
         educations = list(zip(list(d["id"] for d in response.json()), list(d["education"] for d in response.json())))
         self.base_fields["education"] = forms.ChoiceField(choices=[("", "Select education")] + educations,
                                                           label="Education",
                                                           required=False)
 
-        response = requests.get("http://localhost:8000/api/occupation")
+        response = requests.get("http://172.22.0.4/api/occupation")
         occupations = list(zip(list(d["id"] for d in response.json()), list(d["occupation"] for d in response.json())))
         self.base_fields["occupation"] = forms.ChoiceField(choices=[("", "Select occupation")] + occupations,
                                                            label="Occupation",

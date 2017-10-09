@@ -23,7 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        model_path = "./api/management/commands/data_files/doc2vec.model"
+        model_path = "./srv/sptool/api/management/commands/data_files/doc2vec.model"
         my_file = Path(model_path)
 
         if my_file.is_file():
@@ -33,7 +33,7 @@ class Command(BaseCommand):
             print("Creating model")
 
             docLabels = []
-            docLabels = [f for f in listdir('./api/management/commands/data_files/video_txts') if f.endswith('.txt')]
+            docLabels = [f for f in listdir('./srv/sptool/api/management/commands/data_files/video_txts') if f.endswith('.txt')]
 
             if docLabels == []:
                 print("Error! There are no txt files")
@@ -42,7 +42,7 @@ class Command(BaseCommand):
             data = []
 
             for doc in docLabels:
-                with open("./api/management/commands/data_files/video_txts/" + doc, 'r') as fout:
+                with open("./srv/sptool/api/management/commands/data_files/video_txts/" + doc, 'r') as fout:
                     data.append(fout.read())
 
             # TODO Data has \n inside. Check if it matters
@@ -65,7 +65,7 @@ class Command(BaseCommand):
 
             # Import google_news word2vec on our model
             # TODO check if the word2vec from google news helps
-            model.intersect_word2vec_format('./api/management/commands/data_files/GoogleNews-vectors-negative300.bin', binary=True)
+            model.intersect_word2vec_format('./srv/sptool/api/management/commands/data_files/GoogleNews-vectors-negative300.bin', binary=True)
 
             model.save(model_path)
 

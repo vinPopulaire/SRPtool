@@ -11,13 +11,13 @@ def videos(request):
     context = {}
 
     if current_user.is_authenticated():
-        response = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_videos",
+        response = requests.post("http://172.22.0.4/api/user/" + str(current_user) + "/recommend_videos",
                                  data={"num": 10}
                                  )
         videos_list = []
         for video in response.json()["videos"]:
             euscreen = video["video"]
-            vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+            vid = requests.get("http://172.22.0.4/api/video/" + str(euscreen)).json()
             videos_list.append({
                 "title": vid["title"],
                 "summary": vid["summary"],
@@ -33,19 +33,19 @@ def play_video(request, euscreen, *args, **kwargs):
     context = {}
 
     if current_user.is_authenticated():
-        video = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+        video = requests.get("http://172.22.0.4/api/video/" + str(euscreen)).json()
 
-        r = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/watch",
+        r = requests.post("http://172.22.0.4/api/user/" + str(current_user) + "/watch",
                           data={"euscreen": str(euscreen)})
 
-        enrichments = requests.post("http://localhost:8000/api/user/" + str(current_user) + "/recommend_enrichments",
+        enrichments = requests.post("http://172.22.0.4/api/user/" + str(current_user) + "/recommend_enrichments",
                                     data={"euscreen": str(euscreen),
                                           "num": 0})
 
         enrichments_list = []
         for enrichment in enrichments.json()["enrichments"]:
             enrichment_id = enrichment["id"]
-            enrich = requests.get("http://localhost:8000/api/enrichment/" + str(enrichment_id) + "/").json()
+            enrich = requests.get("http://172.22.0.4/api/enrichment/" + str(enrichment_id) + "/").json()
             enrichments_list.append({
                 "frame": enrichment["frame"],
                 "enrichment_id": enrich["enrichment_id"],
@@ -87,7 +87,7 @@ def business(request):
             if education:
                 data["education_id"] = education
 
-            response = requests.post("http://localhost:8000/api/videos_to_target",
+            response = requests.post("http://172.22.0.4/api/videos_to_target",
                                      data=data
                                      ).json()
 
@@ -96,7 +96,7 @@ def business(request):
             videos_list = []
             for video in first_representative:
                 euscreen = video["video"]
-                vid = requests.get("http://localhost:8000/api/video/" + str(euscreen)).json()
+                vid = requests.get("http://172.22.0.4/api/video/" + str(euscreen)).json()
                 videos_list.append({
                     "title": vid["title"],
                     "summary": vid["summary"],
@@ -121,7 +121,7 @@ def profile(request):
     context = {}
 
     if current_user.is_authenticated():
-        current_profile = requests.get("http://localhost:8000/api/user/" + str(current_user) + "/").json()
+        current_profile = requests.get("http://172.22.0.4/api/user/" + str(current_user) + "/").json()
 
         if request.method == 'POST':
             form = ProfileForm(request.POST)
@@ -135,7 +135,7 @@ def profile(request):
                 occupation = form.cleaned_data.get('occupation')
                 education = form.cleaned_data.get('education')
 
-                r = requests.put("http://localhost:8000/api/user/" + str(current_user) + "/",
+                r = requests.put("http://172.22.0.4/api/user/" + str(current_user) + "/",
                                  data={'username': current_profile["username"],
                                        'email': current_profile["email"],
                                        'name': name,
@@ -166,7 +166,7 @@ def delete(request):
 
     if current_user.is_authenticated:
         # delete platform user
-        r = requests.delete("http://localhost:8000/api/user/" + str(current_user))
+        r = requests.delete("http://172.22.0.4/api/user/" + str(current_user))
 
         # delete gui user
         current_user.delete()
@@ -191,7 +191,7 @@ def signup(request):
             occupation = form.cleaned_data.get('occupation')
             education = form.cleaned_data.get('education')
 
-            r = requests.post("http://localhost:8000/api/user/", data={'username': username,
+            r = requests.post("http://172.22.0.4/api/user/", data={'username': username,
                                                                        'email': email,
                                                                        'name': name,
                                                                        'surname': surname,

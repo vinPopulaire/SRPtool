@@ -1,14 +1,40 @@
 version: '3'
 
+volumes:
+  static-files:
+
+
 services:
   db:
     image: postgres
-  web:
-    build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - /opt/sptool/psql:/var/lib/postgresql/data/pgdata
+    env_file:
+      - ./config/.env
+
+  webserver:
+    build:
+      context: .
+      dockerfile: services/webserver/Dockerfile
     ports:
-      - "8000:8000"
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - webapp
+    volumes:
+      - static-files:/srv/static-files
+    env_file:
+      - ./config/.env
+
+  webapp:
+    build:
+      context: webapp
+    volumes:
+      - ./webapp/sptool:/srv/sptool
+      - static-files:/srv/static-files
+    expose:
+      - "8000"
     depends_on:
       - db
+    env_file:
+      - ./config/.env

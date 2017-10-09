@@ -13,3 +13,8 @@ The main goal of personalization mechanism is to effectively and efficiently sat
 The relevance feedback is utilized by the system to learn users’ specific context that they have in mind for the initial streamed video. More specifically, it should be noticed that starting with the same video, two users could end up with very different enrichments and relevant advertisements paired and shown with the video depending on their feedback which contributes to the update of user’s profile. Thus, the main goal of relevance feedback is to learn a model of user’s interest based on his/her interaction sessions with the system.
 
 The general scope of social recommendation mechanism is to collect and analyze different sources of information considering the preferences of the users with respect to a set of items, aiming to provide rankings and scores on these items tailored to each separate user, in order to facilitate the discovery and selection of items by the end user and improve his / her experience.
+
+# To run on your machine
+
+- .env file on root folder
+- data_files folder on commands folder

@@ -10,7 +10,7 @@ from api.models import Video
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        my_file = Path("api/management/commands/data_files/videos.json")
+        my_file = Path("srv/sptool/api/management/commands/data_files/videos.json")
 
         if my_file.is_file():
             print("Parsing content from videos.json file")
@@ -67,7 +67,6 @@ class Command(BaseCommand):
                         # duration=duration
                     )
                 video.save()
-                print("ok")
 
             else:
                 video.update(

@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def import_enrichments(self):
 
-        my_file = Path("api/management/commands/data_files/enrichments.json")
+        my_file = Path("srv/sptool/api/management/commands/data_files/enrichments.json")
 
         if my_file.is_file():
             print("Parsing content from enrichments.json file")
@@ -76,12 +76,12 @@ class Command(BaseCommand):
 
                 enrichment.save()
 
-        print("Done with importing videos")
+        print("Done with importing enrichments")
 
 
     def get_position_of_enrichments_on_videos(self):
 
-        my_file = Path("api/management/commands/data_files/enrichments_on_videos.json")
+        my_file = Path("srv/sptool/api/management/commands/data_files/enrichments_on_videos.json")
 
         if my_file.is_file():
             print("Parsing content from enrichments_on_videos.json file")

@@ -14,13 +14,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        model_path = "./api/management/commands/data_files/doc2vec.model"
+        model_path = "./srv/sptool/api/management/commands/data_files/doc2vec.model"
         my_file = Path(model_path)
 
         if my_file.is_file():
             print("Using model from file")
 
         else:
+            print("Model not found")
             sys.exit()
 
         model = Doc2Vec.load(model_path)
