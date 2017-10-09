@@ -9,3 +9,4 @@ __pycache__
 .services.yaml
 data_files
 .idea/
+/env
