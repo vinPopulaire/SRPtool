@@ -1,5 +1,5 @@
-from api.models import Action
-from api.serializers import ActionSerializer
+from ..models import Action
+from ..serializers import ActionSerializer
 from rest_framework import viewsets
 
 

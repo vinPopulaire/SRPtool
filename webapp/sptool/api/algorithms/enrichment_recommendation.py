@@ -1,11 +1,9 @@
 from collections import defaultdict
 
-from api.models import Term
-from api.models import Enrichment, VideoEnrichments, EnrichmentContentScore
+from ..models import Term
+from ..models import Enrichment, VideoEnrichments, EnrichmentContentScore
 
 from .cosine_similarity import cosine_similarity
-
-import operator
 
 
 def enrichments_recommendation(user_vector, video_id):

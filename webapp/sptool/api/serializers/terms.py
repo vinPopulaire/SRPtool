@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Term
+from ..models import Term
 
 
 class TermSerializer(serializers.ModelSerializer):

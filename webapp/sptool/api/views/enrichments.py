@@ -1,5 +1,5 @@
-from api.models import Enrichment
-from api.serializers import EnrichmentSerializer
+from ..models import Enrichment
+from ..serializers import EnrichmentSerializer
 from rest_framework import viewsets
 
 

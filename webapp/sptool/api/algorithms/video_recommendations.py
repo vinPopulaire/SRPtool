@@ -1,5 +1,5 @@
-from api.models import Term
-from api.models import Video, VideoContentScore
+from ..models import Term
+from ..models import Video, VideoContentScore
 
 from .cosine_similarity import cosine_similarity
 

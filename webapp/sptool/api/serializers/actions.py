@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Action
+from ..models import Action
 
 
 class ActionSerializer(serializers.ModelSerializer):

@@ -1,5 +1,5 @@
-from api.models import Video
-from api.serializers import VideoSerializer
+from ..models import Video
+from ..serializers import VideoSerializer
 from rest_framework import viewsets
 
 

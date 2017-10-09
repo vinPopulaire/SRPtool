@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from django.core.management.base import BaseCommand
-from api.models import Video
+from ...models import Video
 
 class Command(BaseCommand):
 

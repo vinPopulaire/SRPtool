@@ -6,8 +6,8 @@ import json
 from pathlib import Path
 
 from django.core.management.base import BaseCommand
-from api.models import Enrichment
-from api.models import Video, VideoEnrichments
+from ...models import Enrichment
+from ...models import Video, VideoEnrichments
 
 class Command(BaseCommand):
 

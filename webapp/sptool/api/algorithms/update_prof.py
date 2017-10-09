@@ -1,9 +1,9 @@
-from api.models import UserContentScore
-from api.models import VideoInteractions, VideoWatched
-from api.models import Video, VideoContentScore
-from api.models import User
-from api.models import VideoEnrichments, EnrichmentContentScore
-from api.models import Action
+from ..models import UserContentScore
+from ..models import VideoInteractions, VideoWatched
+from ..models import Video, VideoContentScore
+from ..models import User
+from ..models import VideoEnrichments, EnrichmentContentScore
+from ..models import Action
 
 
 def update_prof(request, username):

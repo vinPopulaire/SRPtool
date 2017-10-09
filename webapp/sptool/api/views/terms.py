@@ -1,5 +1,5 @@
-from api.models import Term
-from api.serializers import TermSerializer
+from ..models import Term
+from ..serializers import TermSerializer
 from rest_framework import viewsets
 
 

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from api.models import Enrichment, EnrichmentContentScore
-from api.models import Term
+from ...models import Enrichment, EnrichmentContentScore
+from ...models import Term
 
 from pathlib import Path
 from os import listdir

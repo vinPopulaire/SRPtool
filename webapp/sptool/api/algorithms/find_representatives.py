@@ -1,7 +1,7 @@
 from django.db.models import Max
 
-from api.models import User, UserContentScore
-from api.models import Term
+from ..models import User, UserContentScore
+from ..models import Term
 
 from sklearn.cluster import KMeans
 import numpy as np

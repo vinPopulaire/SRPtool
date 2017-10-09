@@ -1,6 +1,5 @@
-from api.models import Gender, Age, Occupation, Education, Country
-from api.serializers import GenderSerializer, AgeSerializer, OccupationSerializer, EducationSerializer, CountrySerializer
-from rest_framework import generics
+from ..models import Gender, Age, Occupation, Education, Country
+from ..serializers import GenderSerializer, AgeSerializer, OccupationSerializer, EducationSerializer, CountrySerializer
 from rest_framework import viewsets
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Enrichment
+from ..models import Enrichment
 
 
 class EnrichmentSerializer(serializers.ModelSerializer):

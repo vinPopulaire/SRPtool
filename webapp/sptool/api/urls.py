@@ -1,17 +1,17 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from api import views
+from . import views
 
-from api.views import GenderViewSet
-from api.views import AgeViewSet
-from api.views import EducationViewSet
-from api.views import OccupationViewSet
-from api.views import CountryViewSet
-from api.views import VideoViewSet
-from api.views import UserViewSet
-from api.views import ActionViewSet
-from api.views import TermViewSet
-from api.views import EnrichmentViewSet
+from .views import GenderViewSet
+from .views import AgeViewSet
+from .views import EducationViewSet
+from .views import OccupationViewSet
+from .views import CountryViewSet
+from .views import VideoViewSet
+from .views import UserViewSet
+from .views import ActionViewSet
+from .views import TermViewSet
+from .views import EnrichmentViewSet
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)

@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api.models import User, Video, VideoWatched, VideoInteractions
-from api.models import Action
-from api.models import Enrichment
+from ..models import User, Video, VideoWatched, VideoInteractions
+from ..models import Action
+from ..models import Enrichment
 
 
 @api_view(['POST'])

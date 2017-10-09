@@ -1,10 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from api.algorithms import video_recommendation, find_representatives
-from api.algorithms import enrichments_recommendation
-from api.models import User
-from api.models import Video
+from ..algorithms import video_recommendation, find_representatives
+from ..algorithms import enrichments_recommendation
+from ..models import User
+from ..models import Video
 
 
 @api_view(['POST'])

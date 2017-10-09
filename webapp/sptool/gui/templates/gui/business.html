@@ -133,7 +133,7 @@
 
         for(i = 0; i < enrichments_list.length; i++) {
             var request = new XMLHttpRequest();
-            request.open("GET", "http://localhost:8000/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
+            request.open("GET", "http://172.22.0.4/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
             request.send();
             var enrichment = JSON.parse(request.responseText);
             out += '<tr>' +

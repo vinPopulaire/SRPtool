@@ -2,10 +2,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.algorithms import find_representatives
-from api.models import Term
-from api.models import User, UserContentScore
-from api.serializers import UserSerializer
+from ..algorithms import find_representatives
+from ..models import Term
+from ..models import User, UserContentScore
+from ..serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Gender, Age, Education, Occupation, Country
+from ..models import Gender, Age, Education, Occupation, Country
 
 
 class GenderSerializer(serializers.ModelSerializer):
