@@ -4,14 +4,14 @@ from ...models import Term
 
 from pathlib import Path
 from os import listdir
-from os.path import isfile, join
 import sys
 
 import gensim
 from gensim.models import Doc2Vec
 
+
 class LabeledLineSentence(object):
-    def __init__(self,doc_list,labels_list):
+    def __init__(self, doc_list, labels_list):
         self.labels_list = labels_list
         self.doc_list = doc_list
 
@@ -19,8 +19,8 @@ class LabeledLineSentence(object):
         for idx, doc in enumerate(self.doc_list):
             yield gensim.models.doc2vec.LabeledSentence(words=doc.split(), tags=[self.labels_list[idx]])
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     def handle(self, *args, **options):
 
         model_path = "./srv/sptool/api/management/commands/data_files/doc2vec.model"
@@ -33,7 +33,8 @@ class Command(BaseCommand):
             print("Creating model")
 
             docLabels = []
-            docLabels = [f for f in listdir('./srv/sptool/api/management/commands/data_files/video_txts') if f.endswith('.txt')]
+            docLabels = [f for f in listdir('./srv/sptool/api/management/commands/data_files/video_txts') if
+                         f.endswith('.txt')]
 
             if docLabels == []:
                 print("Error! There are no txt files")
@@ -65,7 +66,8 @@ class Command(BaseCommand):
 
             # Import google_news word2vec on our model
             # TODO check if the word2vec from google news helps
-            model.intersect_word2vec_format('./srv/sptool/api/management/commands/data_files/GoogleNews-vectors-negative300.bin', binary=True)
+            model.intersect_word2vec_format(
+                './srv/sptool/api/management/commands/data_files/GoogleNews-vectors-negative300.bin', binary=True)
 
             model.save(model_path)
 
@@ -89,17 +91,17 @@ class Command(BaseCommand):
                 video_euscreen = item[0][:-4]
                 video = videos_list.get(euscreen=video_euscreen)
 
-                similarity = item[1] if item[1]>0 else 0
+                similarity = item[1] if item[1] > 0 else 0
 
                 video_score = VideoContentScore.objects.filter(video_id=video.id).filter(term_id=term.id)
                 if video_score.exists():
                     video_score.update(score=similarity)
                 else:
                     scoring = VideoContentScore(
-                            video_id = video.id,
-                            term_id = term.id,
-                            score = similarity
-                            )
+                        video_id=video.id,
+                        term_id=term.id,
+                        score=similarity
+                    )
                     scoring.save()
 
         print("Done scoring!")

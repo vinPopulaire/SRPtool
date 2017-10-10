@@ -3,12 +3,11 @@ from ...models import Enrichment, EnrichmentContentScore
 from ...models import Term
 
 from pathlib import Path
-from os import listdir
-from os.path import isfile, join
 import sys
 
 import gensim
 from gensim.models import Doc2Vec
+
 
 class Command(BaseCommand):
 

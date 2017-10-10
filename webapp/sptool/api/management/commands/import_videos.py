@@ -7,8 +7,8 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 from ...models import Video
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     def handle(self, *args, **options):
         my_file = Path("srv/sptool/api/management/commands/data_files/videos.json")
 
@@ -29,19 +29,17 @@ class Command(BaseCommand):
             with my_file.open('w+') as outfile:
                 json.dump(json_data, outfile)
 
-
         with my_file.open('r') as data_file:
             data = json.load(data_file)
-
 
         for i in data['fsxml']['video']:
             euscreen = i.get('@id')
 
-
             genre = i['properties'].get('genre')
             topic = i['properties'].get('topic')
             title = i['properties'].get('TitleSet_TitleSetInEnglish_title')
-            geographical_coverage = i['properties'].get('SpatioTemporalInformation_SpatialInformation_GeographicalCoverage')
+            geographical_coverage = i['properties'].get(
+                'SpatioTemporalInformation_SpatialInformation_GeographicalCoverage')
             summary = i['properties'].get('summaryInEnglish')
             thesaurus_terms = i['properties'].get('ThesaurusTerm')
 
@@ -57,26 +55,26 @@ class Command(BaseCommand):
             video = Video.objects.filter(euscreen=euscreen)
             if not video.exists():
                 video = Video(
-                        euscreen=euscreen,
-                        genre=genre,
-                        topic=topic,
-                        title=title,
-                        geographical_coverage=geographical_coverage,
-                        thesaurus_terms=thesaurus_terms,
-                        summary=summary
-                        # duration=duration
-                    )
+                    euscreen=euscreen,
+                    genre=genre,
+                    topic=topic,
+                    title=title,
+                    geographical_coverage=geographical_coverage,
+                    thesaurus_terms=thesaurus_terms,
+                    summary=summary
+                    # duration=duration
+                )
                 video.save()
 
             else:
                 video.update(
-                        genre=genre,
-                        topic=topic,
-                        title=title,
-                        geographical_coverage=geographical_coverage,
-                        thesaurus_terms=thesaurus_terms,
-                        summary=summary
-                        # duration=duration
-                    )
+                    genre=genre,
+                    topic=topic,
+                    title=title,
+                    geographical_coverage=geographical_coverage,
+                    thesaurus_terms=thesaurus_terms,
+                    summary=summary
+                    # duration=duration
+                )
 
         print("Done with importing videos")

@@ -39,5 +39,6 @@ def database_check():
 
     sys.exit(0)
 
+
 if __name__ == "__main__":
     database_check()

@@ -5,8 +5,6 @@ from django.contrib.auth import login, authenticate
 
 from .forms import SignupForm, ProfileForm, BusinessForm
 
-import os
-
 
 def videos(request):
     current_user = request.user

@@ -1,7 +1,6 @@
 from urllib.request import urlopen
 import codecs
 
-import xmltodict
 import json
 from pathlib import Path
 
@@ -9,14 +8,13 @@ from django.core.management.base import BaseCommand
 from ...models import Enrichment
 from ...models import Video, VideoEnrichments
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        self.import_enrichments();
+        self.import_enrichments()
 
-        self.get_position_of_enrichments_on_videos();
-
+        self.get_position_of_enrichments_on_videos()
 
     def import_enrichments(self):
 
@@ -37,7 +35,6 @@ class Command(BaseCommand):
 
             with my_file.open('w+') as outfile:
                 json.dump(data, outfile)
-
 
         with my_file.open('r') as data_file:
             data = json.load(data_file)
@@ -65,19 +62,18 @@ class Command(BaseCommand):
                 thumbnail = data[key]["thumbnail"]
 
                 enrichment = Enrichment(
-                        enrichment_id=enrichment_id,
-                        enrichment_class=enrichment_class,
-                        longName=longName,
-                        wikipediaURL=wikipediaURL,
-                        dbpediaURL=dbpediaURL,
-                        description=description,
-                        thumbnail=thumbnail
-                        )
+                    enrichment_id=enrichment_id,
+                    enrichment_class=enrichment_class,
+                    longName=longName,
+                    wikipediaURL=wikipediaURL,
+                    dbpediaURL=dbpediaURL,
+                    description=description,
+                    thumbnail=thumbnail
+                )
 
                 enrichment.save()
 
         print("Done with importing enrichments")
-
 
     def get_position_of_enrichments_on_videos(self):
 
@@ -98,7 +94,6 @@ class Command(BaseCommand):
 
             with my_file.open('w+') as outfile:
                 json.dump(data, outfile)
-
 
         with my_file.open('r') as data_file:
             data = json.load(data_file)
@@ -128,19 +123,20 @@ class Command(BaseCommand):
                             y_min = item["enrichment"][enrichment]["localization"][localization][time_position]["y_min"]
                             x_min = item["enrichment"][enrichment]["localization"][localization][time_position]["x_min"]
                             width = item["enrichment"][enrichment]["localization"][localization][time_position]["width"]
-                            height = item["enrichment"][enrichment]["localization"][localization][time_position]["height"]
+                            height = item["enrichment"][enrichment]["localization"][localization][time_position][
+                                "height"]
 
                             time = int(time_position[1:])
 
                             video_enrichment = VideoEnrichments(
-                                    enrichment_id=enrichment_id,
-                                    video_id=video_id,
-                                    time=time,
-                                    y_min=y_min,
-                                    x_min=x_min,
-                                    width=width,
-                                    height=height
-                                    )
+                                enrichment_id=enrichment_id,
+                                video_id=video_id,
+                                time=time,
+                                y_min=y_min,
+                                x_min=x_min,
+                                width=width,
+                                height=height
+                            )
 
                             video_enrichment.save()
 
