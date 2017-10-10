@@ -89,11 +89,17 @@ class Command(BaseCommand):
                 video_euscreen = item[0][:-4]
                 video = videos_list.get(euscreen=video_euscreen)
 
-                scoring = VideoContentScore(
-                        video_id = video.id,
-                        term_id = term.id,
-                        score = item[1]
-                        )
-                scoring.save()
+                similarity = item[1] if item[1]>0 else 0
+
+                video_score = VideoContentScore.objects.filter(video_id=video.id).filter(term_id=term.id)
+                if video_score.exists():
+                    video_score.update(score=similarity)
+                else:
+                    scoring = VideoContentScore(
+                            video_id = video.id,
+                            term_id = term.id,
+                            score = similarity
+                            )
+                    scoring.save()
 
         print("Done scoring!")
