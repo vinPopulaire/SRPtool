@@ -12,6 +12,8 @@ RUN pip3 install -r /srv/sptool/requirements.txt \
 
 # Add start script
 ADD ./config/start.sh /
+# Add load script
+ADD ./config/load_data.sh /
 
 # Add uWSGI config
 ADD ./config/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
