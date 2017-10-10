@@ -8,7 +8,9 @@ services:
   db:
     image: postgres
     volumes:
-      - /opt/sptool/psql:/var/lib/postgresql/data/pgdata
+      - /opt/sptool/psql:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
     env_file:
       - ./config/.env
 
