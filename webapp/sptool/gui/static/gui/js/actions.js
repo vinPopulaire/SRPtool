@@ -1,10 +1,10 @@
 // TODO remove print logs for production
 
-function PlayAction(user, video) {
+function PlayAction(user, video, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -19,11 +19,11 @@ function PlayAction(user, video) {
     console.log(response);
 }
 
-function StopAction(user, video) {
+function StopAction(user, video, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -37,11 +37,11 @@ function StopAction(user, video) {
     console.log(response);
 }
 
-function ClickEnrichmentAction(user, video, enrichment) {
+function ClickEnrichmentAction(user, video, enrichment, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -54,16 +54,16 @@ function ClickEnrichmentAction(user, video, enrichment) {
     console.log(response);
 }
 
-function ShareAction(user, video) {
+function ShareAction(user, video, site_url) {
     console.log("Not implemented yet")
 }
 
 // TODO change "share" action to "share_enrichment" on Actions model
-function ShareEnrichmentAction(user, video, enrichment) {
+function ShareEnrichmentAction(user, video, enrichment, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -76,11 +76,11 @@ function ShareEnrichmentAction(user, video, enrichment) {
     console.log(response);
 }
 
-function LikeAction(user, video) {
+function LikeAction(user, video, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -93,11 +93,11 @@ function LikeAction(user, video) {
     console.log(response);
 }
 
-function DislikeAction(user, video) {
+function DislikeAction(user, video, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/actions", false);
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
@@ -110,12 +110,12 @@ function DislikeAction(user, video) {
     console.log(response);
 }
 
-function UpdateProfile(user, video_euscreen) {
+function UpdateProfile(user, video_euscreen, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
-    console.log(video_euscreen);
-    xhttp.open("POST", "http://davinci.netmode.ntua.gr/api/user/" + user.toString() + "/update_profile", false);
+    console.log("Update profile started");
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/update_profile", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
 

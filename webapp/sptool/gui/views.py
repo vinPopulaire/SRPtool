@@ -5,19 +5,23 @@ from django.contrib.auth import login, authenticate
 
 from .forms import SignupForm, ProfileForm, BusinessForm
 
+import os
+
 
 def videos(request):
     current_user = request.user
     context = {}
 
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+
     if current_user.is_authenticated():
-        response = requests.post("http://davinci.netmode.ntua.gr/api/user/" + str(current_user) + "/recommend_videos",
+        response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
                                  data={"num": 10}
                                  )
         videos_list = []
         for video in response.json()["videos"]:
             euscreen = video["video"]
-            vid = requests.get("http://davinci.netmode.ntua.gr/api/video/" + str(euscreen)).json()
+            vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
             videos_list.append({
                 "title": vid["title"],
                 "summary": vid["summary"],
@@ -32,20 +36,22 @@ def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
     context = {}
 
-    if current_user.is_authenticated():
-        video = requests.get("http://davinci.netmode.ntua.gr/api/video/" + str(euscreen)).json()
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
 
-        r = requests.post("http://davinci.netmode.ntua.gr/api/user/" + str(current_user) + "/watch",
+    if current_user.is_authenticated():
+        video = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+
+        r = requests.post(site_url + "/api/user/" + str(current_user) + "/watch",
                           data={"euscreen": str(euscreen)})
 
-        enrichments = requests.post("http://davinci.netmode.ntua.gr/api/user/" + str(current_user) + "/recommend_enrichments",
+        enrichments = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_enrichments",
                                     data={"euscreen": str(euscreen),
                                           "num": 0})
 
         enrichments_list = []
         for enrichment in enrichments.json()["enrichments"]:
             enrichment_id = enrichment["id"]
-            enrich = requests.get("http://davinci.netmode.ntua.gr/api/enrichment/" + str(enrichment_id) + "/").json()
+            enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
             enrichments_list.append({
                 "frame": enrichment["frame"],
                 "enrichment_id": enrich["enrichment_id"],
@@ -56,12 +62,15 @@ def play_video(request, euscreen, *args, **kwargs):
                 "thumbnail": enrich["thumbnail"]
             })
         enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
-        context = {"video": video, "enrichments": enrichments_list}
+        context = {"video": video, "enrichments": enrichments_list, "site_url": site_url}
 
     return render(request, 'gui/play.html', context)
 
 
 def business(request):
+
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+
     if request.method == 'POST':
         form = BusinessForm(request.POST)
 
@@ -86,7 +95,7 @@ def business(request):
             if education:
                 data["education_id"] = education
 
-            response = requests.post("http://davinci.netmode.ntua.gr/api/videos_to_target",
+            response = requests.post(site_url + "/api/videos_to_target",
                                      data=data
                                      ).json()
 
@@ -95,7 +104,7 @@ def business(request):
             videos_list = []
             for video in first_representative:
                 euscreen = video["video"]
-                vid = requests.get("http://davinci.netmode.ntua.gr/api/video/" + str(euscreen)).json()
+                vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
                 videos_list.append({
                     "title": vid["title"],
                     "summary": vid["summary"],
@@ -110,7 +119,7 @@ def business(request):
         videos_list = []
         enrichments_list = []
 
-    context = {'form': form, 'videos': videos_list, 'enrichments': enrichments_list}
+    context = {'form': form, 'videos': videos_list, 'enrichments': enrichments_list, 'site_url': site_url}
 
     return render(request, 'gui/business.html', context)
 
@@ -119,8 +128,10 @@ def profile(request):
     current_user = request.user
     context = {}
 
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+
     if current_user.is_authenticated():
-        current_profile = requests.get("http://davinci.netmode.ntua.gr/api/user/" + str(current_user) + "/").json()
+        current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/").json()
 
         if request.method == 'POST':
             form = ProfileForm(request.POST)
@@ -133,7 +144,7 @@ def profile(request):
                 occupation = form.cleaned_data.get('occupation')
                 education = form.cleaned_data.get('education')
 
-                r = requests.put("http://davinci.netmode.ntua.gr/api/user/" + str(current_user) + "/",
+                r = requests.put(site_url + "/api/user/" + str(current_user) + "/",
                                  data={'username': current_profile["username"],
                                        'email': current_profile["email"],
                                        'name': name,
@@ -162,9 +173,11 @@ def profile(request):
 def delete(request):
     current_user = request.user
 
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+
     if current_user.is_authenticated:
         # delete platform user
-        r = requests.delete("http://davinci.netmode.ntua.gr/api/user/" + str(current_user))
+        r = requests.delete(site_url + "/api/user/" + str(current_user))
 
         # delete gui user
         current_user.delete()
@@ -173,6 +186,9 @@ def delete(request):
 
 
 def signup(request):
+
+    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
@@ -189,7 +205,7 @@ def signup(request):
             occupation = form.cleaned_data.get('occupation')
             education = form.cleaned_data.get('education')
 
-            r = requests.post("http://davinci.netmode.ntua.gr/api/user/",
+            r = requests.post(site_url + "/api/user/",
                               data={'username': username,
                                     'email': email,
                                     'name': name,
