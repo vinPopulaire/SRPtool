@@ -11,3 +11,7 @@ __pycache__
 data_files
 .idea/
 /env
+
+# ignore certificates for ssl
+*.crt
+*.key
