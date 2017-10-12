@@ -18,3 +18,25 @@ The general scope of social recommendation mechanism is to collect and analyze d
 
 - .env file on root folder
 - data_files folder on commands folder
+
+## To add your letsencrypt certificate
+
+### To add your letsencrypt certificate
+
+```
+docker run -it --rm \
+    -v sptool_certs:/etc/letsencrypt \
+    -v sptool_certs-data:/data/letsencrypt \
+    certbot/certbot \
+    certonly \
+    --webroot --webroot-path=/data/letsencrypt \
+    -d example.com -d www.example.com
+```
+
+### To automatically renew your certificate
+
+Add the following cronjob
+
+```
+0 0 */15 * * docker run -t --rm -v sptool_certs:/etc/letsencrypt -v sptool_certs-data:/data/letsencrypt -v /var/log/letsencrypt:/var/log/letsencrypt certbot/certbot renew --webroot --webroot-path=/data/letsencrypt && docker kill -s HUP nginx >/dev/null 2>&1
+```

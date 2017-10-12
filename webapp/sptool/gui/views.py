@@ -12,7 +12,7 @@ def videos(request):
     current_user = request.user
     context = {}
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if current_user.is_authenticated():
         response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
@@ -36,7 +36,7 @@ def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
     context = {}
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if current_user.is_authenticated():
         video = requests.get(site_url + "/api/video/" + str(euscreen)).json()
@@ -69,7 +69,7 @@ def play_video(request, euscreen, *args, **kwargs):
 
 def business(request):
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if request.method == 'POST':
         form = BusinessForm(request.POST)
@@ -128,7 +128,7 @@ def profile(request):
     current_user = request.user
     context = {}
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if current_user.is_authenticated():
         current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/").json()
@@ -173,7 +173,7 @@ def profile(request):
 def delete(request):
     current_user = request.user
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if current_user.is_authenticated:
         # delete platform user
@@ -187,7 +187,7 @@ def delete(request):
 
 def signup(request):
 
-    site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+    site_url = os.environ.get("SITE_URL")
 
     if request.method == 'POST':
         form = SignupForm(request.POST)

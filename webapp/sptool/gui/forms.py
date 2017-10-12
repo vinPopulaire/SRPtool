@@ -21,7 +21,7 @@ class SignupForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
 
-        site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+        site_url = os.environ.get("SITE_URL")
 
         # dynamically get form fields
         response = requests.get(site_url + "/api/gender")
@@ -65,7 +65,7 @@ class ProfileForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
 
-        site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+        site_url = os.environ.get("SITE_URL")
 
         # dynamically get form fields
         response = requests.get(site_url + "/api/gender")
@@ -106,7 +106,7 @@ class BusinessForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
 
-        site_url = "http://" + os.environ.get("NGINX_SERVER_NAME")
+        site_url = os.environ.get("SITE_URL")
 
         # dynamically get form fields
         response = requests.get(site_url + "/api/gender")
