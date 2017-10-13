@@ -1,8 +1,5 @@
 FROM python:3.6
 
-# Add code
-ADD ./sptool /srv/sptool
-
 # Install application requirements
 # Create django user, will own the Django app
 ADD ./config/requirements.txt /srv/sptool/
@@ -20,6 +17,9 @@ ADD ./config/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
 
 # Add database check script
 ADD ./config/database-check.py /srv/config/database-check.py
+
+# Add code
+ADD ./sptool /srv/sptool
 
 # Execute start script
 CMD ["./start.sh"]
