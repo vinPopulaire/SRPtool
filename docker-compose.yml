@@ -38,6 +38,7 @@ services:
     volumes:
       - ./webapp/sptool:/srv/sptool
       - static-files:/srv/static-files
+      - ./data_files:/srv/sptool/api/management/commands/data_files
     expose:
       - "8000"
     depends_on:
