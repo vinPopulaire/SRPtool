@@ -25,12 +25,12 @@ The general scope of social recommendation mechanism is to collect and analyze d
 
 ```
 docker run -it --rm \
-    -v sptool_certs:/etc/letsencrypt \
-    -v sptool_certs-data:/data/letsencrypt \
+    -v CONTAINERNAME_certs:/etc/letsencrypt \
+    -v CONTAINERNAME_certs-data:/data/letsencrypt \
     certbot/certbot \
     certonly \
     --webroot --webroot-path=/data/letsencrypt \
-    -d my_domain_name.com -d my_domain_name.com
+    -d DOMAINNAME.COM -d WWW.DOMAINNAME.COME
 ```
 
 ### To automatically renew your certificate
@@ -38,5 +38,5 @@ docker run -it --rm \
 Add the following cronjob
 
 ```
-0 0 */15 * * docker run -t --rm -v sptool_certs:/etc/letsencrypt -v sptool_certs-data:/data/letsencrypt -v /var/log/letsencrypt:/var/log/letsencrypt certbot/certbot renew --webroot --webroot-path=/data/letsencrypt && docker kill -s HUP sptool_webserver_1 >/dev/null 2>&1
+0 0 */15 * * docker run -t --rm -v CONTAINERNAME_certs:/etc/letsencrypt -v CONTAINERNAME_certs-data:/data/letsencrypt -v /var/log/letsencrypt:/var/log/letsencrypt certbot/certbot renew --webroot --webroot-path=/data/letsencrypt && docker kill -s HUP sptool_webserver_1 >/dev/null 2>&1
 ```
