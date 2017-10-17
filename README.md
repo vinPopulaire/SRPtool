@@ -17,7 +17,7 @@ The general scope of social recommendation mechanism is to collect and analyze d
 ## To run on your machine
 
 - .env file on root folder
-- data_files folder on commands folder
+- data_files folder on root folder
 
 ## To add your letsencrypt certificate
 
