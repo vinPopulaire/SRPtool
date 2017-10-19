@@ -2,7 +2,6 @@ FROM nginx:1.13
 
 # Add start script
 ADD ./services/webserver/config/start.sh /
-RUN chmod +x start.sh
 
 # Add nginx config file
 ADD ./services/webserver/config/nginx.tmpl /
