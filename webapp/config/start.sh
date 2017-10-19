@@ -39,8 +39,9 @@ else
   # https://docs.djangoproejct.com/en/1.9/ref/django-admin/#flush
   # This will give some errors when there is no database to be flushed, but
   # you can ignore these messages.
-  echo "==> Django setup, executing: flush"
-  python3 /srv/${DJANGO_PROJECT_NAME}/manage.py flush --noinput
+
+  # echo "==> Django setup, executing: flush"
+  # python3 /srv/${DJANGO_PROJECT_NAME}/manage.py flush --noinput
 
   # Django: migrate
   #
@@ -59,4 +60,9 @@ fi
 # Start uWSGI
 #####
 echo "==> Starting uWSGI ..."
-/usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini
+
+if [ "$PRODUCTION" == "true" ]; then
+  /usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi.ini
+else
+  /usr/local/bin/uwsgi --emperor /etc/uwsgi/django-uwsgi-dev.ini
+fi

@@ -14,6 +14,7 @@ ADD ./config/load_data.sh /
 
 # Add uWSGI config
 ADD ./config/django-uwsgi.ini /etc/uwsgi/django-uwsgi.ini
+ADD ./config/django-uwsgi-dev.ini /etc/uwsgi/django-uwsgi-dev.ini
 
 # Add database check script
 ADD ./config/database-check.py /srv/config/database-check.py
