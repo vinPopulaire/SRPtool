@@ -21,5 +21,7 @@ ADD ./config/database-check.py /srv/config/database-check.py
 # Add code
 ADD ./sptool /srv/sptool
 
+USER django
+
 # Execute start script
 CMD ["./start.sh"]
