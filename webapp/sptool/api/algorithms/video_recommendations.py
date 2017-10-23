@@ -37,17 +37,26 @@ def user_video_similarity(user_vector, videos_list):
     else:
         videos = Video.objects.all()
 
+    video_content_scores = VideoContentScore.objects.filter(video__in=videos)
+
+    # Force evaluate queryset for fast .score
+    len(video_content_scores)
+
+    video_vectors = {}
+    for item in video_content_scores:
+
+        # term ids start from 1 while term vector indexing starts from 0
+        term_index = item.term_id-1
+
+        if item.video_id in video_vectors:
+            video_vectors[item.video_id][term_index] = float(item.score)
+        else:
+            video_vectors[item.video_id] = [None]*num_terms
+            video_vectors[item.video_id][term_index] = float(item.score)
+
     similarity = {}
-    for video in videos:
-        video_content_score = VideoContentScore.objects.filter(video_id=video.id).order_by('term_id')
 
-        # Force evaluate queryset for fast .score
-        len(video_content_score)
-        video_vector = [None]*num_terms
-
-        for jj in range(num_terms):
-            video_vector[jj] = float(video_content_score[jj].score)
-
-        similarity[video.id] = cosine_similarity(user_vector, video_vector)
+    for video_id, video_vector in video_vectors.items():
+        similarity[video_id] = cosine_similarity(user_vector, video_vector)
 
     return similarity
