@@ -10,6 +10,8 @@
 
         <div class="media attribution">
             <div class="col-md-8">
+              <!-- <h6>{{ video.title }}</h6> -->
+              <h6 style="text-align:center">{{ video.title }}</h6>
                 {% load static %}
                 <img src="{% static 'gui/images/mountain-lake.jpg' %}" alt="Mock-up image" width="100%" style="padding-top: 50px">
                 <div class="container" style="padding-top: 20px; width: 100%">
@@ -28,6 +30,13 @@
 {#                <video autoplay loop class="embed-responsive-item">#}
 {#                    <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>#}
 {#                </video>#}
+                <div style="text-align:right"><em>genre</em>: {{ video.genre }}</div>
+                <div style="text-align:right"><em>topic</em>: {{ video.topic }}</div>
+                <div style="text-align:right"><em>location</em>: {{ video.geographical_coverage }}</div>
+                </br>
+                <div>
+                  {{ video.summary }}
+                </div>
             </div>
 
             <div class="col-md-4" >
