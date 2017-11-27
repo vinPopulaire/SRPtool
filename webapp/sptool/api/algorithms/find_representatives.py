@@ -17,16 +17,16 @@ def find_representatives(request):
         users = users.filter(gender_id=request.data["gender_id"])
 
     if 'age_id' in request.data:
-        users = users.filter(gender_id=request.data["age_id"])
+        users = users.filter(age_id=request.data["age_id"])
 
     if 'education_id' in request.data:
-        users = users.filter(gender_id=request.data["education_id"])
+        users = users.filter(education_id=request.data["education_id"])
 
     if 'occupation_id' in request.data:
-        users = users.filter(gender_id=request.data["occupation_id"])
+        users = users.filter(occupation_id=request.data["occupation_id"])
 
     if 'country_id' in request.data:
-        users = users.filter(gender_id=request.data["country_id"])
+        users = users.filter(country_id=request.data["country_id"])
 
     # TODO filter based on interests
 
