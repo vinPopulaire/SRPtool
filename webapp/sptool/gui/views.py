@@ -99,17 +99,19 @@ def business(request):
                                      data=data
                                      ).json()
 
-            first_representative = response["representative 1"]
-
             videos_list = []
-            for video in first_representative:
-                euscreen = video["video"]
-                vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
-                videos_list.append({
-                    "title": vid["title"],
-                    "summary": vid["summary"],
-                    "euscreen": vid["euscreen"],
-                })
+
+            if "representative 1" in response:
+                first_representative = response["representative 1"]
+
+                for video in first_representative:
+                    euscreen = video["video"]
+                    vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+                    videos_list.append({
+                        "title": vid["title"],
+                        "summary": vid["summary"],
+                        "euscreen": vid["euscreen"],
+                    })
 
             enrichments_list = []
 
