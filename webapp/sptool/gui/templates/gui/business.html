@@ -136,34 +136,39 @@
         var i;
         var enrichments_list = response["representative 1"];
 
-        enrichments_list.sort(function(a, b) {
-            return parseFloat(a.frame) - parseFloat(b.frame);
-        });
-
-        for(i = 0; i < enrichments_list.length; i++) {
-            var request = new XMLHttpRequest();
-            request.open("GET", site_url.toString() + "/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
-            request.send();
-            var enrichment = JSON.parse(request.responseText);
+        if (enrichments_list.length == 0) {
             out += '<tr>' +
                     '<td>' +
-                        '<img src="' + enrichment.thumbnail + '" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">' +
-                        '<a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse_enrichment' + i + '">' + enrichment.enrichment_id + '</a>' +
-                        '<div class="inline" style="padding-left: 2px">[' + enrichments_list[i].frame + ']</div>' +
-
-                        '<div class="material-switch pull-right">' +
-                            '<input id="option' + i + '" name="someSwitchOption001" type="checkbox"/>' +
-                            '<label for="option' + i + '" class="label-danger"></label>' +
-                        '</div>' +
-                        '<div id="collapse_enrichment' + i + '" class="panel-collapse collapse">' + enrichment.description + '</div>' +
-
+                        '<p>No enrichments yet on this video</p>' +
                     '</td>' +
                 '</tr>';
-{#            out += enrichments_list[i].id#}
-{##}
+        }
 
-{##}
+        else {
+            enrichments_list.sort(function(a, b) {
+                return parseFloat(a.frame) - parseFloat(b.frame);
+            });
 
+            for(i = 0; i < enrichments_list.length; i++) {
+                var request = new XMLHttpRequest();
+                request.open("GET", site_url.toString() + "/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
+                request.send();
+                var enrichment = JSON.parse(request.responseText);
+                out += '<tr>' +
+                        '<td>' +
+                            '<img src="' + enrichment.thumbnail + '" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">' +
+                            '<a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse_enrichment' + i + '">' + enrichment.enrichment_id + '</a>' +
+                            '<div class="inline" style="padding-left: 2px">[' + enrichments_list[i].frame + ']</div>' +
+
+                            '<div class="material-switch pull-right">' +
+                                '<input id="option' + i + '" name="someSwitchOption001" type="checkbox"/>' +
+                                '<label for="option' + i + '" class="label-danger"></label>' +
+                            '</div>' +
+                            '<div id="collapse_enrichment' + i + '" class="panel-collapse collapse">' + enrichment.description + '</div>' +
+
+                        '</td>' +
+                    '</tr>';
+            }
         }
 
         document.getElementById("enrichments").innerHTML= out;
