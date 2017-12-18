@@ -10,6 +10,7 @@ __pycache__
 .services.yaml
 data_files
 .idea/
+**/gui/videos
 /env
 
 # ignore certificates for ssl
