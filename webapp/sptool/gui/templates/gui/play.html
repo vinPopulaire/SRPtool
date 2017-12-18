@@ -13,26 +13,28 @@
               <!-- <h6>{{ video.title }}</h6> -->
               <h6 style="text-align:center">{{ video.title }}</h6>
                 {% load static %}
-                <img src="{% static 'gui/images/mountain-lake.jpg' %}" alt="Mock-up image" width="100%" style="padding-top: 50px">
-                <div class="container" style="padding-top: 20px; width: 100%">
+                <video id="my_video" onclick="togglePause()" class="video-js" controls preload="auto" poster="gui/images/mountain-lake.jpg" data-setup="{}">
+                    <source src="{% static 'gui/videos/mecanex/mp4/' %}{{ video.euscreen }}.mp4" type="video/mp4">
+                </video>
+{#                <img src="{% static 'gui/images/mountain-lake.jpg' %}" alt="Mock-up image" width="100%" style="padding-top: 50px">#}
+                <div class="container" style="width: 100%">
                     <div class="row">
                         <div class="col-md-6">
-                            <a onclick="PlayAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-play" style="padding-right: 10px; color: black"></a>
-                            <a onclick="StopAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-pause" style="padding-right: 40px; color: black"></a>
-                            <a onclick="ShareAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#"  class="fui-link" style="padding-right: 10px; color: black"></a>
+                            <div style="text-align:left"><em>genre</em>: {{ video.genre }}</div>
+                            <div style="text-align:left"><em>topic</em>: {{ video.topic }}</div>
+                            <div style="text-align:left"><em>location</em>: {{ video.geographical_coverage }}</div>
+{#                            <a onclick="PlayAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-play" style="padding-right: 10px; color: black"></a>#}
+{#                            <a onclick="StopAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-pause" style="padding-right: 40px; color: black"></a>#}
+
                         </div>
                         <div class="col-md-6 text-right">
+                            <a onclick="ShareAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#"  class="fui-link" style="padding-right: 40px; color: black"></a>
                             <a onclick="LikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
                             <a onclick="DislikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
                         </div>
                     </div>
                 </div>
-{#                <video autoplay loop class="embed-responsive-item">#}
-{#                    <source src=http://techslides.com/demos/sample-videos/small.mp4 type=video/mp4>#}
-{#                </video>#}
-                <div style="text-align:right"><em>genre</em>: {{ video.genre }}</div>
-                <div style="text-align:right"><em>topic</em>: {{ video.topic }}</div>
-                <div style="text-align:right"><em>location</em>: {{ video.geographical_coverage }}</div>
+
                 </br>
                 <div>
                   {{ video.summary }}
@@ -88,6 +90,22 @@
     window.onbeforeunload = function() {
         UpdateProfile({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
     }
+    </script>
+
+    <script src="{% static 'gui/js/vendor/video.js' %}"></script>
+
+    <script>
+        var myPlayer = videojs("my_video");
+        togglePause = function(){
+          if (myPlayer.paused()) {
+            console.log("paused");
+            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
+          }
+          else {
+            console.log("playing");
+            PlayAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')
+          }
+        }
     </script>
 
 {% endblock %}
