@@ -1,6 +1,23 @@
 // TODO remove print logs for production
 
-function PlayAction(user, euscreen, site_url) {
+function WatchVideo(user, euscreen, site_url) {
+    var csrftoken = Cookies.get('csrftoken');
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/watch", false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    var data = JSON.stringify({
+        "euscreen": euscreen
+    });
+
+    // console.log(csrftoken);
+    xhttp.send(data);
+    console.log(euscreen);
+    var response = JSON.parse(xhttp.responseText);
+    console.log(response);
+}
+
+function PlayAction(user, euscreen, site_url, time) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
@@ -10,16 +27,16 @@ function PlayAction(user, euscreen, site_url) {
     var data = JSON.stringify({
         "euscreen": euscreen,
         "action": "play_video",
-        "time" : "1"});
+        "time" : time});
 
     // console.log(csrftoken);
     xhttp.send(data);
-    console.log(euscreen);
+    // console.log(euscreen);
     var response = JSON.parse(xhttp.responseText);
     console.log(response);
 }
 
-function StopAction(user, euscreen, site_url) {
+function StopAction(user, euscreen, site_url, time, duration) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
@@ -29,8 +46,8 @@ function StopAction(user, euscreen, site_url) {
     var data = JSON.stringify({
         "euscreen": euscreen,
         "action": "stop_video",
-        "time" : "10",
-        "duration": "20"});
+        "time" : time,
+        "duration": duration});
 
     xhttp.send(data);
     var response = JSON.parse(xhttp.responseText);

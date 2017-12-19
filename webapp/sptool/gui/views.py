@@ -27,7 +27,7 @@ def videos(request):
                 "summary": vid["summary"],
                 "euscreen": vid["euscreen"],
             })
-        context = {"videos": videos_list}
+        context = {"videos": videos_list, "site_url": site_url}
 
     return render(request, 'gui/videos.html', context)
 
