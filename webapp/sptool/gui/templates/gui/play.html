@@ -29,8 +29,8 @@
                         </div>
                         <div class="col-md-6 text-right">
 
-                            <span class="twitter-share" data-js="twitter-share" style="padding-right: 0px"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share on Twitter" height="30" width="30"></span>
-                            <span class="facebook-share" data-js="facebook-share" style="padding-right: 20px"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share on Facebook" height="30" width="30"></span>
+                            <span onclick="FacebookShare({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')" class="facebook-share" style="padding-right: 0px"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share on Facebook" height="30" width="30"></span>
+                            <span onclick="TwitterShare({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')" class="twitter-share" style="padding-right: 20px"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share on Twitter" height="30" width="30"></span>
                             <a onclick="LikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
                             <a onclick="DislikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
                         </div>
@@ -58,7 +58,12 @@
                                         <a href="{{ enrichment.wikipedia }}"><img src="{{ enrichment.thumbnail }}" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;"></a>
                                         <a onclick="ClickEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }}, '{{ site_url }}')" class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter }}">{{ enrichment.enrichment_id }}</a>
                                         <div class="inline">[{{ enrichment.frame }}]</div>
-                                        <a onclick="ShareEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }}, '{{ site_url }}')" href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>
+                                        <br>
+                                        <div style="margin-bottom: 25px; clear: both;">
+                                            <span class="twitter-share" onclick="TwitterEnrichmentShare({{ user }}, '{{ video.euscreen }}', {{ enrichment }}, '{{ site_url }}');" style="float:right"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share enrichment on Twitter" height="20" width="20"></span>
+                                            <span class="facebook-share" onclick="FacebookEnrichmentShare({{ user }}, '{{ video.euscreen }}', {{ enrichment }}, '{{ site_url }}');" style="padding-right:5px; float:right"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share enrichment on Facebook" height="20" width="20"></span>
+                                        </div>
+{#                                        <a onclick="ShareEnrichmentAction({{ user }}, {{ video }}, {{ enrichment }}, '{{ site_url }}')" href="#" class="fui-link inline float-right" style="padding-left: 20px; color: black"></a>#}
                                         <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse">{{ enrichment.description }}</div>
                                     </td>
                                 </tr>
@@ -124,23 +129,37 @@
     </script>
 
     <script>
-        var twitterShare = document.querySelector('[data-js="twitter-share"]');
 
-        twitterShare.onclick = function(e) {
-          e.preventDefault();
-          ShareAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
-          var twitterWindow = window.open('https://twitter.com/share?url=' + document.URL, 'twitter-popup', 'height=350,width=600');
-          if(twitterWindow.focus) { twitterWindow.focus(); }
+        function TwitterShare(user, euscreen, site_url) {
+
+            ShareAction(user, euscreen, site_url);
+            var twitterWindow = window.open('https://twitter.com/share?url=' + document.URL, 'twitter-popup', 'height=350,width=600');
+            if(twitterWindow.focus) { twitterWindow.focus(); }
             return false;
-          }
+        }
 
-        var facebookShare = document.querySelector('[data-js="facebook-share"]');
+        function FacebookShare(user, euscreen, site_url) {
 
-        facebookShare.onclick = function(e) {
-          e.preventDefault();
-          ShareAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
-          var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=' + document.URL, 'facebook-popup', 'height=350,width=600');
-          if(facebookWindow.focus) { facebookWindow.focus(); }
+            ShareAction(user, euscreen, site_url);
+            var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=' + document.URL, 'facebook-popup', 'height=350,width=600');
+            if(facebookWindow.focus) { facebookWindow.focus(); }
+            return false;
+        }
+        
+
+        function TwitterEnrichmentShare(user, euscreen, enrichment, site_url) {
+
+            ShareEnrichmentAction(user, euscreen, enrichment.enrichment_id.toString(), site_url);
+            var twitterWindow = window.open('https://twitter.com/share?url=' + enrichment.wikipedia.toString(), 'twitter-popup', 'height=350,width=600');
+            if(twitterWindow.focus) { twitterWindow.focus(); }
+            return false;
+        }
+
+        function FacebookEnrichmentShare(user, euscreen, enrichment, site_url) {
+
+            ShareEnrichmentAction(user, euscreen, enrichment.enrichment_id.toString(), site_url);
+            var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=' + enrichment.wikipedia.toString(), 'facebook-popup', 'height=350,width=600');
+            if(facebookWindow.focus) { facebookWindow.focus(); }
             return false;
         }
     </script>

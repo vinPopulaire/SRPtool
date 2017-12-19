@@ -72,11 +72,11 @@ function ClickEnrichmentAction(user, video, enrichment, site_url) {
 }
 
 function ShareAction(user, euscreen, site_url) {
-    console.log("Not implemented yet")
+    console.log("Not implemented yet");
 }
 
 // TODO change "share" action to "share_enrichment" on Actions model
-function ShareEnrichmentAction(user, video, enrichment, site_url) {
+function ShareEnrichmentAction(user, euscreen, enrichment_id, site_url) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
@@ -84,9 +84,9 @@ function ShareEnrichmentAction(user, video, enrichment, site_url) {
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
     var data = JSON.stringify({
-        "euscreen": video["euscreen"].toString(),
+        "euscreen": euscreen,
         "action": "share",
-        "enrichment_id": enrichment.enrichment_id.toString()});
+        "enrichment_id": enrichment_id});
 
     xhttp.send(data);
     var response = JSON.parse(xhttp.responseText);

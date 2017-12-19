@@ -126,7 +126,7 @@ body {
 .twitter-share, .facebook-share {
   background: #fff;
   cursor: pointer;
-  display: inline-block;
+  /*display: inline-block;*/
   -webkit-border-radius: 6px;
   border-radius: 6px;
 }
