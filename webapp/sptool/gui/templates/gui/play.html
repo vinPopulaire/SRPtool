@@ -97,18 +97,28 @@
     <script src="{% static 'gui/js/vendor/video.js' %}"></script>
 
     <script>
-        var myPlayer = videojs("my_video");
+        var myPlayer = videojs("my_video").ready(function(){
+          var player = this;
+
+          player.on('ended', function() {
+            console.log("ended");
+            let time = myPlayer.currentTime();
+            let duration = myPlayer.duration();
+            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
+          });
+        });
+
         togglePause = function(){
           if (myPlayer.paused()) {
             console.log("paused");
             let time = myPlayer.currentTime();
-            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}' , time);
+            let duration = myPlayer.duration();
+            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
           }
           else {
             console.log("playing");
             let time = myPlayer.currentTime();
-            let duration = myPlayer.duration();
-            PlayAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}', time, duration);
+            PlayAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}', time);
           }
         }
     </script>
