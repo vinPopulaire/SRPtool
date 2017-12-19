@@ -71,7 +71,7 @@ function ClickEnrichmentAction(user, video, enrichment, site_url) {
     console.log(response);
 }
 
-function ShareAction(user, video, site_url) {
+function ShareAction(user, euscreen, site_url) {
     console.log("Not implemented yet")
 }
 

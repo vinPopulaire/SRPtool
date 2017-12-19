@@ -28,7 +28,9 @@
 
                         </div>
                         <div class="col-md-6 text-right">
-                            <a onclick="ShareAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#"  class="fui-link" style="padding-right: 40px; color: black"></a>
+
+                            <span class="twitter-share" data-js="twitter-share" style="padding-right: 0px"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share on Twitter" height="30" width="30"></span>
+                            <span class="facebook-share" data-js="facebook-share" style="padding-right: 20px"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share on Facebook" height="30" width="30"></span>
                             <a onclick="LikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
                             <a onclick="DislikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
                         </div>
@@ -110,5 +112,28 @@
           }
         }
     </script>
+
+    <script>
+        var twitterShare = document.querySelector('[data-js="twitter-share"]');
+
+        twitterShare.onclick = function(e) {
+          e.preventDefault();
+          ShareAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
+          var twitterWindow = window.open('https://twitter.com/share?url=' + document.URL, 'twitter-popup', 'height=350,width=600');
+          if(twitterWindow.focus) { twitterWindow.focus(); }
+            return false;
+          }
+
+        var facebookShare = document.querySelector('[data-js="facebook-share"]');
+
+        facebookShare.onclick = function(e) {
+          e.preventDefault();
+          ShareAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
+          var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=' + document.URL, 'facebook-popup', 'height=350,width=600');
+          if(facebookWindow.focus) { facebookWindow.focus(); }
+            return false;
+        }
+    </script>
+
 
 {% endblock %}

@@ -122,3 +122,15 @@ body {
     background: inherit;
     left: 20px;
 }
+
+.twitter-share, .facebook-share {
+  background: #fff;
+  cursor: pointer;
+  display: inline-block;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+}
+.twitter-share:hover, .facebook-share:hover {
+  position: relative;
+  top: -1px;
+}
