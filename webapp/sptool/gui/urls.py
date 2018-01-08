@@ -19,4 +19,6 @@ urlpatterns = [
 
     url(r'^business/$', views.business, name="business"),
 
+    url(r'^export/$', views.export, name="export"),
+
 ]

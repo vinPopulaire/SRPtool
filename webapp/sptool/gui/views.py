@@ -6,6 +6,8 @@ from django.contrib.auth import login, authenticate
 from .forms import SignupForm, ProfileForm, BusinessForm
 
 import os
+import csv
+from django.http import HttpResponse
 
 
 def videos(request):
@@ -244,3 +246,33 @@ def about(request, *args, **kwargs):
     context = {}
 
     return render(request, 'gui/about.html', context)
+
+
+def export(request, *args, **kwargs):
+
+    site_url = os.environ.get("SITE_URL")
+
+    if request.method == 'POST':
+        # gives list of id of inputs
+        checked_enrichments = request.POST.getlist('checked')
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="enrichments.csv"'
+
+        writer = csv.writer(response)
+
+        writer.writerow(['Frame', 'Enrichment_id', 'Class', 'LongName', 'DBpedia', 'Wikipedia', 'Description'])
+
+        for item in checked_enrichments:
+
+            data = item.split("@")
+            enrichment_id = data[0]
+            frame = data[1]
+
+            enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
+
+            writer.writerow([frame, enrich["enrichment_id"], enrich["enrichment_class"], enrich["longName"], enrich["dbpediaURL"], enrich["wikipediaURL"], enrich["description"]])
+
+        return response
+
+    return redirect('home')
