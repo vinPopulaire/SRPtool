@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -21,4 +21,6 @@ urlpatterns = [
 
     url(r'^export/$', views.export, name="export"),
 
+    url(r'^', include('django.contrib.auth.urls', namespace='auth')),
+    url(r'^', include('social_django.urls', namespace='social')),
 ]
