@@ -1,13 +1,15 @@
 import requests
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 from .forms import SignupForm, ProfileForm, BusinessForm
 
 import os
-import csv
-from django.http import HttpResponse
+import csv, json
+
 
 
 def videos(request):
@@ -276,3 +278,21 @@ def export(request, *args, **kwargs):
         return response
 
     return redirect('home')
+
+
+@login_required
+def dashboard(request):
+    user = request.user
+    auth0user = user.social_auth.get(provider="auth0")
+    userdata = {
+        'user_id': auth0user.uid,
+        'name': user.first_name,
+        'picture': auth0user.extra_data['picture']
+    }
+
+    context = {
+        'auth0User': auth0user,
+        'userdata': json.dumps(userdata, indent=4)
+    }
+
+    return render(request, 'gui/dashboard.html', context)
