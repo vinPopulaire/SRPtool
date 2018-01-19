@@ -11,7 +11,7 @@ import os
 import csv, json
 
 
-
+@login_required
 def videos(request):
     current_user = request.user
     context = {}
@@ -36,6 +36,7 @@ def videos(request):
     return render(request, 'gui/videos.html', context)
 
 
+@login_required
 def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
     context = {}
@@ -71,6 +72,7 @@ def play_video(request, euscreen, *args, **kwargs):
     return render(request, 'gui/play.html', context)
 
 
+@login_required
 def business(request):
 
     site_url = os.environ.get("SITE_URL")
@@ -130,6 +132,7 @@ def business(request):
     return render(request, 'gui/business.html', context)
 
 
+@login_required
 def profile(request):
     current_user = request.user
     context = {}
@@ -176,6 +179,7 @@ def profile(request):
     return render(request, 'gui/profile.html', context)
 
 
+@login_required
 def delete(request):
     current_user = request.user
 
@@ -250,6 +254,7 @@ def about(request, *args, **kwargs):
     return render(request, 'gui/about.html', context)
 
 
+@login_required
 def export(request, *args, **kwargs):
 
     site_url = os.environ.get("SITE_URL")

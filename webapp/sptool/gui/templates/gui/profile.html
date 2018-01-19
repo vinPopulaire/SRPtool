@@ -2,8 +2,6 @@
 
 {% block content %}
 
-    {% if user.is_authenticated %}
-
     <div class="container" style="width:500px; padding-bottom: 50px">
         <div class="title">Profile</div>
         <hr>
@@ -60,15 +58,5 @@
 
         </div><!-- /login-form -->
     </div> <!-- /container -->
-
-    {% else %}
-
-        <div class="container" style="width:500px">
-            <div class="alert alert-primary" role="alert">
-                <h4 class="alert-heading">You need to login first!</h4>
-            </div>
-        </div>
-
-    {% endif %}
 
 {% endblock %}
