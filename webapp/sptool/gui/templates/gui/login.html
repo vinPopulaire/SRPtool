@@ -11,7 +11,7 @@
 
     {% else %}
 
-    <div class="container" style="width:500px">
+    <div class="container" style="width:400px; margin-bottom: 100px">
         <div class="title">Sign In</div>
         <hr>
         <div class="login-form">
@@ -37,12 +37,14 @@
                 <small style="color: red">{{ form.password.errors }}</small>
             </div>
 
-            <div style="text-align:center">
+            <div style="text-align:center; margin-top: 30px">
                 <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign In">
             </div>
         </form>
 
+        <br>
         <div style="text-align:center" class="h5">OR</div>
+        <br>
         <div style="text-align:center">
             <a class="btn btn-primary btn-hg btn-login btn-block" href="/login/auth0">Sign In with PRODUCER</a>
         </div>
