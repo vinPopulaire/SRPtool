@@ -14,24 +14,22 @@ import csv, json
 @login_required
 def videos(request):
     current_user = request.user
-    context = {}
 
     site_url = os.environ.get("SITE_URL")
 
-    if current_user.is_authenticated():
-        response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
-                                 data={"num": 10}
-                                 )
-        videos_list = []
-        for video in response.json()["videos"]:
-            euscreen = video["video"]
-            vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
-            videos_list.append({
-                "title": vid["title"],
-                "summary": vid["summary"],
-                "euscreen": vid["euscreen"],
-            })
-        context = {"videos": videos_list, "site_url": site_url}
+    response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
+                             data={"num": 10}
+                             )
+    videos_list = []
+    for video in response.json()["videos"]:
+        euscreen = video["video"]
+        vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+        videos_list.append({
+            "title": vid["title"],
+            "summary": vid["summary"],
+            "euscreen": vid["euscreen"],
+        })
+    context = {"videos": videos_list, "site_url": site_url}
 
     return render(request, 'gui/videos.html', context)
 
@@ -39,35 +37,33 @@ def videos(request):
 @login_required
 def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
-    context = {}
 
     site_url = os.environ.get("SITE_URL")
 
-    if current_user.is_authenticated():
-        video = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+    video = requests.get(site_url + "/api/video/" + str(euscreen)).json()
 
-        r = requests.post(site_url + "/api/user/" + str(current_user) + "/watch",
-                          data={"euscreen": str(euscreen)})
+    r = requests.post(site_url + "/api/user/" + str(current_user) + "/watch",
+                      data={"euscreen": str(euscreen)})
 
-        enrichments = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_enrichments",
-                                    data={"euscreen": str(euscreen),
-                                          "num": 0})
+    enrichments = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_enrichments",
+                                data={"euscreen": str(euscreen),
+                                      "num": 0})
 
-        enrichments_list = []
-        for enrichment in enrichments.json()["enrichments"]:
-            enrichment_id = enrichment["id"]
-            enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
-            enrichments_list.append({
-                "frame": enrichment["frame"],
-                "enrichment_id": enrich["enrichment_id"],
-                "longName": enrich["longName"],
-                "dbpedia": enrich["dbpediaURL"],
-                "wikipedia": enrich["wikipediaURL"],
-                "description": enrich["description"],
-                "thumbnail": enrich["thumbnail"]
-            })
-        enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
-        context = {"video": video, "enrichments": enrichments_list, "site_url": site_url}
+    enrichments_list = []
+    for enrichment in enrichments.json()["enrichments"]:
+        enrichment_id = enrichment["id"]
+        enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
+        enrichments_list.append({
+            "frame": enrichment["frame"],
+            "enrichment_id": enrich["enrichment_id"],
+            "longName": enrich["longName"],
+            "dbpedia": enrich["dbpediaURL"],
+            "wikipedia": enrich["wikipediaURL"],
+            "description": enrich["description"],
+            "thumbnail": enrich["thumbnail"]
+        })
+    enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
+    context = {"video": video, "enrichments": enrichments_list, "site_url": site_url}
 
     return render(request, 'gui/play.html', context)
 
@@ -135,46 +131,44 @@ def business(request):
 @login_required
 def profile(request):
     current_user = request.user
-    context = {}
 
     site_url = os.environ.get("SITE_URL")
 
-    if current_user.is_authenticated():
-        current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/").json()
+    current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/").json()
 
-        if request.method == 'POST':
-            form = ProfileForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data.get('first_name')
-                surname = form.cleaned_data.get('last_name')
-                age = form.cleaned_data.get('age')
-                gender = form.cleaned_data.get('gender')
-                country = form.cleaned_data.get('country')
-                occupation = form.cleaned_data.get('occupation')
-                education = form.cleaned_data.get('education')
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('first_name')
+            surname = form.cleaned_data.get('last_name')
+            age = form.cleaned_data.get('age')
+            gender = form.cleaned_data.get('gender')
+            country = form.cleaned_data.get('country')
+            occupation = form.cleaned_data.get('occupation')
+            education = form.cleaned_data.get('education')
 
-                r = requests.put(site_url + "/api/user/" + str(current_user) + "/",
-                                 data={'username': current_profile["username"],
-                                       'email': current_profile["email"],
-                                       'name': name,
-                                       'surname': surname,
-                                       'age': age,
-                                       'gender': gender,
-                                       'country': country,
-                                       'occupation': occupation,
-                                       'education': education})
+            r = requests.put(site_url + "/api/user/" + str(current_user) + "/",
+                             data={'username': current_profile["username"],
+                                   'email': current_profile["email"],
+                                   'name': name,
+                                   'surname': surname,
+                                   'age': age,
+                                   'gender': gender,
+                                   'country': country,
+                                   'occupation': occupation,
+                                   'education': education})
 
-                return redirect('profile')
-        else:
-            form = ProfileForm(initial={'first_name': current_profile["name"],
-                                        'last_name': current_profile["surname"],
-                                        'age': current_profile["age"],
-                                        'gender': current_profile["gender"],
-                                        'country': current_profile["country"],
-                                        'occupation': current_profile["occupation"],
-                                        'education': current_profile["education"]})
+            return redirect('profile')
+    else:
+        form = ProfileForm(initial={'first_name': current_profile["name"],
+                                    'last_name': current_profile["surname"],
+                                    'age': current_profile["age"],
+                                    'gender': current_profile["gender"],
+                                    'country': current_profile["country"],
+                                    'occupation': current_profile["occupation"],
+                                    'education': current_profile["education"]})
 
-        context = {'form': form}
+    context = {'form': form}
 
     return render(request, 'gui/profile.html', context)
 
@@ -185,12 +179,11 @@ def delete(request):
 
     site_url = os.environ.get("SITE_URL")
 
-    if current_user.is_authenticated:
-        # delete platform user
-        r = requests.delete(site_url + "/api/user/" + str(current_user))
+    # delete platform user
+    r = requests.delete(site_url + "/api/user/" + str(current_user))
 
-        # delete gui user
-        current_user.delete()
+    # delete gui user
+    current_user.delete()
 
     return redirect('home')
 
