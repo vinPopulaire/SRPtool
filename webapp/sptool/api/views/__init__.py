@@ -4,7 +4,7 @@ from .demographics import OccupationViewSet
 from .demographics import EducationViewSet
 from .demographics import CountryViewSet
 from .users import UserViewSet
-from .videos import VideoViewSet
+from .videos import VideoViewSet, search_videos
 from .actions import ActionViewSet
 from .terms import TermViewSet
 from .enrichments import EnrichmentViewSet

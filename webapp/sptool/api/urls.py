@@ -36,6 +36,8 @@ urlpatterns = [
 
     url(r'^user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
 
+    url(r'^search_videos$', views.search_videos),
+
     url(r'^target$', views.target),
     url(r'^videos_to_target$', views.recommend_videos_to_target),
 
