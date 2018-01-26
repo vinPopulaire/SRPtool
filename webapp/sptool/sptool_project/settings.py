@@ -138,6 +138,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = '/srv/static-files'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/srv/media_files'
 
 SOCIAL_AUTH_TRAILING_SLASH = False                    # Remove end slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')

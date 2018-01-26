@@ -96,6 +96,11 @@ http {
       include /etc/nginx/mime.types;
     }
 
+    location /media {
+      alias /srv/media_files;
+
+    }
+
     location = /robots.txt { return 200 "User-agen: *\nAllow: /"; }
     location = /favicon.ico { access_log off; log_not_found off; return 404; }
 

@@ -29,6 +29,7 @@ services:
       - certs:/etc/letsencrypt
       - certs-data:/data/letsencrypt
       - static-files:/srv/static-files
+      - ./media_files:/srv/media_files
     env_file:
       - ./config/.env
 

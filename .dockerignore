@@ -2,3 +2,4 @@
 .dockerignore
 data_files
 **/gui/videos
+media_files

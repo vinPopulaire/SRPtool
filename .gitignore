@@ -9,6 +9,7 @@ __pycache__
 .dev.yaml
 .services.yaml
 data_files
+media_files
 .idea/
 **/gui/videos
 /env
