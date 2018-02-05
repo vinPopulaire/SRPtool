@@ -38,7 +38,7 @@ def search_videos(request, *args, **kwargs):
     for video in qs:
         result.append({
             "euscreen": video.euscreen,
-            "video": video.title,
+            "title": video.title,
             "topic": video.topic,
             "summary": video.summary
         })

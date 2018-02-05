@@ -20,16 +20,17 @@ def videos(request):
     response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
                              data={"num": 10}
                              )
-    videos_list = []
+    recommended_videos_list = []
     for video in response.json()["videos"]:
         euscreen = video["video"]
         vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
-        videos_list.append({
+        recommended_videos_list.append({
             "title": vid["title"],
             "summary": vid["summary"],
             "euscreen": vid["euscreen"],
         })
-    context = {"videos": videos_list, "site_url": site_url}
+
+    context = {"recommended_videos": recommended_videos_list, "site_url": site_url}
 
     return render(request, 'gui/videos.html', context)
 
