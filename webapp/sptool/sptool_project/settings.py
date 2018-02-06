@@ -158,8 +158,10 @@ AUTHENTICATION_BACKENDS = {
     'django.contrib.auth.backends.ModelBackend'
 }
 
-CORS_ORIGIN_WHITELIST = (
-    os.environ.get('ALLOWED_CORS_DOMAIN_1'),
-    os.environ.get('ALLOWED_CORS_DOMAIN_2'),
-    os.environ.get('ALLOWED_CORS_DOMAIN_3'),
-)
+# CORS_ORIGIN_WHITELIST = (
+#     os.environ.get('ALLOWED_CORS_DOMAIN_1'),
+#     os.environ.get('ALLOWED_CORS_DOMAIN_2'),
+#     os.environ.get('ALLOWED_CORS_DOMAIN_3'),
+# )
+
+CORS_ORIGIN_ALLOW_ALL = True
