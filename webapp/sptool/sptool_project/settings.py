@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'rest_framework',
     'social_django',
+    'corsheaders',
     'api.apps.ApiConfig',
     'gui'
 ]
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -155,3 +157,9 @@ AUTHENTICATION_BACKENDS = {
     'gui.auth0backend.Auth0',
     'django.contrib.auth.backends.ModelBackend'
 }
+
+CORS_ORIGIN_WHITELIST = (
+    os.environ.get('ALLOWED_CORS_DOMAIN_1'),
+    os.environ.get('ALLOWED_CORS_DOMAIN_2'),
+    os.environ.get('ALLOWED_CORS_DOMAIN_3'),
+)
