@@ -20,18 +20,18 @@
             </form>
 
             <div class="media attribution">
-                <table class="table">
+                <table id="myTable" class="table">
                     <thead>
                     <tr>
                         <th style="width: 50px;">Play</th>
                         <th>Video</th>
                     </tr>
                     </thead>
-                    <tbody id="search_videos">
+                    <tbody>
                         <tr>
                             <td></td>
                             <td>
-                                <p id="found_videos">Search videos on database</p>
+                                <p>Search videos on database</p>
                             </td>
                         </tr>
 {#                        {% for video in recommended_videos %}#}
@@ -113,6 +113,8 @@
         xhttp.send(data);
         var response = JSON.parse(xhttp.responseText);
         console.log(response);
+
+        make_pagination();
     }
     function Display_searches(response, user, site_url) {
         var out = "";
@@ -120,7 +122,12 @@
         var videos_list = response["videos"];
 
         if (videos_list.length == 0) {
-            document.getElementById("found_videos").innerHTML = "No videos found for the search...";
+            out += '<tr>' +
+                        '<td></td>' +
+                        '<td>' +
+                            '<p>No matching video found. Search again</p>' +
+                        '</td>' +
+                    '</tr>'
          }
 
         else {
@@ -136,8 +143,8 @@
                                 '</td>' +
                             '</tr>';
                  }
-            document.getElementById("search_videos").innerHTML= out;
          }
+         document.getElementById("myTable").getElementsByTagName("tbody")[0].innerHTML= out;
     }
     </script>
 

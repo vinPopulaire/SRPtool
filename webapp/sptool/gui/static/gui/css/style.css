@@ -134,3 +134,25 @@ body {
   position: relative;
   top: -1px;
 }
+
+input[type="button"] {
+	transition: all .3s;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+	font-size: 15px;
+}
+
+input[type="button"]:not(.active) {
+	background-color:transparent;
+}
+
+.active {
+	background-color: #1ABC9C;
+	color :#fff;
+}
+
+input[type="button"]:hover:not(.active) {
+	background-color: #ddd;
+}
