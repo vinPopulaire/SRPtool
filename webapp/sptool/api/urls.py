@@ -12,6 +12,7 @@ from .views import UserViewSet
 from .views import ActionViewSet
 from .views import TermViewSet
 from .views import EnrichmentViewSet
+from .views import demographics
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
@@ -28,6 +29,8 @@ router.register(r'enrichment', EnrichmentViewSet)
 urlpatterns = [
 
     url(r'^', include(router.urls)),
+
+    url(r'^demographics/', views.demographics),
 
     url(r'^user/(?P<username>[0-9 a-z A-Z]+)/watch$', views.user_watch),
     url(r'^user/(?P<username>[0-9 a-z A-Z]+)/actions$', views.user_actions),

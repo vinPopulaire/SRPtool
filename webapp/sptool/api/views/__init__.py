@@ -3,6 +3,7 @@ from .demographics import AgeViewSet
 from .demographics import OccupationViewSet
 from .demographics import EducationViewSet
 from .demographics import CountryViewSet
+from .demographics import demographics
 from .users import UserViewSet
 from .videos import VideoViewSet, search_videos
 from .actions import ActionViewSet
