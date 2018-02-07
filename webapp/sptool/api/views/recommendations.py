@@ -56,24 +56,30 @@ def recommend_videos_to_target(request, *args, **kwargs):
     else:
         videos_list = []
 
-    representatives = find_representatives(request)
+    clusters = find_representatives(request)
 
-    # create json output of representatives with videos
-    videos = {}
-    for i in range(0, len(representatives)):
+    if clusters:
 
-        recommended_videos_list = video_recommendation(representatives[i], videos_list, num_req_videos)
+        # create json output of representatives with videos
+        videos = {}
+        i = 1
+        for key, value in clusters.items():
 
-        result = []
-        for video in recommended_videos_list:
-            result.append({
-                "video": video[0],
-                "similarity": video[1]
-            })
+            recommended_videos_list = video_recommendation(list(value["representative"]), videos_list, num_req_videos)
 
-        videos['representative %d' % (i + 1)] = result
+            result = []
+            for video in recommended_videos_list:
+                result.append({
+                    "video": video[0],
+                    "similarity": video[1],
+                })
 
-    if representatives:
+            videos['representative %d' % i] = {
+                "videos": result,
+                "num_of_members": value["num_of_members"]
+            }
+            i = i + 1
+
         response = Response(videos)
     else:
         response = Response({"message": "no information on target group"})
@@ -147,43 +153,50 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
     except Video.DoesNotExist:
         return Response({"message": "video does not exist"})
 
-    representatives = find_representatives(request)
+    clusters = find_representatives(request)
 
-    # create json output of representatives with videos
-    result_enrichments = {}
-    for i in range(0, len(representatives)):
+    if clusters:
 
-        enrichments_list = enrichments_recommendation(representatives[i], video.id)
+        # create json output of representatives with videos
+        result_enrichments = {}
+        i = 1
+        for key,value in clusters.items():
 
-        if "num" in request.data:
-            num_enrichments = int(request.data["num"])
+            enrichments_list = enrichments_recommendation(list(value["representative"]), video.id)
 
-            recommended_enrichments = []
-            # insert first enrichment (best score) to the list for simultaneous enrichments
-            for enrichments in enrichments_list:
-                recommended_enrichments.append(enrichments[0])
+            if "num" in request.data:
+                num_enrichments = int(request.data["num"])
 
-            recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
+                recommended_enrichments = []
+                # insert first enrichment (best score) to the list for simultaneous enrichments
+                for enrichments in enrichments_list:
+                    recommended_enrichments.append(enrichments[0])
 
-            # checks the number of enrichments and if it is non zero, it returns the appropriate slice
-            # else if it is zero, it returns all the recommended enrichments
-            if num_enrichments != 0:
-                recommended_enrichments = recommended_enrichments[0:num_enrichments]
+                recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
 
-        else:
-            # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
-            recommended_enrichments = enrichments_list
+                # checks the number of enrichments and if it is non zero, it returns the appropriate slice
+                # else if it is zero, it returns all the recommended enrichments
+                if num_enrichments != 0:
+                    recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
-        result = []
-        for enrichment in recommended_enrichments:
-            result.append({
-                "frame": enrichment[0],
-                "id": enrichment[1],
-                "similarity": enrichment[2]
-            })
-        result_enrichments['representative %d' % (i + 1)] = result
+            else:
+                # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
+                recommended_enrichments = enrichments_list
 
-    if representatives:
+            result = []
+            for enrichment in recommended_enrichments:
+                result.append({
+                    "frame": enrichment[0],
+                    "id": enrichment[1],
+                    "similarity": enrichment[2]
+                })
+
+            result_enrichments['representative %d' % i] = {
+                "enrichments": result,
+                "num_of_members": value["num_of_members"]
+            }
+            i = i + 1
+
         response = Response(result_enrichments)
     else:
         response = Response({"message": "no information on target group"})

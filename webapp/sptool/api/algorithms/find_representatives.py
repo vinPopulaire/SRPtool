@@ -5,6 +5,7 @@ from ..models import Term
 
 from sklearn.cluster import KMeans
 import numpy as np
+from collections import Counter
 
 
 def find_representatives(request):
@@ -65,12 +66,22 @@ def find_representatives(request):
     # TODO PCA to decrease dimensions for fixing curse of dimensionality
     # TODO find optimum number of clusters
     try:
-        kmeans = KMeans(n_clusters=5, random_state=0).fit(x)
+        kmeans = KMeans(n_clusters=2, random_state=0).fit(x)
         clusterheads = kmeans.cluster_centers_
+        num_of_members = Counter(kmeans.labels_)
     except ValueError:
         # if clusters are more than the samples
+        # put each sample as a cluster
+        # create a list of number of members with one member on each cluster
         clusterheads = x
+        num_of_members = [1]*len(clusterheads)
 
-    representatives = clusterheads.tolist()
+    clusters = {}
+    for i in range(0,len(clusterheads)):
+        print(i)
+        clusters["cluster "+str(i)]={
+            "representative": clusterheads[i],
+            "num_of_members": num_of_members[i]
+        }
 
-    return representatives
+    return clusters

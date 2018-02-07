@@ -34,19 +34,24 @@ class UserViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def target(request, *args, **kwargs):
 
-    representatives = find_representatives(request)
+    clusters = find_representatives(request)
 
-    terms = Term.objects.all().order_by('pk')
+    if clusters:
+        terms = Term.objects.all().order_by('pk')
 
-    # create json output of representatives with terms
-    reps = {}
-    for i in range(0, len(representatives)):
-        rep = {}
-        for j in range(0, len(terms)):
-            rep[terms[j].term] = representatives[i][j]
-        reps['representative %d' % (i+1)] = rep
-
-    if representatives:
+        # create json output of representatives with terms
+        reps = {}
+        i = 1
+        for key, value in clusters.items():
+            ter = {}
+            for j in range(0, len(terms)):
+                ter[terms[j].term] = value["representative"][j]
+            rep = {
+                "terms": ter,
+                "num_of_members": value["num_of_members"]
+            }
+            reps['representative %d' % i] = rep
+            i = i+1
         response = Response(reps)
     else:
         response = Response({"message": "no information on target group"})

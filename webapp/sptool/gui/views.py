@@ -106,8 +106,9 @@ def business(request):
 
             if "representative 1" in response:
                 first_representative = response["representative 1"]
+                rep_videos = first_representative["videos"]
 
-                for video in first_representative:
+                for video in rep_videos:
                     euscreen = video["video"]
                     vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
                     videos_list.append({

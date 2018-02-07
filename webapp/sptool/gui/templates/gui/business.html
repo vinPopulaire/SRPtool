@@ -127,7 +127,7 @@
     function Display_enrichments(response, site_url) {
         var out = "";
         var i;
-        var enrichments_list = response["representative 1"];
+        var enrichments_list = response["representative 1"]["enrichments"];
 
         if (enrichments_list.length == 0) {
             out += '<tr>' +
