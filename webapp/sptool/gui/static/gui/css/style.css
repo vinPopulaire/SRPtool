@@ -150,7 +150,7 @@ input[type="button"]:not(.active) {
 
 .active {
 	background-color: #1ABC9C;
-	color :#fff;
+	/*color :#fff;*/
 }
 
 input[type="button"]:hover:not(.active) {
