@@ -3,7 +3,7 @@
     "model": "api.term",
     "pk": 1,
     "fields": {
-      "term": "arts",
+      "term": "art",
       "long_name": "Arts and culture"
     }
   },
@@ -11,13 +11,21 @@
     "model": "api.term",
     "pk": 2,
     "fields": {
-      "term": "disasters",
-      "long_name": "Disasters"
+      "term": "business",
+      "long_name": "Business"
     }
   },
   {
     "model": "api.term",
     "pk": 3,
+    "fields": {
+      "term": "computer",
+      "long_name": "Computers"
+    }
+  },
+  {
+    "model": "api.term",
+    "pk": 4,
     "fields": {
       "term": "education",
       "long_name": "Education"
@@ -25,15 +33,15 @@
   },
   {
     "model": "api.term",
-    "pk": 4,
+    "pk": 5,
     "fields": {
-      "term": "environment",
-      "long_name": "Environment and Nature"
+      "term": "game",
+      "long_name": "Games"
     }
   },
   {
     "model": "api.term",
-    "pk": 5,
+    "pk": 6,
     "fields": {
       "term": "health",
       "long_name": "Health"
@@ -41,74 +49,66 @@
   },
   {
     "model": "api.term",
-    "pk": 6,
-    "fields": {
-      "term": "lifestyle",
-      "long_name": "Lifestyle and consumerism"
-    }
-  },
-  {
-    "model": "api.term",
     "pk": 7,
     "fields": {
-      "term": "media",
-      "long_name": "The media"
+      "term": "Home",
+      "long_name": "home"
     }
   },
   {
     "model": "api.term",
     "pk": 8,
     "fields": {
-      "term": "holidays",
-      "long_name": "National holidays, festivals, anniversaries and annual events"
+      "term": "news",
+      "long_name": "News"
     }
   },
   {
     "model": "api.term",
     "pk": 9,
     "fields": {
-      "term": "politics",
-      "long_name": "Politics and Economics"
+      "term": "recreation",
+      "long_name": "Recreation"
     }
   },
   {
     "model": "api.term",
     "pk": 10,
     "fields": {
-      "term": "religion",
-      "long_name": "Religion and belief"
+      "term": "science",
+      "long_name": "Science"
     }
   },
   {
     "model": "api.term",
     "pk": 11,
     "fields": {
-      "term": "society",
-      "long_name": "Society and social issues"
+      "term": "shopping",
+      "long_name": "Shopping"
     }
   },
   {
     "model": "api.term",
     "pk": 12,
     "fields": {
-      "term": "transportation",
-      "long_name": "Transportation, science and technology"
+      "term": "society",
+      "long_name": "Society"
     }
   },
   {
     "model": "api.term",
     "pk": 13,
     "fields": {
-      "term": "wars",
-      "long_name": "Wars and conflict"
+      "term": "sport",
+      "long_name": "Sports"
     }
   },
   {
     "model": "api.term",
     "pk": 14,
     "fields": {
-      "term": "work",
-      "long_name": "Work and production"
+      "term": "child",
+      "long_name": "Kids and teens"
     }
   }
 ]
