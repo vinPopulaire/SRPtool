@@ -27,10 +27,10 @@
                         </div>
                         <div class="col-md-6 text-right">
 
-                            <span onclick="FacebookShare({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')" class="facebook-share" style="padding-right: 0px"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share on Facebook" height="30" width="30"></span>
-                            <span onclick="TwitterShare({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')" class="twitter-share" style="padding-right: 20px"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share on Twitter" height="30" width="30"></span>
-                            <a onclick="LikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
-                            <a onclick="DislikeAction({{ user }}, {{ video }}, '{{ site_url }}')" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
+                            <span onclick="FacebookShare('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}')" class="facebook-share" style="padding-right: 0px"><img src="{% static 'gui/images/Facebook.png' %}" alt="Share on Facebook" height="30" width="30"></span>
+                            <span onclick="TwitterShare('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}')" class="twitter-share" style="padding-right: 20px"><img src="{% static 'gui/images/Twitter.png' %}" alt="Share on Twitter" height="30" width="30"></span>
+                            <a onclick="LikeAction('{{ user }}', {{ video }}, '{{ site_url }}')" href="#" class="fui-heart" style="padding-right: 20px; color: black"></a>
+                            <a onclick="DislikeAction('{{ user }}', {{ video }}, '{{ site_url }}')" href="#" class="fui-cross" style="padding-right: 10px; color: black"></a>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
 
     <script>
     window.onbeforeunload = function() {
-        UpdateProfile({{ user }}, '{{ video.euscreen }}', '{{ site_url }}');
+        UpdateProfile('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}');
     }
     </script>
 
@@ -97,7 +97,7 @@
             console.log("ended");
             let time = myPlayer.currentTime();
             let duration = myPlayer.duration();
-            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
+            StopAction('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
           });
         });
 
@@ -106,12 +106,12 @@
             console.log("paused");
             let time = myPlayer.currentTime();
             let duration = myPlayer.duration();
-            StopAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
+            StopAction('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}' , time, duration);
           }
           else {
             console.log("playing");
             let time = myPlayer.currentTime();
-            PlayAction({{ user }}, '{{ video.euscreen }}', '{{ site_url }}', time);
+            PlayAction('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}', time);
           }
         }
     </script>

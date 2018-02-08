@@ -13,7 +13,7 @@
                     <div class="input-group">
                         <input id="search_input" class="form-control" placeholder="Search for a video..." type="search">
                         <span class="input-group-btn">
-                          <button type="submit" class="btn" onclick="Search_videos({{ user }},'{{ site_url }}')"><span class="fui-search"></span></button>
+                          <button type="submit" class="btn" onclick="Search_videos('{{ user }}','{{ site_url }}')"><span class="fui-search"></span></button>
                         </span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                     <tbody>
                         {% for video in recommended_videos %}
                             <tr>
-                                <td align="center"><a onclick="WatchVideo({{ user }}, '{{ video.euscreen }}', '{{ site_url }}')" href="{% url "play_video" euscreen=video.euscreen %}" class="fui-play"></a></td>
+                                <td align="center"><a onclick="WatchVideo('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}')" href="{% url "play_video" euscreen=video.euscreen %}" class="fui-play"></a></td>
                                 <td>
                                     <a class="inline" style="color: inherit;" data-toggle="collapse" data-parent="#accordion" href="#collapse_recommend{{ forloop.counter }}">{{ video.title }}</a>
                                     <div id="collapse_recommend{{ forloop.counter }}" class="panel-collapse collapse">
@@ -134,7 +134,7 @@
 
             for(i = 0; i < videos_list.length; i++) {
                     out +=  '<tr>' +
-                                '<td align="center"><a onclick="WatchVideo(' + user + ',\'' + videos_list[i].euscreen + '\',\'' + site_url + '\')" href="' + videos_list[i].euscreen + '" class="fui-play"></a></td>' +
+                                '<td align="center"><a onclick="WatchVideo(\'' + user + '\',\'' + videos_list[i].euscreen + '\',\'' + site_url + '\')" href="' + videos_list[i].euscreen + '" class="fui-play"></a></td>' +
                                 '<td>' +
                                     '<a class="inline" style="color: inherit;" data-toggle="collapse" data-parent="#accordion" href="#collapse_search' + i + '">' + videos_list[i].title +'</a>' +
                                     '<div id="collapse_search' + i + '" class="panel-collapse collapse">' +
