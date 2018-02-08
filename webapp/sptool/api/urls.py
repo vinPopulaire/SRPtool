@@ -32,19 +32,19 @@ urlpatterns = [
 
     url(r'^demographics/', views.demographics),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/watch$', views.user_watch),
-    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/actions$', views.user_actions),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/watch$', views.user_watch),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/actions$', views.user_actions),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/recommend_videos$', views.recommend_videos),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_videos$', views.recommend_videos),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/update_profile$', views.update_profile),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/update_profile$', views.update_profile),
 
     url(r'^search_videos$', views.search_videos),
 
     url(r'^target$', views.target),
     url(r'^videos_to_target$', views.recommend_videos_to_target),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z]+)/recommend_enrichments$', views.recommend_enrichments),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_enrichments$', views.recommend_enrichments),
     url(r'^enrichments_to_target$', views.recommend_enrichments_to_target)
 
 ]
