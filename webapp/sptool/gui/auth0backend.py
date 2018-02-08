@@ -29,7 +29,7 @@ class Auth0(BaseOAuth2):
         resp = requests.get(url, headers=headers)
         userinfo = resp.json()
 
-        return {'username': userinfo['nickname'],
+        return {'username': 'prod_' + userinfo['nickname'],
                 'first_name': userinfo['name'],
                 'picture': userinfo['picture'],
                 'user_id': userinfo['sub']}
