@@ -12,7 +12,6 @@ from .views import UserViewSet
 from .views import ActionViewSet
 from .views import TermViewSet
 from .views import EnrichmentViewSet
-from .views import demographics
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
@@ -38,6 +37,11 @@ urlpatterns = [
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_videos$', views.recommend_videos),
 
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/update_profile$', views.update_profile),
+
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/friends$', views.show_friends),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/add_friend$', views.add_friend),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/remove_friend$', views.remove_friend),
+
 
     url(r'^search_videos$', views.search_videos),
 

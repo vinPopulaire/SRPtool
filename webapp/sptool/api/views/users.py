@@ -57,3 +57,24 @@ def target(request, *args, **kwargs):
         response = Response({"message": "no information on target group"})
 
     return response
+
+@api_view(['GET'])
+def show_friends(request, *args, **kwargs):
+
+    response = Response({"ok": "show"})
+
+    return response
+
+@api_view(['GET'])
+def add_friend(request, *args, **kwargs):
+
+    response = Response({"ok": "add"})
+
+    return response
+
+@api_view(['GET'])
+def remove_friend(request, *args, **kwargs):
+
+    response = Response({"ok": "remove"})
+
+    return response
