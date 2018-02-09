@@ -54,6 +54,18 @@ class User(models.Model):
         return user_vector
 
 
+class Friend(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name="friend")
+
+    class Meta:
+        verbose_name = "Friend"
+        verbose_name_plural = "Friends"
+
+    def __str__(self):
+        return "user %s is friend with user %s" % (self.user, self.friend)
+
+
 class VideoWatched(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
