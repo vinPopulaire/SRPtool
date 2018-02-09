@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from ..algorithms import find_representatives
 from ..models import Term
-from ..models import User, UserContentScore
+from ..models import User, UserContentScore, Friend
 from ..serializers import UserSerializer
 
 
@@ -59,9 +59,17 @@ def target(request, *args, **kwargs):
     return response
 
 @api_view(['GET'])
-def show_friends(request, *args, **kwargs):
+def show_friends(request, username):
 
-    response = Response({"ok": "show"})
+    user = User.objects.get(username=username)
+
+    friends_names = user.get_friends_list()
+
+    result = {
+        "friends":friends_names
+    }
+
+    response = Response(result)
 
     return response
 

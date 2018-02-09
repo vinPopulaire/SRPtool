@@ -53,6 +53,22 @@ class User(models.Model):
 
         return user_vector
 
+    # returns the names of the user's friends
+    def get_friends_list(self):
+        friends = Friend.objects.filter(user=self)
+
+        friends_list = []
+        for friend in friends:
+            friends_list.append(friend.friend.id)
+
+        friends_info = User.objects.filter(id__in=friends_list)
+
+        friends_names = []
+        for friend in friends_info:
+            friends_names.append(friend.username)
+
+        return friends_names
+
 
 class Friend(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
