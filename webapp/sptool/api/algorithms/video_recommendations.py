@@ -1,7 +1,7 @@
 from ..models import Term
 from ..models import Video, VideoContentScore
 
-from .cosine_similarity import cosine_similarity
+from .cosine_similarity import *
 
 import operator
 
@@ -57,6 +57,6 @@ def user_video_similarity(user_vector, videos_list):
     similarity = {}
 
     for video_id, video_vector in video_vectors.items():
-        similarity[video_id] = cosine_similarity(user_vector, video_vector)
+        similarity[video_id] = euclidean_similarity(user_vector, video_vector)
 
     return similarity

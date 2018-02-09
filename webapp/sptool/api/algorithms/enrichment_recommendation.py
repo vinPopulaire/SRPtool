@@ -3,7 +3,7 @@ from collections import defaultdict
 from ..models import Term
 from ..models import Enrichment, VideoEnrichments, EnrichmentContentScore
 
-from .cosine_similarity import cosine_similarity
+from .cosine_similarity import *
 
 
 def enrichments_recommendation(user_vector, video_id):
@@ -92,6 +92,6 @@ def enrichments_recommendation(user_vector, video_id):
 
 def enrichment_similarity(user_vector, enrichment_vector):
 
-    similarity = cosine_similarity(user_vector, enrichment_vector)
+    similarity = euclidean_similarity(user_vector, enrichment_vector)
 
     return similarity
