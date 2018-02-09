@@ -33,7 +33,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def target(request, *args, **kwargs):
-
     clusters = find_representatives(request)
 
     if clusters:
@@ -58,9 +57,9 @@ def target(request, *args, **kwargs):
 
     return response
 
+
 @api_view(['GET'])
 def show_friends(request, username):
-
     user = User.objects.get(username=username)
 
     friends_names = user.get_friends_list()
@@ -73,16 +72,55 @@ def show_friends(request, username):
 
     return response
 
-@api_view(['GET'])
-def add_friend(request, *args, **kwargs):
 
-    response = Response({"ok": "add"})
+@api_view(['POST'])
+def add_friend(request, username, *args, **kwargs):
+    user = User.objects.get(username=username)
+
+    if "friend" in request.data:
+        friend = request.data["friend"]
+    else:
+        return Response({"message": "Friend user must be specified"})
+
+    try:
+        friend = User.objects.get(username=friend)
+    except User.DoesNotExist:
+        return Response({"message": "Friend user does not exist"})
+
+
+    already_friends = Friend.objects.filter(user=user,friend=friend)
+    if already_friends:
+        return Response({"message": "%s is already friends with %s" % (user, friend)})
+
+    Friend.objects.create(user=user,friend=friend)
+    Friend.objects.create(user=friend, friend=user)
+
+    response = Response({"message": "%s is now friends with %s" % (user, friend)})
 
     return response
 
-@api_view(['GET'])
-def remove_friend(request, *args, **kwargs):
 
-    response = Response({"ok": "remove"})
+@api_view(['POST'])
+def remove_friend(request, username, *args, **kwargs):
+    user = User.objects.get(username=username)
+
+    if "friend" in request.data:
+        friend = request.data["friend"]
+    else:
+        return Response({"message": "Friend user must be specified"})
+
+    try:
+        friend = User.objects.get(username=friend)
+    except User.DoesNotExist:
+        return Response({"message": "Friend user does not exist"})
+
+    already_friends = Friend.objects.filter(user=user, friend=friend)
+    if not already_friends:
+        return Response({"message": "%s is not friends with %s yet" % (user, friend)})
+
+    Friend.objects.filter(user=user,friend=friend).delete()
+    Friend.objects.filter(user=friend, friend=user).delete()
+
+    response = Response({"message": "%s is no longer friends with %s" % (user, friend)})
 
     return response
