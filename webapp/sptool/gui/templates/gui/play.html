@@ -83,6 +83,12 @@
 
     <script>
     window.onbeforeunload = function() {
+        if (!myPlayer.paused()) {
+            console.log("quitted while video was playing");
+            let time = myPlayer.currentTime();
+            let duration = myPlayer.duration();
+            StopAction('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}', time, duration);
+        }
         UpdateProfile('{{ user }}', '{{ video.euscreen }}', '{{ site_url }}');
     }
     </script>
