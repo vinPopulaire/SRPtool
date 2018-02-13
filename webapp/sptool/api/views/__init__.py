@@ -13,6 +13,7 @@ from .enrichments import EnrichmentViewSet
 from .user_actions import user_actions, user_watch
 from .recommendations import recommend_videos, recommend_videos_to_target
 from .recommendations import recommend_enrichments, recommend_enrichments_to_target
+from .recommendations import recommend_friends
 from .update_profile import update_profile
 from .users import target
 from .users import show_friends, add_friend, remove_friend

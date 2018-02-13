@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 
 from ..algorithms import video_recommendation, find_representatives
 from ..algorithms import enrichments_recommendation
+from ..algorithms import user_recommendation
 from ..models import User
 from ..models import Video
 
@@ -202,3 +203,31 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
         response = Response({"message": "no information on target group"})
 
     return response
+
+
+@api_view(['POST'])
+def recommend_friends(request, username, *args, **kwargs):
+
+    if "num" in request.data:
+        num_req_friends = int(request.data["num"])
+    else:
+        num_req_friends = 5
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"message": "user does not exist"})
+
+    user_vector = user.get_user_vector()
+    user_id = user.id
+
+    recommended_users_list = user_recommendation(user_vector, user_id, num_req_friends)
+
+    result = []
+    for user in recommended_users_list:
+        result.append({
+            "user": user[0],
+            "similarity": user[1]
+        })
+
+    return Response({"users": result})
