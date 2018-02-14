@@ -30,6 +30,12 @@ class UserViewSet(viewsets.ModelViewSet):
             user_score.save()
         return response
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        username = instance.username
+        self.perform_destroy(instance)
+        return Response({"message": "user " + username + " is successfully deleted"})
+
 
 @api_view(['POST'])
 def target(request, *args, **kwargs):
