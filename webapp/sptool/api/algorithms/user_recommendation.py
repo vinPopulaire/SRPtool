@@ -1,7 +1,7 @@
 from ..models import Term
 from ..models import Friend, User, UserContentScore
 
-from .cosine_similarity import *
+from .similarities import *
 
 import operator
 

@@ -3,7 +3,7 @@ from collections import defaultdict
 from ..models import Term
 from ..models import Enrichment, VideoEnrichments, EnrichmentContentScore
 
-from .cosine_similarity import *
+from .similarities import *
 
 
 def enrichments_recommendation(user_vector, video_id):

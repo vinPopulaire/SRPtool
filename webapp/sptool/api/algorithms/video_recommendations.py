@@ -3,7 +3,7 @@ from ..models import Video, VideoContentScore
 from ..models import UserContentScore
 from ..models import Friend
 
-from .cosine_similarity import *
+from .similarities import *
 
 import operator
 
