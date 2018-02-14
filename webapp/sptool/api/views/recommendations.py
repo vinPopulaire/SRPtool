@@ -28,9 +28,7 @@ def recommend_videos(request, username, *args, **kwargs):
     except User.DoesNotExist:
         return Response({"message": "user does not exist"})
 
-    user_vector = user.get_user_vector()
-
-    recommended_videos_list = video_recommendation(user_vector, videos_list, num_req_videos)
+    recommended_videos_list = video_recommendation(user, videos_list, num_req_videos)
 
     result = []
     for video in recommended_videos_list:
