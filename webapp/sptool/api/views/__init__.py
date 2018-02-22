@@ -17,3 +17,5 @@ from .recommendations import recommend_friends
 from .update_profile import update_profile
 from .users import target
 from .users import show_friends, add_friend, remove_friend
+
+from .manage_content import import_videos, delete_videos

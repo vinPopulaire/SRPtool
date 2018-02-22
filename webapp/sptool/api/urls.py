@@ -43,13 +43,14 @@ urlpatterns = [
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/remove_friend$', views.remove_friend),
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_friends$', views.recommend_friends),
 
-
     url(r'^search_videos$', views.search_videos),
 
     url(r'^target$', views.target),
     url(r'^videos_to_target$', views.recommend_videos_to_target),
 
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_enrichments$', views.recommend_enrichments),
-    url(r'^enrichments_to_target$', views.recommend_enrichments_to_target)
+    url(r'^enrichments_to_target$', views.recommend_enrichments_to_target),
 
+    url(r'^import_videos$', views.import_videos),
+    url(r'^delete_videos$', views.delete_videos)
 ]
