@@ -134,11 +134,13 @@ def collaborative_filtering(user_vector, user_id, videos_list):
     for friend in closest_friends:
 
         friend_id = friend[0]
+        friend_similarity = friend[1]
         friend_vector = friend_vectors[friend_id]
 
         friend_result_content = user_video_similarity(friend_vector, videos_list)
 
+        # weight each score of friend by multiplying the similarity the friend has with the user
         for key, value in friend_result_content.items():
-            similarity[key] = similarity[key] + value/num_closest_friends
+            similarity[key] = similarity[key] + (value/num_closest_friends)*friend_similarity
 
     return similarity
