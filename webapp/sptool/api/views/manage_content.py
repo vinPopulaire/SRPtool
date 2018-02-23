@@ -1,7 +1,13 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from ..models import Video
+from pathlib import Path
+
+import gensim
+from gensim.models import Doc2Vec
+from sklearn.metrics.pairwise import cosine_similarity
+
+from ..models import Video, Term, VideoContentScore
 
 @api_view(['POST'])
 def import_videos(request, *args, **kwargs):
@@ -46,7 +52,12 @@ def import_videos(request, *args, **kwargs):
                 duration=duration
             )
 
-    return Response({"message": "Imported %d videos" %len(items)})
+        try:
+            score_video(euscreen)
+        except FileNotFoundError:
+            return Response({"message": "Model for scoring not found"})
+
+    return Response({"message": "Imported %d videos" % len(items)})
 
 @api_view(['POST'])
 def delete_videos(request, *args, **kwargs):
@@ -68,3 +79,55 @@ def delete_videos(request, *args, **kwargs):
             ii += 1
 
     return Response({"message": "Removed %d videos" % ii})
+
+def score_video(euscreen):
+    model_path = "/srv/sptool/api/management/commands/data_files/doc2vec.model"
+    my_file = Path(model_path)
+
+    if my_file.is_file():
+        pass
+    else:
+        raise FileNotFoundError("Model for scoring not found")
+
+    model = Doc2Vec.load(model_path)
+
+    terms_list = Term.objects.all()
+    video = Video.objects.get(euscreen=euscreen)
+
+    data = video.title + " " + \
+           video.summary + " " + \
+           video.genre + " " + \
+           video.geographical_coverage + " " + \
+           video.topic + " " + \
+           video.thesaurus_terms
+
+    tokens = gensim.utils.simple_preprocess(data)
+    video_vector = model.infer_vector(tokens)
+
+    # reshape because it waits for 2d array
+    video_vector = video_vector.reshape(1,-1)
+
+    for term in terms_list:
+
+        tokens = gensim.utils.simple_preprocess(term.long_name)
+        term_vector = model.infer_vector(tokens)
+
+        # reshape because it waits for 2d array
+        term_vector = term_vector.reshape(1,-1)
+
+        # TODO check if this cosine similarity works
+        similarity = cosine_similarity(video_vector,term_vector)
+        similarity = float(similarity[0][0])
+
+        video_score = VideoContentScore.objects.filter(video_id=video.id).filter(term_id=term.id)
+        if video_score.exists():
+            video_score.update(score=similarity)
+        else:
+            scoring = VideoContentScore(
+                video_id=video.id,
+                term_id=term.id,
+                score=similarity
+            )
+            scoring.save()
+
+    return
