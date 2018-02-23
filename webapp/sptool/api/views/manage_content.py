@@ -5,7 +5,6 @@ from pathlib import Path
 
 import gensim
 from gensim.models import Doc2Vec
-from sklearn.metrics.pairwise import cosine_similarity
 
 from ..models import Video, Term, VideoContentScore
 
@@ -101,23 +100,14 @@ def score_video(euscreen):
            video.topic + " " + \
            video.thesaurus_terms
 
-    tokens = gensim.utils.simple_preprocess(data)
-    video_vector = model.infer_vector(tokens)
-
-    # reshape because it waits for 2d array
-    video_vector = video_vector.reshape(1,-1)
+    video_tokens = gensim.utils.simple_preprocess(data)
 
     for term in terms_list:
 
-        tokens = gensim.utils.simple_preprocess(term.long_name)
-        term_vector = model.infer_vector(tokens)
+        term_tokens = gensim.utils.simple_preprocess(term.long_name)
 
-        # reshape because it waits for 2d array
-        term_vector = term_vector.reshape(1,-1)
-
-        # TODO check if this cosine similarity works
-        similarity = cosine_similarity(video_vector,term_vector)
-        similarity = float(similarity[0][0])
+        similarity = model.docvecs.similarity_unseen_docs(model, term_tokens, video_tokens)
+        similarity = similarity if similarity > 0 else 0
 
         video_score = VideoContentScore.objects.filter(video_id=video.id).filter(term_id=term.id)
         if video_score.exists():
