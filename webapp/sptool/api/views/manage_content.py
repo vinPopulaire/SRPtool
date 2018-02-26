@@ -64,7 +64,7 @@ def delete_videos(request, *args, **kwargs):
     if "videos" in request.data:
         items = request.data["videos"]
     else:
-        return Response({"message": "No videos provided for import"})
+        return Response({"message": "No videos provided for deletion"})
 
     ii = 0
     for item in items:
