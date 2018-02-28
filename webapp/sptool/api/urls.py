@@ -52,5 +52,9 @@ urlpatterns = [
     url(r'^enrichments_to_target$', views.recommend_enrichments_to_target),
 
     url(r'^import_videos$', views.import_videos),
-    url(r'^delete_videos$', views.delete_videos)
+    url(r'^delete_videos$', views.delete_videos),
+
+    url(r'^import_enrichments$', views.import_enrichments),
+    url(r'^delete_enrichments$', views.delete_enrichments),
+    url(r'^delete_enrichments_on_videos$', views.delete_enrichments_on_videos)
 ]
