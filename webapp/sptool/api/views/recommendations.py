@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from ..algorithms import video_recommendation, find_representatives
+from ..algorithms import video_recommendation_to_target
 from ..algorithms import enrichments_recommendation
 from ..algorithms import user_recommendation
 from ..models import User
@@ -64,7 +65,7 @@ def recommend_videos_to_target(request, *args, **kwargs):
         i = 1
         for key, value in clusters.items():
 
-            recommended_videos_list = video_recommendation(list(value["representative"]), videos_list, num_req_videos)
+            recommended_videos_list = video_recommendation_to_target(list(value["representative"]), videos_list, num_req_videos)
 
             result = []
             for video in recommended_videos_list:

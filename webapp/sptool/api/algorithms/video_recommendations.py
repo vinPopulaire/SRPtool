@@ -40,6 +40,28 @@ def video_recommendation(user, videos_list, num_req_videos):
 
     return recommended_videos
 
+# Because we can't do collaborative recommendation on representative of target group
+def video_recommendation_to_target(user_vector, videos_list, num_req_videos):
+    # TODO move access to videos in this function so that it is only accessed one for multiple users
+
+    # if user is new, use 0.1 as profile to avoid division by zero
+    # TODO check better way to propose to new users
+    if user_vector == [0]*len(user_vector):
+        user_vector = [0.1]*len(user_vector)
+
+    results_content = user_video_similarity(user_vector, videos_list)
+
+    final_recommendations = results_content
+
+    sorted_results = sorted(final_recommendations.items(), key=operator.itemgetter(1), reverse=True)
+    sorted_results = sorted_results[0:num_req_videos]
+
+    recommended_videos = []
+    for result in sorted_results:
+        recommended_videos.append(tuple([Video.objects.get(id=result[0]).euscreen, result[1]]))
+
+    return recommended_videos
+
 
 def user_video_similarity(user_vector, videos_list):
 

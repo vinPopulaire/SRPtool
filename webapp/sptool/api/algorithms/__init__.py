@@ -1,4 +1,5 @@
 from .video_recommendations import video_recommendation
+from .video_recommendations import video_recommendation_to_target
 from .enrichment_recommendation import enrichments_recommendation
 from .user_recommendation import user_recommendation
 from .update_prof import update_prof
