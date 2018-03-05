@@ -238,7 +238,6 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
         # calculate average similarity of set
         avg_similarity = sum(similarities)/num
-        print(avg_similarity)
 
         if avg_similarity > max_similarity:
             max_similarity = avg_similarity
