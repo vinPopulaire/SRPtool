@@ -90,6 +90,27 @@ def enrichments_recommendation(user_vector, video_id):
     return recommended_enrichments
 
 
+def enrichment_score(user_vector, enrichment):
+
+    # score of the present enrichments
+    enrichment_content_score = EnrichmentContentScore.objects.filter(enrichment_id=enrichment.id)
+
+    # Force evaluate queryset for fast .score
+    len(enrichment_content_score)
+
+    num_terms = Term.objects.count()
+
+    enrichment_vector = [None] * num_terms
+    for item in enrichment_content_score:
+
+        # term ids start from 1 while term vector indexing starts from 0
+        term_index = item.term_id - 1
+        enrichment_vector[term_index] = float(item.score)
+
+    similarity = enrichment_similarity(user_vector, enrichment_vector)
+    return similarity
+
+
 def enrichment_similarity(user_vector, enrichment_vector):
 
     similarity = euclidean_similarity(user_vector, enrichment_vector)

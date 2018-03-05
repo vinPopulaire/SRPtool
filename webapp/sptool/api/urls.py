@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^videos_to_target$', views.recommend_videos_to_target),
 
     url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_enrichments$', views.recommend_enrichments),
+    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/enrichments_from_set$', views.recommend_enrichment_from_set),
     url(r'^enrichments_to_target$', views.recommend_enrichments_to_target),
 
     url(r'^import_videos$', views.import_videos),

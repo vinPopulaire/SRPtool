@@ -3,10 +3,11 @@ from rest_framework.decorators import api_view
 
 from ..algorithms import video_recommendation, find_representatives
 from ..algorithms import video_recommendation_to_target
-from ..algorithms import enrichments_recommendation
+from ..algorithms import enrichments_recommendation, enrichment_score
 from ..algorithms import user_recommendation
 from ..models import User
-from ..models import Video
+from ..models import Video, Enrichment
+from ..models import EnrichmentContentScore
 
 
 @api_view(['POST'])
@@ -202,6 +203,50 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
         response = Response({"message": "no information on target group"})
 
     return response
+
+
+@api_view(['POST'])
+def recommend_enrichment_from_set(request, username, *args, **kwargs):
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"message": "user does not exist"})
+
+    user_vector = user.get_user_vector()
+
+    if "sets" in request.data:
+        sets = request.data["sets"]
+    else:
+        return Response({"message": "specify some sets of enrichments"})
+
+    max_similarity = 0
+    max_URL = ""
+    for set in sets:
+        num = len(set["enrichments"])
+        similarities = []
+
+        for enrichment_id in set["enrichments"]:
+
+            try:
+                enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
+            except Enrichment.DoesNotExist:
+                return Response({"message": "enrichment \'%s\' does not exist" % enrichment_id})
+
+            similarity = enrichment_score(user_vector, enrichment)
+            similarities.append(similarity)
+
+        # calculate average similarity of set
+        avg_similarity = sum(similarities)/num
+        print(avg_similarity)
+
+        if avg_similarity > max_similarity:
+            max_similarity = avg_similarity
+            max_URL = set["url"]
+
+    result = max_URL
+
+    return Response({"URL": result})
 
 
 @api_view(['POST'])
