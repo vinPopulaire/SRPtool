@@ -11,6 +11,7 @@ from ..serializers import UserSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    lookup_value_regex = '[0-9 a-z.A-Z_]+'
 
     lookup_field = "username"
 

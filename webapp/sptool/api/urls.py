@@ -31,25 +31,25 @@ urlpatterns = [
 
     url(r'^demographics/', views.demographics),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/watch$', views.user_watch),
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/actions$', views.user_actions),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/watch$', views.user_watch),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/actions$', views.user_actions),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_videos$', views.recommend_videos),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/recommend_videos$', views.recommend_videos),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/update_profile$', views.update_profile),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/update_profile$', views.update_profile),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/friends$', views.show_friends),
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/add_friend$', views.add_friend),
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/remove_friend$', views.remove_friend),
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_friends$', views.recommend_friends),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/friends$', views.show_friends),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/add_friend$', views.add_friend),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/remove_friend$', views.remove_friend),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/recommend_friends$', views.recommend_friends),
 
     url(r'^search_videos$', views.search_videos),
 
     url(r'^target$', views.target),
     url(r'^videos_to_target$', views.recommend_videos_to_target),
 
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/recommend_enrichments$', views.recommend_enrichments),
-    url(r'^user/(?P<username>[0-9 a-z A-Z_]+)/enrichments_from_set$', views.recommend_enrichment_from_set),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/recommend_enrichments$', views.recommend_enrichments),
+    url(r'^user/(?P<username>[0-9 a-z.A-Z_]+)/enrichments_from_set$', views.recommend_enrichment_from_set),
     url(r'^enrichments_to_target$', views.recommend_enrichments_to_target),
 
     url(r'^import_videos$', views.import_videos),
