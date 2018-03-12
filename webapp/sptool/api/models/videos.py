@@ -1,17 +1,20 @@
 from django.db import models
 from .terms import Term
-from .actions import Action
 from .enrichments import Enrichment
 
 
 class Video(models.Model):
     euscreen = models.CharField(unique=True, max_length=50)
-    genre = models.CharField(max_length=50)
-    topic = models.CharField(max_length=150)
+    genre = models.CharField(max_length=50, default='unknown')
+    topic = models.CharField(max_length=150, default='unknown')
     title = models.CharField(max_length=250)
-    geographical_coverage = models.CharField(max_length=150)
-    thesaurus_terms = models.CharField(max_length=250)
+    geographical_coverage = models.CharField(max_length=150, default='unknown')
+    thesaurus_terms = models.CharField(max_length=250, default='unknown')
     summary = models.TextField()
+    source = models.CharField(max_length=150, default='unknown')
+    path = models.CharField(max_length=150, default='unknown')
+    tags = models.TextField(default='')
+    annotations = models.TextField(default='')
     duration = models.IntegerField(default=0)
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
