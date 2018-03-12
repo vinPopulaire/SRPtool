@@ -18,13 +18,28 @@ def import_video(request, *args, **kwargs):
         return Response({"message": "No video provided for import"})
 
     euscreen = item["shared_id"]
-    genre = item["genre"]
-    topic = item["topic"]
+    genre = item["genre"] if 'genre' in item else ""
+    topic = item["topic"] if 'topic' in item else ""
     title = item["title"]
-    geographical_coverage = item["geographical_coverage"]
-    thesaurus_terms = item["thesaurus_terms"]
-    summary = item["summary"]
+    geographical_coverage = item["geographical_coverage"] if 'geographical_coverage' in item else ""
+    thesaurus_terms = item["thesaurus_terms"] if 'thesaurus_terms' in item else ""
+    summary = item["description"]
     duration = item["duration"]
+
+    source = item["source"] if 'source' in item else ""
+    path = item["path"] if 'path' in item else ""
+    tags = item["tags"] if 'tags' in item else ""
+    annotations = item["annotations"] if 'annotations' in item else ""
+    annotations_list = []
+
+    if annotations:
+        objects = annotations["objectdetection"] if 'objectdetection' in annotations else ""
+        for object in objects:
+            annotations_list.append(object["class"])
+
+        faces = annotations["facedetection"] if 'facedetection' in annotations else ""
+        for face in faces:
+            annotations_list.append(face["face"])
 
     video = Video.objects.filter(euscreen=euscreen)
     if not video.exists():
@@ -36,7 +51,11 @@ def import_video(request, *args, **kwargs):
             geographical_coverage=geographical_coverage,
             thesaurus_terms=thesaurus_terms,
             summary=summary,
-            duration=duration
+            duration=duration,
+            source=source,
+            path=path,
+            tags=tags,
+            annotations=','.join(annotations_list)
         )
         video.save()
 
@@ -48,7 +67,11 @@ def import_video(request, *args, **kwargs):
             geographical_coverage=geographical_coverage,
             thesaurus_terms=thesaurus_terms,
             summary=summary,
-            duration=duration
+            duration=duration,
+            source=source,
+            path=path,
+            tags=tags,
+            annotations=','.join(annotations_list)
         )
 
     try:
