@@ -32,7 +32,8 @@ def video_recommendation(user, videos_list, num_req_videos):
         final_recommendations = results_content
 
     sorted_results = sorted(final_recommendations.items(), key=operator.itemgetter(1), reverse=True)
-    sorted_results = sorted_results[0:num_req_videos]
+    if num_req_videos != 0:
+        sorted_results = sorted_results[0:num_req_videos]
 
     recommended_videos = []
     for result in sorted_results:
@@ -54,7 +55,8 @@ def video_recommendation_to_target(user_vector, videos_list, num_req_videos):
     final_recommendations = results_content
 
     sorted_results = sorted(final_recommendations.items(), key=operator.itemgetter(1), reverse=True)
-    sorted_results = sorted_results[0:num_req_videos]
+    if num_req_videos != 0:
+        sorted_results = sorted_results[0:num_req_videos]
 
     recommended_videos = []
     for result in sorted_results:
