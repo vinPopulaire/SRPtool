@@ -149,79 +149,85 @@ def score_video(euscreen):
 @api_view(['POST'])
 def import_enrichments(request, *args, **kwargs):
 
-    if "enrichments" in request.data:
-        items = request.data["enrichments"]
+    if "Items" in request.data:
+        req = request.data["Items"][0]
     else:
         return Response({"message": "No enrichments provided for import"})
 
+    items = req["marker"]
+
+    project_id = req["pid"]
+    euscreen = req["mcssruid"]
+    video = Video.objects.get(euscreen=euscreen)
+
     for item in items:
-        enrichment_id = item["enrichment_id"]
-        longName = item["longName"]
-        wikipediaURL = item["wikipediaURL"]
-        dbpediaURL = item["dbpediaURL"]
-        description = item["description"]
-        thumbnail = item["thumbnail"]
-        enrichment_class = item["enrichment_class"]
+        enrichment_id = item["options"]["modelOptions"]['1']['2']['v']
+        name = item["options"]["modelOptions"]['1']['1']['v']
 
-        euscreen = item["euscreen"]
+        if '2' in item["options"]["modelOptions"]:
+            if '1' in item["options"]["modelOptions"]['2']:
+                if 'v' in item["options"]["modelOptions"]['2']['1']:
+                    title = item["options"]["modelOptions"]['2']['1']['v']
+                else:
+                    title = ""
+            else:
+                title = ""
+        else:
+            title = ""
+        overlay_title = item["options"]["modelOptions"]['1']['8']['v'] if '8' in item["options"]["modelOptions"]['1'] else ""
+        overlay_text_description = item["options"]["modelOptions"]['1']['9']['v'] if '9' in item["options"]["modelOptions"]['1'] else ""
 
-        video = Video.objects.get(euscreen=euscreen)
         enrichment = Enrichment.objects.filter(enrichment_id=enrichment_id)
         if not enrichment.exists():
             enrichment = Enrichment(
                 enrichment_id=enrichment_id,
-                longName=longName,
-                wikipediaURL=wikipediaURL,
-                dbpediaURL=dbpediaURL,
-                description=description,
-                thumbnail=thumbnail,
-                enrichment_class=enrichment_class,
+                name=name,
+                title=title,
+                overlay_title=overlay_title,
+                overlay_text_description=overlay_text_description
             )
             enrichment.save()
 
         else:
             enrichment.update(
                 enrichment_id=enrichment_id,
-                longName=longName,
-                wikipediaURL=wikipediaURL,
-                dbpediaURL=dbpediaURL,
-                description=description,
-                thumbnail=thumbnail,
-                enrichment_class=enrichment_class
+                name=name,
+                title=title,
+                overlay_title=overlay_title,
+                overlay_text_description=overlay_text_description
             )
             enrichment = enrichment[0]
 
-        for localization in item["localization"]:
-            for time, position in localization.items():
-                y_min = position["y_min"]
-                x_min = position["x_min"]
-                width = position["width"]
-                height = position["height"]
+            print(enrichment)
 
-                time = int(time)
+        for position in item["positions"]:
+            x = position["bp"]["x"]
+            y = position["bp"]["y"]
+            start_time = position["b"]
+            end_time = position["e"]
 
-                video_enrichment = VideoEnrichments.objects\
-                    .filter(video_id=video.id)\
-                    .filter(enrichment_id=enrichment.id)\
-                    .filter(time=time)\
-                    .filter(y_min=y_min)\
-                    .filter(x_min=x_min)\
-                    .filter(width=width)\
-                    .filter(height=height)
-                if video_enrichment.exists():
-                    pass
-                else:
-                    video_enrichment = VideoEnrichments(
-                        video_id=video.id,
-                        enrichment_id=enrichment.id,
-                        time=time,
-                        y_min=y_min,
-                        x_min=x_min,
-                        width=width,
-                        height=height
-                    )
+            video_enrichment = VideoEnrichments.objects\
+                .filter(video_id=video.id)\
+                .filter(enrichment_id=enrichment.id)\
+                .filter(project_id=project_id)\
+                .filter(x=x)\
+                .filter(y=y)\
+                .filter(start_time=start_time)\
+                .filter(end_time=end_time)
+            if video_enrichment.exists():
+                pass
+            else:
+                video_enrichment = VideoEnrichments(
+                    video_id=video.id,
+                    enrichment_id=enrichment.id,
+                    project_id=project_id,
+                    x=x,
+                    y=y,
+                    start_time=start_time,
+                    end_time=end_time
+                )
 
-                    video_enrichment.save()
+                video_enrichment.save()
 
         try:
             score_enrichment(enrichment_id)
@@ -287,8 +293,9 @@ def score_enrichment(enrichment_id):
     terms_list = Term.objects.all()
     enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
 
-    data = enrichment.longName + " " + \
-           enrichment.description
+    data = enrichment.name + " " + \
+           enrichment.overlay_title + " " + \
+           enrichment.overlay_text_description
 
     enrichment_tokens = gensim.utils.simple_preprocess(data)
 
