@@ -4,12 +4,10 @@ from .terms import Term
 
 class Enrichment(models.Model):
     enrichment_id = models.CharField(unique=True, max_length=50)
-    enrichment_class = models.CharField(max_length=50)
-    longName = models.CharField(max_length=250)
-    dbpediaURL = models.CharField(max_length=150)
-    wikipediaURL = models.CharField(max_length=150)
-    description = models.TextField()
-    thumbnail = models.CharField(max_length=250)
+    name = models.CharField(max_length=150, default='')
+    title = models.CharField(max_length=150, default='')
+    overlay_title = models.CharField(max_length=150, default='')
+    overlay_text_description = models.TextField(default='')
     time_added = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
 

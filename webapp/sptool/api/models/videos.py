@@ -44,12 +44,12 @@ class VideoContentScore(models.Model):
 
 class VideoEnrichments(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    project_id = models.CharField(max_length=150,default='')
     enrichment = models.ForeignKey(Enrichment, on_delete=models.CASCADE)
-    time = models.IntegerField()
-    height = models.DecimalField(max_digits=6, decimal_places=2)
-    width = models.DecimalField(max_digits=6, decimal_places=2)
-    x_min = models.DecimalField(max_digits=6, decimal_places=2)
-    y_min = models.DecimalField(max_digits=6, decimal_places=2)
+    start_time = models.IntegerField(default=0)
+    end_time = models.IntegerField(default=-1)
+    x = models.DecimalField(max_digits=6, decimal_places=2)
+    y = models.DecimalField(max_digits=6, decimal_places=2)
 
     class Meta:
         verbose_name = "VideoEnrichments"
