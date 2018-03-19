@@ -55,15 +55,14 @@ def play_video(request, euscreen, *args, **kwargs):
         enrichment_id = enrichment["id"]
         enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
         enrichments_list.append({
-            "frame": enrichment["frame"],
+            "time": enrichment["start_time"],
             "enrichment_id": enrich["enrichment_id"],
-            "longName": enrich["longName"],
-            "dbpedia": enrich["dbpediaURL"],
-            "wikipedia": enrich["wikipediaURL"],
-            "description": enrich["description"],
-            "thumbnail": enrich["thumbnail"]
+            "name": enrich["name"],
+            "title": enrich["title"],
+            "overlay_title": enrich["overlay_title"],
+            "overlay_text_description": enrich["overlay_text_description"],
         })
-    enrichments_list = sorted(enrichments_list, key=lambda x: x["frame"], reverse=False)
+    enrichments_list = sorted(enrichments_list, key=lambda x: x["time"], reverse=False)
     context = {"video": video, "enrichments": enrichments_list, "site_url": site_url}
 
     return render(request, 'gui/play.html', context)

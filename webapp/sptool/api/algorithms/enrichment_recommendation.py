@@ -42,7 +42,7 @@ def enrichments_recommendation(user_vector, video_id):
     # keep enrichments that appear on the same time in a dictionary of lists
     dict_enrichments = defaultdict(list)
     for enrichment in video_enrichments:
-        time = enrichment.time
+        time = enrichment.start_time
         dict_enrichments[time].append(enrichment)
 
     # TODO it would be better if we had a unique id for each annotation to find which enrichments are on the same
@@ -72,10 +72,10 @@ def enrichments_recommendation(user_vector, video_id):
                 if tmp_enrichment_id in checked_enrichments:
                     continue
 
-                if enrichment.height == tmp_enrichment.height \
-                        and enrichment.width == tmp_enrichment.width \
-                        and enrichment.x_min == tmp_enrichment.x_min \
-                        and enrichment.y_min == tmp_enrichment.y_min:
+                if enrichment.project_id == tmp_enrichment.project_id \
+                        and enrichment.x == tmp_enrichment.x \
+                        and enrichment.y == tmp_enrichment.y \
+                        and enrichment.end_time == tmp_enrichment.end_time:
 
                     similarity = enrichment_similarity(user_vector, enrichment_vectors[tmp_enrichment_id])
 

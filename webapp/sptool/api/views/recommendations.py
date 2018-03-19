@@ -133,7 +133,7 @@ def recommend_enrichments(request, username, *args, **kwargs):
     result = []
     for enrichment in recommended_enrichments:
         result.append({
-            "frame": enrichment[0],
+            "start_time": enrichment[0],
             "id": enrichment[1],
             "similarity": enrichment[2]
         })
@@ -187,7 +187,7 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
             result = []
             for enrichment in recommended_enrichments:
                 result.append({
-                    "frame": enrichment[0],
+                    "start_time": enrichment[0],
                     "id": enrichment[1],
                     "similarity": enrichment[2]
                 })
