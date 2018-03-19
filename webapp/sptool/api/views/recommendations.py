@@ -127,8 +127,9 @@ def recommend_enrichments(request, username, *args, **kwargs):
             recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
     else:
-        # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
         recommended_enrichments = enrichments_list
+        # Flatten to match the structure we have in the if statement
+        recommended_enrichments = [item for items in recommended_enrichments for item in items]
 
     result = []
     for enrichment in recommended_enrichments:
@@ -181,8 +182,9 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
                     recommended_enrichments = recommended_enrichments[0:num_enrichments]
 
             else:
-                # TODO ERROR because of multiple enrichments, the dictionary later on is not created correctly
                 recommended_enrichments = enrichments_list
+                # Flatten to match the structure we have in the if statement
+                recommended_enrichments = [item for items in recommended_enrichments for item in items]
 
             result = []
             for enrichment in recommended_enrichments:
