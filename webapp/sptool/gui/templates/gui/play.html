@@ -152,7 +152,7 @@
         function FacebookEnrichmentShare(user, euscreen, enrichment, site_url) {
 
             ShareEnrichmentAction(user, euscreen, enrichment.enrichment_id.toString(), site_url);
-            var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent("https://google.com/search?q=" + enrichment.name.toString()), 'facebook-popup', 'height=350,width=600');
+            var facebookWindow = window.open('https://www.facebook.com/sharer/sharer.php?u=https://google.com/search?q=' + enrichment.name.toString(), 'facebook-popup', 'height=350,width=600');
             if(facebookWindow.focus) { facebookWindow.focus(); }
             return false;
         }
