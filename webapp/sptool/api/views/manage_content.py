@@ -294,6 +294,7 @@ def score_enrichment(enrichment_id):
     enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
 
     data = enrichment.name + " " + \
+           enrichment.title + " " + \
            enrichment.overlay_title + " " + \
            enrichment.overlay_text_description
 
