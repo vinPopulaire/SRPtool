@@ -51,7 +51,7 @@
     "model": "api.term",
     "pk": 7,
     "fields": {
-      "term": "Home",
+      "term": "home",
       "long_name": "home"
     }
   },
