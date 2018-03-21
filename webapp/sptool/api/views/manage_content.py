@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from pathlib import Path
 
 import gensim
-from gensim.models import Doc2Vec
+from gensim.models import KeyedVectors
 
 from ..models import Video, Term, VideoContentScore, VideoEnrichments
 from ..models import Enrichment, EnrichmentContentScore
@@ -103,7 +103,7 @@ def delete_videos(request, *args, **kwargs):
     return Response({"message": "Removed %d videos" % ii})
 
 def score_video(euscreen):
-    model_path = "/srv/sptool/api/management/commands/data_files/doc2vec.model"
+    model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
     my_file = Path(model_path)
 
     if my_file.is_file():
@@ -111,35 +111,47 @@ def score_video(euscreen):
     else:
         raise FileNotFoundError("Model for scoring not found")
 
-    model = Doc2Vec.load(model_path)
+    model = KeyedVectors.load_word2vec_format(model_path)
 
     terms_list = Term.objects.all()
     video = Video.objects.get(euscreen=euscreen)
 
+    # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other
+    # tags contribute using maximum similarity
+    # other contribute using average similarity
     data = video.title + " " + \
-           video.summary + " " + \
-           video.genre + " " + \
-           video.geographical_coverage + " " + \
-           video.topic + " " + \
-           video.thesaurus_terms
+           video.tags + " " + \
+           video.annotations
 
     video_tokens = gensim.utils.simple_preprocess(data)
 
     for term in terms_list:
 
-        term_tokens = gensim.utils.simple_preprocess(term.long_name)
+        # simple_preprocess returns a list with all tokens (just one in our case)
+        term_token = gensim.utils.simple_preprocess(term.term)[0]
 
-        similarity = model.docvecs.similarity_unseen_docs(model, term_tokens, video_tokens)
-        similarity = similarity if similarity > 0 else 0
+        # we will keep maximum similarity because it seems to provide clearer results
+        # average similarity can also be considered
+        max_similarity = 0
+        for video_token in video_tokens:
+            # calculate similarity. If word does not exist in model, skip it
+            try:
+                similarity = model.wv.similarity(video_token,term_token)
+            except KeyError:
+                continue
+            if max_similarity < similarity:
+                max_similarity = similarity
+            max_similarity = similarity if max_similarity < similarity else max_similarity
+        max_similarity = max_similarity if max_similarity > 0 else 0
 
         video_score = VideoContentScore.objects.filter(video_id=video.id).filter(term_id=term.id)
         if video_score.exists():
-            video_score.update(score=similarity)
+            video_score.update(score=max_similarity)
         else:
             scoring = VideoContentScore(
                 video_id=video.id,
                 term_id=term.id,
-                score=similarity
+                score=max_similarity
             )
             scoring.save()
 
@@ -160,8 +172,10 @@ def import_enrichments(request, *args, **kwargs):
     euscreen = req["mcssruid"]
     video = Video.objects.get(euscreen=euscreen)
 
+    enrichments_list = []
     for item in items:
         enrichment_id = item["options"]["modelOptions"]['1']['2']['v']
+        enrichments_list.append(enrichment_id)
         name = item["options"]["modelOptions"]['1']['1']['v']
 
         if '2' in item["options"]["modelOptions"]:
@@ -198,8 +212,6 @@ def import_enrichments(request, *args, **kwargs):
             )
             enrichment = enrichment[0]
 
-            print(enrichment)
-
         for position in item["positions"]:
             x = position["bp"]["x"]
             y = position["bp"]["y"]
@@ -229,10 +241,11 @@ def import_enrichments(request, *args, **kwargs):
 
                 video_enrichment.save()
 
-        try:
-            score_enrichment(enrichment_id)
-        except FileNotFoundError:
-            return Response({"message": "Model for scoring not found"})
+    try:
+        # score for the list of enrichments in order to open the model only once
+        score_enrichments(enrichments_list)
+    except FileNotFoundError:
+        return Response({"message": "Model for scoring not found"})
 
     return Response({"message": "Imported %d enrichments" % len(items)})
 
@@ -279,8 +292,10 @@ def delete_enrichments_on_videos(request, *args, **kwargs):
 
     return Response({"message": "Removed all enrichments on %d videos" % ii})
 
-def score_enrichment(enrichment_id):
-    model_path = "/srv/sptool/api/management/commands/data_files/doc2vec.model"
+def score_enrichments(enrichments_list):
+
+    # load model once for all enrichments
+    model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
     my_file = Path(model_path)
 
     if my_file.is_file():
@@ -288,11 +303,19 @@ def score_enrichment(enrichment_id):
     else:
         raise FileNotFoundError("Model for scoring not found")
 
-    model = Doc2Vec.load(model_path)
+    model = KeyedVectors.load_word2vec_format(model_path)
+
+    for enrichment_id in enrichments_list:
+        score_enrichment(enrichment_id, model)
+
+def score_enrichment(enrichment_id, model):
 
     terms_list = Term.objects.all()
     enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
 
+    # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other
+    # tags contribute using maximum similarity
+    # other contribute using average similarity
     data = enrichment.name + " " + \
            enrichment.title + " " + \
            enrichment.overlay_title + " " + \
@@ -302,19 +325,31 @@ def score_enrichment(enrichment_id):
 
     for term in terms_list:
 
-        term_tokens = gensim.utils.simple_preprocess(term.long_name)
+        # simple_preprocess returns a list with all tokens (just one in our case)
+        term_token = gensim.utils.simple_preprocess(term.term)[0]
 
-        similarity = model.docvecs.similarity_unseen_docs(model, term_tokens, enrichment_tokens)
-        similarity = similarity if similarity > 0 else 0
+        # we will keep maximum similarity because it seems to provide clearer results
+        # average similarity can also be considered
+        max_similarity = 0
+        for enrichment_token in enrichment_tokens:
+            # calculate similarity. If word does not exist in model, skip it
+            try:
+                similarity = model.wv.similarity(enrichment_token, term_token)
+            except KeyError:
+                continue
+            if max_similarity < similarity:
+                max_similarity = similarity
+            max_similarity = similarity if max_similarity < similarity else max_similarity
+        max_similarity = max_similarity if max_similarity > 0 else 0
 
         enrichment_score = EnrichmentContentScore.objects.filter(enrichment_id=enrichment.id).filter(term_id=term.id)
         if enrichment_score.exists():
-            enrichment_score.update(score=similarity)
+            enrichment_score.update(score=max_similarity)
         else:
             scoring = EnrichmentContentScore(
                 enrichment_id=enrichment.id,
                 term_id=term.id,
-                score=similarity
+                score=max_similarity
             )
             scoring.save()
 
