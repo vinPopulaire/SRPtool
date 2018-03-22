@@ -8,6 +8,8 @@ from ..models import User, UserContentScore, Friend
 from ..serializers import UserSerializer
 from ..algorithms import get_starting_vector
 
+from django.contrib.auth.models import User as Auth_user
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -33,6 +35,21 @@ class UserViewSet(viewsets.ModelViewSet):
                     score=user_vector[idx]
                     )
             user_score.save()
+        return response
+
+    def update(self, request, *args, **kwargs):
+        response = super(UserViewSet, self).update(request, *args, **kwargs)
+
+        instance = self.get_object()
+        auth_user = Auth_user.objects.get(username=instance.username)
+
+        if "name" in request.data:
+            auth_user.first_name = request.data["name"]
+        if "surname" in request.data:
+            auth_user.last_name = request.data["surname"]
+
+        auth_user.save()
+
         return response
 
     def destroy(self, request, *args, **kwargs):
