@@ -74,7 +74,7 @@ def find_representatives(request):
         # put each sample as a cluster
         # create a list of number of members with one member on each cluster
         clusterheads = x
-        num_of_members = [1]*len(clusterheads)
+        num_of_members = Counter(range(len(clusterheads)))
 
     clusters = {}
     for i in range(0,len(clusterheads)):
