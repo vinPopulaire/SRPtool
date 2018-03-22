@@ -78,7 +78,6 @@ def find_representatives(request):
 
     clusters = {}
     for i in range(0,len(clusterheads)):
-        print(i)
         clusters["cluster "+str(i)]={
             "representative": clusterheads[i],
             "num_of_members": num_of_members[i]
