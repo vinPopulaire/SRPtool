@@ -4,3 +4,4 @@ from .enrichment_recommendation import enrichments_recommendation, enrichment_sc
 from .user_recommendation import user_recommendation
 from .update_prof import update_prof
 from .find_representatives import find_representatives
+from .starting_vector import get_starting_vector

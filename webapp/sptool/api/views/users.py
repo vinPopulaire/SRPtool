@@ -6,6 +6,7 @@ from ..algorithms import find_representatives
 from ..models import Term
 from ..models import User, UserContentScore, Friend
 from ..serializers import UserSerializer
+from ..algorithms import get_starting_vector
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -22,11 +23,14 @@ class UserViewSet(viewsets.ModelViewSet):
         # initialize user's content score
         user = User.objects.get(username=request.data["username"])
         terms = Term.objects.all()
-        for term in terms:
+
+        user_vector = get_starting_vector(user)
+
+        for idx, term in enumerate(terms):
             user_score = UserContentScore(
                     user_id=user.id,
                     term_id=term.id,
-                    score=0
+                    score=user_vector[idx]
                     )
             user_score.save()
         return response
