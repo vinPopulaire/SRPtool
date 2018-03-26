@@ -30,19 +30,19 @@ def update_prof(request, username):
 
     weight_clicked = num_clicked_enrichments / float(num_enrichments_on_video)
 
-    # list of shared enrichments
-    shared_enrichments = actions.filter(action_id=4)
-    num_shared_enrichments = len(shared_enrichments)
-
-    weight_shared = num_shared_enrichments / float(num_enrichments_on_video)
-
     # number of clicked ads
-    clicked_ads = actions.filter(action_id=5)
+    clicked_ads = actions.filter(action_id=4)
     num_clicked_ads = len(clicked_ads)
 
     # TODO fix when we have ads on videos
     num_ads_on_video = 1
     weight_ads = num_clicked_ads / float(num_ads_on_video)
+
+    # list of shared enrichments
+    shared_enrichments = actions.filter(action_id=5)
+    num_shared_enrichments = len(shared_enrichments)
+
+    weight_shared = num_shared_enrichments / float(num_enrichments_on_video)
 
     # calculate k_denominator
     all_actions = Action.objects.all()
