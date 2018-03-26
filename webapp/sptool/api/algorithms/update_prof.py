@@ -67,47 +67,54 @@ def update_prof(request, username):
 
     k = k_nominator / k_denominator
 
+    k_negative = 0
+    if k < 0:
+        k_negative = 1
+        k = abs(k)
+
     # retrieve terms for given video
     video_terms = VideoContentScore.objects.filter(video=video)
-
-    # keep maximum score for normalization
-    max_score = 0
 
     # update user score based on video terms
     for video_term in video_terms:
         term_id = video_term.term_id
-        score = k*0.8*float(video_term.score)
+
+        user_content_score = UserContentScore.objects.filter(user=user).get(term_id=term_id)
+        old_value = float(user_content_score.score)
+
+        # if k is negative we try to "push" the value away from the
+        if clicked_enrichments and shared_enrichments:
+            score = 0.8*float(video_term.score)
+        elif clicked_enrichments or shared_enrichments:
+            score = 0.9*float(video_term.score)
+        else:
+            score = float(video_term.score)
+        if k_negative:
+            value = (old_value - score) + old_value
+        else:
+            value = score
 
         # update user score based on enrichment terms
         for clicked_enrichment in clicked_enrichments:
             enrichment_term_score = EnrichmentContentScore.objects.filter(enrichment_id=clicked_enrichment.content_id).get(term_id=term_id)
-            score += k*(0.1/num_clicked_enrichments)*float(enrichment_term_score.score)
+            value += (0.1/num_clicked_enrichments)*float(enrichment_term_score.score)
 
         for shared_enrichment in shared_enrichments:
             enrichment_term_score = EnrichmentContentScore.objects.filter(enrichment_id=shared_enrichment.content_id).get(term_id=term_id)
-            score += k*(0.1/num_shared_enrichments)*float(enrichment_term_score.score)
+            value += (0.1/num_shared_enrichments)*float(enrichment_term_score.score)
 
-        user_content_score = UserContentScore.objects.filter(user=user).get(term_id=term_id)
-        old_score = float(user_content_score.score)
+        # scale how much the new value is taken into account relatively to k
+        # k = 0 -> theta = 0.0
+        # k = 1 -> theta = 0.2
+        # 0 < k < 1 -> 0 < theta < 0.2
+        theta = 0.2*k
+        new_value = (1-theta)*old_value + theta*value
 
-        new_score = old_score + score
+        # don't allow negative scores or bigger than 1
+        new_value = max(new_value, 0)
+        new_value = min(new_value, 1)
 
-        # don't allow negative scores
-        new_score = max(new_score, 0)
-
-        # update max for normalization
-        if new_score > max_score:
-            max_score = new_score
-
-        user_content_score.score = new_score
-        user_content_score.save()
-
-    # normalization
-    for video_term in video_terms:
-        term_id = video_term.term_id
-
-        user_content_score = UserContentScore.objects.filter(user=user).get(term_id=term_id)
-        user_content_score.score = float(user_content_score.score) / max_score
+        user_content_score.score = new_value
         user_content_score.save()
 
     for action in actions:
