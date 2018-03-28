@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
     def import_enrichments(self):
 
-        my_file = Path("srv/sptool/api/management/commands/data_files/enrichments.json")
+        my_file = Path("/srv/sptool/api/management/commands/data_files/enrichments.json")
 
         if my_file.is_file():
             print("Parsing content from enrichments.json file")
@@ -43,41 +43,48 @@ class Command(BaseCommand):
 
             enrichment_id = key
 
-            if not Enrichment.objects.filter(enrichment_id=enrichment_id).exists():
+            enrichment_class = "Unknown"
+            name = data[key]["longName"]
 
-                enrichment_class = "Unknown"
-                longName = data[key]["longName"]
+            wikipediaURL = data[key]["wikipediaUrl"] if "wikipediaUrl" in data[key] else ""
 
-                if "wikipediaUrl" in data[key]:
-                    wikipediaURL = data[key]["wikipediaUrl"]
-                else:
-                    wikipediaURL = ""
+            dbpediaURL = data[key]["dbpediaUrl"] if "dbpediaUrl" in data[key] else ""
 
-                if "dbpediaUrl" in data[key]:
-                    dbpediaURL = data[key]["dbpediaUrl"]
-                else:
-                    dbpediaURL = ""
+            overlay_text_description = data[key]["description"] if "description" in data[key] else ""
+            thumbnail = data[key]["thumbnail"] if "thumbnail" in data[key] else ""
 
-                description = data[key]["description"]
-                thumbnail = data[key]["thumbnail"]
+            enrichment = Enrichment.objects.filter(enrichment_id=enrichment_id)
+
+            if not enrichment.exists():
 
                 enrichment = Enrichment(
                     enrichment_id=enrichment_id,
                     enrichment_class=enrichment_class,
-                    longName=longName,
+                    name=name,
                     wikipediaURL=wikipediaURL,
                     dbpediaURL=dbpediaURL,
-                    description=description,
+                    overlay_text_description=overlay_text_description,
                     thumbnail=thumbnail
                 )
 
                 enrichment.save()
 
+            else:
+                enrichment.update(
+                    enrichment_id=enrichment_id,
+                    enrichment_class=enrichment_class,
+                    name=name,
+                    wikipediaURL=wikipediaURL,
+                    dbpediaURL=dbpediaURL,
+                    overlay_text_description=overlay_text_description,
+                    thumbnail=thumbnail
+                )
+
         print("Done with importing enrichments")
 
     def get_position_of_enrichments_on_videos(self):
 
-        my_file = Path("srv/sptool/api/management/commands/data_files/enrichments_on_videos.json")
+        my_file = Path("/srv/sptool/api/management/commands/data_files/enrichments_on_videos.json")
 
         if my_file.is_file():
             print("Parsing content from enrichments_on_videos.json file")
