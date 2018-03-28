@@ -58,6 +58,7 @@ def play_video(request, euscreen, *args, **kwargs):
             "time": enrichment["start_time"],
             "enrichment_id": enrich["enrichment_id"],
             "name": enrich["name"],
+            "thumbnail": enrich["thumbnail"],
             "title": enrich["title"],
             "overlay_title": enrich["overlay_title"],
             "overlay_text_description": enrich["overlay_text_description"],

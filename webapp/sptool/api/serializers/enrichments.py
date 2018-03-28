@@ -5,4 +5,4 @@ from ..models import Enrichment
 class EnrichmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrichment
-        fields = (['enrichment_id','name','title','overlay_title','overlay_text_description'])
+        fields = (['enrichment_id','name','thumbnail','title','overlay_title','overlay_text_description'])
