@@ -70,8 +70,8 @@ def update_prof(request, username):
     k_negative = 0
     if k < 0:
         k_negative = 1
-        k = abs(k)
         print("\nuser didn't like the video and k = %f\n" % k)
+        k = abs(k)
 
     # retrieve terms for given video
     video_terms = VideoContentScore.objects.filter(video=video)
