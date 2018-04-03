@@ -190,6 +190,7 @@ def delete(request):
     return redirect('home')
 
 
+@login_required
 def signup(request):
 
     site_url = os.environ.get("SITE_URL")
@@ -230,6 +231,7 @@ def signup(request):
     return render(request, 'gui/signup.html', {'form': form})
 
 
+@login_required
 def home(request, *args, **kwargs):
 
     context = {}
@@ -237,12 +239,14 @@ def home(request, *args, **kwargs):
     return render(request, 'gui/home.html', context)
 
 
+@login_required
 def terms(request, *args, **kwargs):
     context = {}
 
     return render(request, 'gui/terms.html', context)
 
 
+@login_required
 def about(request, *args, **kwargs):
     context = {}
 
