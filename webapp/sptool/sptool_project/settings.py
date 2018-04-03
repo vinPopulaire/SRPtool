@@ -28,9 +28,9 @@ DEBUG = os.environ.get('DJANGO_DEBUG')
 ALLOWED_HOSTS = []
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
+LOGIN_URL = '/login/auth0'
 LOGOUT_REDIRECT_URL = '/'
-
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 # Application definition
 
 INSTALLED_APPS = [
