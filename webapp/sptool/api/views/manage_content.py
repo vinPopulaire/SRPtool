@@ -9,6 +9,8 @@ from gensim.models import KeyedVectors
 from ..models import Video, Term, VideoContentScore, VideoEnrichments
 from ..models import Enrichment, EnrichmentContentScore
 
+from django.core.cache import cache
+
 @api_view(['POST'])
 def import_video(request, *args, **kwargs):
 
@@ -103,15 +105,22 @@ def delete_videos(request, *args, **kwargs):
     return Response({"message": "Removed %d videos" % ii})
 
 def score_video(euscreen):
-    model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
-    my_file = Path(model_path)
+    model_cache_key = "model_cache"
+    model = cache.get(model_cache_key)
 
-    if my_file.is_file():
-        pass
-    else:
-        raise FileNotFoundError("Model for scoring not found")
+    if model is None:
 
-    model = KeyedVectors.load_word2vec_format(model_path)
+        print("Importing model to cache")
+        model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
+        my_file = Path(model_path)
+
+        if my_file.is_file():
+            pass
+        else:
+            raise FileNotFoundError("Model for scoring not found")
+
+        model = KeyedVectors.load_word2vec_format(model_path)
+        cache.set(model_cache_key, model, None)
 
     terms_list = Term.objects.all()
     video = Video.objects.get(euscreen=euscreen)
@@ -293,17 +302,24 @@ def delete_enrichments_on_videos(request, *args, **kwargs):
     return Response({"message": "Removed all enrichments on %d videos" % ii})
 
 def score_enrichments(enrichments_list):
-
     # load model once for all enrichments
-    model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
-    my_file = Path(model_path)
+    model_cache_key = "model_cache"
+    model = cache.get(model_cache_key)
 
-    if my_file.is_file():
-        pass
-    else:
-        raise FileNotFoundError("Model for scoring not found")
+    if model is None:
 
-    model = KeyedVectors.load_word2vec_format(model_path)
+        print("Importing model to cache")
+        model_path = "/srv/sptool/api/management/commands/data_files/word2vec.txt"
+        my_file = Path(model_path)
+
+        if my_file.is_file():
+            pass
+        else:
+            raise FileNotFoundError("Model for scoring not found")
+
+        model = KeyedVectors.load_word2vec_format(model_path)
+
+        cache.set(model_cache_key, model, None)
 
     for enrichment_id in enrichments_list:
         score_enrichment(enrichment_id, model)
