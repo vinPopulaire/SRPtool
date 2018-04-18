@@ -217,18 +217,22 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
     user_vector = user.get_user_vector()
 
-    if "sets" in request.data:
-        sets = request.data["sets"]
+    if "Items" in request.data:
+        sets = request.data["Items"]
     else:
         return Response({"message": "specify some sets of enrichments"})
 
     max_similarity = 0
     max_URL = ""
     for set in sets:
-        num = len(set["enrichments"])
+        enrichments = set["marker"]
+        url = set["source"]["url"]
+
+        num = len(set["marker"])
         similarities = []
 
-        for enrichment_id in set["enrichments"]:
+        for enrichment in enrichments:
+            enrichment_id = enrichment["options"]["modelOptions"]['1']['2']['v']
 
             try:
                 enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
@@ -243,7 +247,7 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
         if avg_similarity > max_similarity:
             max_similarity = avg_similarity
-            max_URL = set["url"]
+            max_URL = url
 
     result = max_URL
 
