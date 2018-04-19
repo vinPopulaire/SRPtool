@@ -10,6 +10,7 @@ from ..models import Video, Term, VideoContentScore, VideoEnrichments
 from ..models import Enrichment, EnrichmentContentScore
 
 from django.core.cache import cache
+from decimal import *
 
 @api_view(['POST'])
 def import_video(request, *args, **kwargs):
@@ -221,9 +222,13 @@ def import_enrichments(request, *args, **kwargs):
             )
             enrichment = enrichment[0]
 
+        # TODO find a way to update enrichments position (currently not possible)
         for position in item["positions"]:
+            # cast float to Decimal because the SQL representation is in Decimal
             x = position["bp"]["x"]
+            x = Decimal(str(round(x,2)))
             y = position["bp"]["y"]
+            y = Decimal(str(round(y,2)))
             start_time = position["b"]
             end_time = position["e"]
 
