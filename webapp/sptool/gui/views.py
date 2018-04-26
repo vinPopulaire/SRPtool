@@ -3,7 +3,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
+
+from django.utils.http import urlencode
 
 from .forms import SignupForm, ProfileForm, BusinessForm
 
@@ -300,3 +303,17 @@ def dashboard(request):
     }
 
     return render(request, 'gui/dashboard.html', context)
+
+
+@login_required
+def logout(request):
+
+    client_id = os.environ.get("AUTH0_CLIENT_ID")
+    auth_domain = os.environ.get("AUTH0_DOMAIN")
+
+    auth_logout(request)
+
+    # Redirect user to logout endpoint
+    params = {'returnTo': 'http://producer-toolkit.eu/#/login', 'client_id': client_id}
+
+    return redirect('https://' + auth_domain + '/v2/logout?' + urlencode(params))
