@@ -250,7 +250,8 @@ def import_enrichments(request, *args, **kwargs):
                     x=x,
                     y=y,
                     start_time=start_time,
-                    end_time=end_time
+                    end_time=end_time,
+                    marker=item
                 )
 
                 video_enrichment.save()

@@ -4,10 +4,10 @@ from rest_framework.decorators import api_view
 from ..algorithms import video_recommendation, find_representatives
 from ..algorithms import video_recommendation_to_target
 from ..algorithms import enrichments_recommendation, enrichment_score
+from ..algorithms import enrichments_recommendation_for_project
 from ..algorithms import user_recommendation
 from ..models import User
-from ..models import Video, Enrichment
-from ..models import EnrichmentContentScore
+from ..models import Video, Enrichment, VideoEnrichments
 
 
 @api_view(['POST'])
@@ -199,6 +199,59 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
                 "num_of_members": value["num_of_members"]
             }
             i = i + 1
+
+        response = Response(result_enrichments)
+    else:
+        response = Response({"message": "no information on target group"})
+
+    return response
+
+
+@api_view(['POST'])
+def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
+
+    if "project_id" in request.data:
+        project_id = request.data["project_id"]
+    else:
+        return Response({"message": "specific project must be selected"})
+
+    clusters = find_representatives(request)
+
+    if clusters:
+
+        # get results for the cluster with most members
+        max_num = 0
+        cluster_vector = []
+        for key,value in clusters.items():
+            if max_num < value["num_of_members"]:
+                max_num = value["num_of_members"]
+                cluster_vector = list(value["representative"])
+
+        enrichments_list = enrichments_recommendation_for_project(cluster_vector, project_id)
+
+        recommended_enrichments = []
+        # insert first enrichment (best score) to the list for simultaneous enrichments
+        for enrichments in enrichments_list:
+            recommended_enrichments.append(enrichments[0])
+
+        recommended_enrichments = sorted(recommended_enrichments, key=lambda x: x[2], reverse=True)
+
+        result = []
+        for recommended_enrichment in recommended_enrichments:
+
+            enrichment_id = recommended_enrichment[1]
+            enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
+            # get the json for the first enrichment with the same name
+            enrichment_json = VideoEnrichments.objects.filter(enrichment_id=enrichment.id).filter(project_id=project_id)[0].marker
+
+            result.append(
+                enrichment_json
+            )
+
+        result_enrichments = {
+            "project_id": project_id,
+            "marker": result
+        }
 
         response = Response(result_enrichments)
     else:
