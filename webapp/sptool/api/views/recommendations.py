@@ -215,6 +215,10 @@ def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
     else:
         return Response({"message": "specific project must be selected"})
 
+    # find mcssr_id because the IEVCT needs it
+    video_id = VideoEnrichments.objects.filter(project_id=project_id)[0].video_id
+    mcssruid = Video.objects.get(id=video_id).euscreen
+
     clusters = find_representatives(request)
 
     if clusters:
@@ -250,6 +254,7 @@ def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
 
         result_enrichments = {
             "project_id": project_id,
+            "mcssruid": mcssruid,
             "marker": result
         }
 
