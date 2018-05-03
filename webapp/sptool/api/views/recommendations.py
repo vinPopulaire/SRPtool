@@ -216,7 +216,10 @@ def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
         return Response({"message": "specific project must be selected"})
 
     # find mcssr_id because the IEVCT needs it
-    video_id = VideoEnrichments.objects.filter(project_id=project_id)[0].video_id
+    try:
+        video_id = VideoEnrichments.objects.filter(project_id=project_id)[0].video_id
+    except IndexError:
+        return Response({"message": "project not yet on the SRP database"})
     mcssruid = Video.objects.get(id=video_id).euscreen
 
     clusters = find_representatives(request)
