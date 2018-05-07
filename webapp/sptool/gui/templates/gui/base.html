@@ -8,6 +8,7 @@
     <title>SRP Tool</title>
 
     {% load static %}
+    {% load base_template %}
     <link rel="shortcut icon" type="image/png" href="{% static 'gui/images/favicon.ico' %}?v=2">
 
     <link rel="stylesheet" type="text/css" href="{% static 'gui/css/vendor/bootstrap/css/bootstrap.min.css' %}">
@@ -15,6 +16,30 @@
     <link rel="stylesheet" type="text/css" href="{% static 'gui/css/style.css' %}">
 
     <script src="{% static 'gui/js/vendor/jquery.min.js' %}"></script>
+
+    <script src="https://cdn.auth0.com/js/auth0/9.3.1/auth0.min.js"></script>
+    <script type="text/javascript">
+    window.onload = function () {
+        var webAuth = new auth0.WebAuth({
+            domain: '{% settings_value "SOCIAL_AUTH_AUTH0_DOMAIN"  %}',
+            clientID: '{% settings_value "SOCIAL_AUTH_AUTH0_KEY"  %}',
+        });
+
+        webAuth.checkSession(
+            {
+                audience: 'https://'+ '{% settings_value "SOCIAL_AUTH_AUTH0_DOMAIN" %}' +'/api/v2/',
+                scope: 'openid profile',
+                redirectUri: '{% settings_value "SITE_URL" %}' + '/complete/auth0',
+                responseType: 'token id_token',
+            }, function (err, result) {
+                if (err) {
+                    window.location = '{% settings_value "SITE_URL" %}' + '/logout';
+                }
+            }
+        );
+    }
+
+    </script>
 </head>
 
 <body>

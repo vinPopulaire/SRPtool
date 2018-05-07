@@ -159,6 +159,8 @@ SOCIAL_AUTH_AUTH0_SCOPE = [
     'profile'
 ]
 
+SITE_URL = os.environ.get('SITE_URL')
+
 
 AUTHENTICATION_BACKENDS = {
     'gui.auth0backend.Auth0',
