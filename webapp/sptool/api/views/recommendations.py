@@ -284,10 +284,10 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
         return Response({"message": "specify some sets of enrichments"})
 
     max_similarity = 0
-    max_URL = ""
+    max_pid = ""
     for set in sets:
         enrichments = set["marker"]
-        url = set["source"]["url"]
+        pid = set["pid"]
 
         num = len(set["marker"])
         similarities = []
@@ -308,9 +308,9 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
         if avg_similarity > max_similarity:
             max_similarity = avg_similarity
-            max_URL = url
+            max_pid = pid
 
-    result = max_URL
+    result = "http://ievc.producer-toolkit.eu/#v/" + max_pid
 
     return Response({"URL": result})
 
