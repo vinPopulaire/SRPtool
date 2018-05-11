@@ -46,7 +46,20 @@ def update_prof(request, username):
 
     # calculate k_denominator
     all_actions = Action.objects.all()
-    importances = list(all_actions.values_list('importance', flat=True))
+
+    # don't take into account importances when no enrichments or ads are present
+    importances = []
+    importances.append(all_actions.get(id=1).importance)
+    importances.append(all_actions.get(id=2).importance)
+    if num_enrichments_on_video > 1:
+        importances.append(all_actions.get(id=3).importance)
+    if num_ads_on_video > 1:
+        importances.append(all_actions.get(id=4).importance)
+    importances.append(all_actions.get(id=5).importance)
+    importances.append(all_actions.get(id=6).importance)
+
+    # old approach take into account all importances
+    # importances = list(all_actions.values_list('importance', flat=True))
 
     k_denominator = float(sum(importances))
 
