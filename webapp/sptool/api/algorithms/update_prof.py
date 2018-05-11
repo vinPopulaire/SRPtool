@@ -117,11 +117,11 @@ def update_prof(request, username):
             enrichment_term_score = EnrichmentContentScore.objects.filter(enrichment_id=shared_enrichment.content_id).get(term_id=term_id)
             value += (0.1/num_shared_enrichments)*float(enrichment_term_score.score)
 
-        # scale how much the new value is taken into account relatively to k
+        # scale how much the new value is taken into account relatively to k (if 0.2*k)
         # k = 0 -> theta = 0.0
         # k = 1 -> theta = 0.2
         # 0 < k < 1 -> 0 < theta < 0.2
-        theta = 0.3*k
+        theta = 0.5*k
         new_value = (1-theta)*old_value + theta*value
 
         # don't allow negative scores or bigger than 1
