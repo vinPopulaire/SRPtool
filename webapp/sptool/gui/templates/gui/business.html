@@ -139,7 +139,7 @@
 
         else {
             enrichments_list.sort(function(a, b) {
-                return parseFloat(a.frame) - parseFloat(b.frame);
+                return parseFloat(a.start_time) - parseFloat(b.start_time);
             });
 
             for(i = 0; i < enrichments_list.length; i++) {
@@ -151,13 +151,13 @@
                         '<td>' +
                             '<img src="' + enrichment.thumbnail + '" class="img-circle" alt="missing image" width="50px" height="50px" style="margin: 10px;">' +
                             '<a class="inline" data-toggle="collapse" data-parent="#accordion" href="#collapse_enrichment' + i + '">' + enrichment.enrichment_id + '</a>' +
-                            '<div class="inline" style="padding-left: 2px">[' + enrichments_list[i].frame + ']</div>' +
+                            '<div class="inline" style="padding-left: 2px">[' + enrichments_list[i].start_time + ']</div>' +
 
                             '<div class="material-switch pull-right">' +
-                                '<input checked name="checked" id="option' + i + '" name="someSwitchOption001" type="checkbox" value="' + enrichment.enrichment_id + '@' + enrichments_list[i].frame + '"/>' + // @ is used to pass both enrichment ID and the FRAME
+                                '<input checked name="checked" id="option' + i + '" name="someSwitchOption001" type="checkbox" value="' + enrichment.enrichment_id + '@' + enrichments_list[i].start_time + '"/>' + // @ is used to pass both enrichment ID and the TIME
                                 '<label for="option' + i + '" class="label-danger"></label>' +
                             '</div>' +
-                            '<div id="collapse_enrichment' + i + '" class="panel-collapse collapse">' + enrichment.description + '</div>' +
+                            '<div id="collapse_enrichment' + i + '" class="panel-collapse collapse">' + enrichment.overlay_text_description + '</div>' +
 
                         '</td>' +
                     '</tr>';
