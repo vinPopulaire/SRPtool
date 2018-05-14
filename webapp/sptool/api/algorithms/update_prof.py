@@ -46,7 +46,20 @@ def update_prof(request, username):
 
     # calculate k_denominator
     all_actions = Action.objects.all()
-    importances = list(all_actions.values_list('importance', flat=True))
+
+    # don't take into account importances when no enrichments or ads are present
+    importances = []
+    importances.append(all_actions.get(id=1).importance)
+    importances.append(all_actions.get(id=2).importance)
+    if num_enrichments_on_video > 1:
+        importances.append(all_actions.get(id=3).importance)
+    if num_ads_on_video > 1:
+        importances.append(all_actions.get(id=4).importance)
+    importances.append(all_actions.get(id=5).importance)
+    importances.append(all_actions.get(id=6).importance)
+
+    # old approach take into account all importances
+    # importances = list(all_actions.values_list('importance', flat=True))
 
     k_denominator = float(sum(importances))
 
@@ -104,11 +117,11 @@ def update_prof(request, username):
             enrichment_term_score = EnrichmentContentScore.objects.filter(enrichment_id=shared_enrichment.content_id).get(term_id=term_id)
             value += (0.1/num_shared_enrichments)*float(enrichment_term_score.score)
 
-        # scale how much the new value is taken into account relatively to k
+        # scale how much the new value is taken into account relatively to k (if 0.2*k)
         # k = 0 -> theta = 0.0
         # k = 1 -> theta = 0.2
         # 0 < k < 1 -> 0 < theta < 0.2
-        theta = 0.3*k
+        theta = 0.5*k
         new_value = (1-theta)*old_value + theta*value
 
         # don't allow negative scores or bigger than 1

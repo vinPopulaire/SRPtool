@@ -1,6 +1,7 @@
 from ..models import Term
 from ..models import Video, VideoContentScore
 from ..models import UserContentScore
+from ..models import VideoWatched
 from ..models import Friend
 
 from .similarities import *
@@ -30,6 +31,11 @@ def video_recommendation(user, videos_list, num_req_videos):
 
     else:
         final_recommendations = results_content
+
+    # remove watched videos from the recommended list
+    already_watched_videos = VideoWatched.objects.filter(user=user)
+    for video in already_watched_videos:
+        final_recommendations.pop(video.video_id)
 
     sorted_results = sorted(final_recommendations.items(), key=operator.itemgetter(1), reverse=True)
     if num_req_videos != 0:

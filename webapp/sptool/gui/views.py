@@ -270,17 +270,19 @@ def export(request, *args, **kwargs):
 
         writer = csv.writer(response)
 
-        writer.writerow(['Frame', 'Enrichment_id', 'Class', 'LongName', 'DBpedia', 'Wikipedia', 'Description'])
+        writer.writerow(['Frame', 'Enrichment_id', 'Class', 'Title', 'Name', 'DBpedia', 'Wikipedia', 'Overlay Title', 'Description'])
 
         for item in checked_enrichments:
 
             data = item.split("@")
             enrichment_id = data[0]
-            frame = data[1]
+            time = data[1]
 
             enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
 
-            writer.writerow([frame, enrich["enrichment_id"], enrich["enrichment_class"], enrich["longName"], enrich["dbpediaURL"], enrich["wikipediaURL"], enrich["description"]])
+            print(enrich)
+
+            writer.writerow([time, enrich["enrichment_id"], enrich["enrichment_class"], enrich["title"], enrich["name"], enrich["dbpediaURL"], enrich["wikipediaURL"], enrich["overlay_title"], enrich["overlay_text_description"]])
 
         return response
 
