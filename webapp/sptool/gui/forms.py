@@ -12,6 +12,8 @@ class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Provide a valid email address',
                              label="Email")
 
+    agree = forms.BooleanField()
+
     class Meta:
         input_class = 'form-control'
 
