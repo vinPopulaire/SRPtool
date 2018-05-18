@@ -33,7 +33,7 @@ class Command(BaseCommand):
         model = KeyedVectors.load_word2vec_format(model_path)
         print("Model loaded")
 
-        terms_list = Term.objects.all()
+        terms_list = Term.objects.all().order_by('id')
         videos_list = Video.objects.all()
 
         num_videos = 1

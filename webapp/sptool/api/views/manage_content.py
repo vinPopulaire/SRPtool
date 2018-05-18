@@ -123,7 +123,7 @@ def score_video(euscreen):
         model = KeyedVectors.load_word2vec_format(model_path)
         cache.set(model_cache_key, model, None)
 
-    terms_list = Term.objects.all()
+    terms_list = Term.objects.all().order_by('id')
     video = Video.objects.get(euscreen=euscreen)
 
     # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other
@@ -349,7 +349,7 @@ def score_enrichments(enrichments_list):
 
 def score_enrichment(enrichment_id, model):
 
-    terms_list = Term.objects.all()
+    terms_list = Term.objects.all().order_by('id')
     enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
 
     # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other
