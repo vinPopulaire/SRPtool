@@ -307,6 +307,23 @@ def delete_enrichments_on_videos(request, *args, **kwargs):
 
     return Response({"message": "Removed all enrichments on %d videos" % ii})
 
+@api_view(['POST'])
+def delete_enrichments_on_project(request, *args, **kwargs):
+
+    if "project_id" in request.data:
+        project_id = request.data["project_id"]
+    else:
+        return Response({"message": "No project provided for enrichment deletion"})
+
+    enrichments = VideoEnrichments.objects.filter(project_id=project_id)
+
+    if enrichments.count() > 0:
+        enrichments.delete()
+
+        return Response({"message": "Deleted project " + project_id + " along with its enrichments"})
+    else:
+        return Response({"message": "The project doesn't exist in the database"})
+
 def score_enrichments(enrichments_list):
     # load model once for all enrichments
     model_cache_key = "model_cache"
