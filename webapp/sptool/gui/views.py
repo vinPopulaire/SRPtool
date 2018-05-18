@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import SignupForm, ProfileForm, BusinessForm
 
+from django.apps import apps
+
 import os
 import csv, json
 
@@ -170,7 +172,18 @@ def profile(request):
                                     'occupation': current_profile["occupation"],
                                     'education': current_profile["education"]})
 
-    context = {'form': form}
+    # workaround to get the user_vector for benchmarking
+    User = apps.get_model('api', 'User')
+    user = User.objects.get(username=current_user)
+
+    Term = apps.get_model('api', 'Term')
+    terms = Term.objects.all().order_by('id').values_list('term', flat=True)
+
+    user_vector = user.get_user_vector()
+
+    vectors = zip(terms, user_vector)
+
+    context = {'form': form, 'vectors': vectors}
 
     return render(request, 'gui/profile.html', context)
 
