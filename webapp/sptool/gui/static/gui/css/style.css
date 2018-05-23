@@ -156,3 +156,15 @@ input[type="button"]:not(.active) {
 input[type="button"]:hover:not(.active) {
 	background-color: #ddd;
 }
+
+input[type=checkbox]
+{
+    padding: 10px;
+    height: 1.5em;
+}
+
+#id_agree
+{
+    display: inline;
+    width: 1.5em;
+}
