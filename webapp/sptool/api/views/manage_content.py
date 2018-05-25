@@ -12,6 +12,8 @@ from ..models import Enrichment, EnrichmentContentScore
 from django.core.cache import cache
 from decimal import *
 
+import json
+
 @api_view(['POST'])
 def import_video(request, *args, **kwargs):
 
@@ -171,8 +173,10 @@ def score_video(euscreen):
 @api_view(['POST'])
 def import_enrichments(request, *args, **kwargs):
 
-    if "Items" in request.data:
-        req = request.data["Items"][0]
+    json_data = json.loads(request.body)
+
+    if "Items" in json_data:
+        req = json_data["Items"][0]
     else:
         return Response({"message": "No enrichments provided for import"})
 
