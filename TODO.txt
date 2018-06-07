@@ -1,3 +1,5 @@
-Enrichment scores are too bad
-
-Video scores can be impoved
+- Auth user should be custom user model
+https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#substituting-a-custom-user-model
+in order to make email unique on auth user
+Now the signup form doesn't allow same email (SignupForm -> clean_email) but an api call
+can allow it (needs fixing).

@@ -59,6 +59,12 @@ class SignupForm(UserCreationForm):
             field.widget.attrs["required"] = 'required'
         super(UserCreationForm, self).__init__(*args, **kwargs)
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and AuthUser.objects.filter(email=email).exists():
+            raise forms.ValidationError(u'A user with that email already exists.')
+        return email
+
 
 class ProfileForm(forms.Form):
 
