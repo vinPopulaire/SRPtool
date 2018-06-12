@@ -19,4 +19,4 @@ from .users import target
 from .users import show_friends, add_friend, remove_friend
 
 from .manage_content import import_video, delete_videos
-from .manage_content import import_enrichments, delete_enrichments, delete_enrichments_on_videos
+from .manage_content import import_enrichments, delete_enrichments, delete_enrichments_on_videos, delete_enrichments_on_project

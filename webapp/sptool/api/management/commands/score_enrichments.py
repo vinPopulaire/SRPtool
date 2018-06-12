@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         model = Doc2Vec.load(model_path)
 
-        terms_list = Term.objects.all()
+        terms_list = Term.objects.all().order_by('id')
         enrichments_list = Enrichment.objects.all()
 
         for term in terms_list:

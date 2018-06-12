@@ -84,6 +84,15 @@
                 <small style="color: red">{{ form.password2.errors }}</small>
             </div>
 
+            <div style="width:400px">
+                <div class="input-icon fui-question-circle"></div>
+                <div class="item">
+                    {{ form.agree }}
+                    <label for="id_agree" style="display:inline; position:relative; padding-left: 12px; bottom: 5px">Do you agree with the <a href="{% url "terms" %}" target="_blank">Terms and Conditions</a> of the service?</label>
+                </div>
+                <small style="color: red">{{ form.agree.errors }}</small>
+            </div>
+
             <div style="text-align:center; padding-top: 20px">
                 <input type="submit" class="btn btn-hg btn-primary btn-wide" value="Sign Up">
             </div>

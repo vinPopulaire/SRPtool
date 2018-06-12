@@ -12,6 +12,8 @@ from ..models import Enrichment, EnrichmentContentScore
 from django.core.cache import cache
 from decimal import *
 
+import json
+
 @api_view(['POST'])
 def import_video(request, *args, **kwargs):
 
@@ -123,7 +125,7 @@ def score_video(euscreen):
         model = KeyedVectors.load_word2vec_format(model_path)
         cache.set(model_cache_key, model, None)
 
-    terms_list = Term.objects.all()
+    terms_list = Term.objects.all().order_by('id')
     video = Video.objects.get(euscreen=euscreen)
 
     # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other
@@ -171,8 +173,10 @@ def score_video(euscreen):
 @api_view(['POST'])
 def import_enrichments(request, *args, **kwargs):
 
-    if "Items" in request.data:
-        req = request.data["Items"][0]
+    json_data = json.loads(request.body)
+
+    if "Items" in json_data:
+        req = json_data["Items"][0]
     else:
         return Response({"message": "No enrichments provided for import"})
 
@@ -307,6 +311,23 @@ def delete_enrichments_on_videos(request, *args, **kwargs):
 
     return Response({"message": "Removed all enrichments on %d videos" % ii})
 
+@api_view(['POST'])
+def delete_enrichments_on_project(request, *args, **kwargs):
+
+    if "project_id" in request.data:
+        project_id = request.data["project_id"]
+    else:
+        return Response({"message": "No project provided for enrichment deletion"})
+
+    enrichments = VideoEnrichments.objects.filter(project_id=project_id)
+
+    if enrichments.count() > 0:
+        enrichments.delete()
+
+        return Response({"message": "Deleted project " + project_id + " along with its enrichments"})
+    else:
+        return Response({"message": "The project doesn't exist in the database"})
+
 def score_enrichments(enrichments_list):
     # load model once for all enrichments
     model_cache_key = "model_cache"
@@ -332,7 +353,7 @@ def score_enrichments(enrichments_list):
 
 def score_enrichment(enrichment_id, model):
 
-    terms_list = Term.objects.all()
+    terms_list = Term.objects.all().order_by('id')
     enrichment = Enrichment.objects.get(enrichment_id=enrichment_id)
 
     # IDEA split data in two so that similarity comes 0.5 from tags and 0.5 from the other

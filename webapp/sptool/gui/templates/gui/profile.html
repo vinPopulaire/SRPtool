@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    <div class="col-md-8">
     <div class="container" style="width:500px; padding-bottom: 50px">
         <div class="title">Profile</div>
         <hr>
@@ -58,5 +59,35 @@
 
         </div><!-- /login-form -->
     </div> <!-- /container -->
+    </div>
+    <div class="col-md-4">
+        <div class="container" style="width:200px; padding-bottom: 50px">
+        <div class="title" style="padding:5px"></div>
+
+        <div class="media attribution">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for vector in vectors %}
+                        <tr>
+                            <td>{{ vector.0 }}</td>
+
+                            <td>
+                                {{ vector.1 }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+        </div><!-- /container -->
 
 {% endblock %}

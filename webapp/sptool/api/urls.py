@@ -58,5 +58,6 @@ urlpatterns = [
 
     url(r'^import_enrichments$', views.import_enrichments),
     url(r'^delete_enrichments$', views.delete_enrichments),
-    url(r'^delete_enrichments_on_videos$', views.delete_enrichments_on_videos)
+    url(r'^delete_enrichments_on_videos$', views.delete_enrichments_on_videos),
+    url(r'^delete_enrichments_on_project$', views.delete_enrichments_on_project)
 ]
