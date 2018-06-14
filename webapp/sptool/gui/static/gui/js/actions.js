@@ -1,11 +1,12 @@
 // TODO remove print logs for production
 
-function WatchVideo(user, euscreen, site_url) {
+function WatchVideo(user, euscreen, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/watch", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": euscreen
     });
@@ -17,13 +18,14 @@ function WatchVideo(user, euscreen, site_url) {
     console.log(response);
 }
 
-function PlayAction(user, euscreen, site_url, time) {
+function PlayAction(user, euscreen, site_url, api_key, time) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": euscreen,
         "action": "play_video",
@@ -36,13 +38,14 @@ function PlayAction(user, euscreen, site_url, time) {
     console.log(response);
 }
 
-function StopAction(user, euscreen, site_url, time, duration) {
+function StopAction(user, euscreen, site_url, api_key, time, duration) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": euscreen,
         "action": "stop_video",
@@ -54,13 +57,14 @@ function StopAction(user, euscreen, site_url, time, duration) {
     console.log(response);
 }
 
-function ClickEnrichmentAction(user, video, enrichment, site_url) {
+function ClickEnrichmentAction(user, video, enrichment, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": video["euscreen"].toString(),
         "action": "click_enrichment",
@@ -71,18 +75,19 @@ function ClickEnrichmentAction(user, video, enrichment, site_url) {
     console.log(response);
 }
 
-function ShareAction(user, euscreen, site_url) {
+function ShareAction(user, euscreen, site_url, api_key) {
     console.log("Not implemented yet");
 }
 
 // TODO change "share" action to "share_enrichment" on Actions model
-function ShareEnrichmentAction(user, euscreen, enrichment_id, site_url) {
+function ShareEnrichmentAction(user, euscreen, enrichment_id, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": euscreen,
         "action": "share",
@@ -93,13 +98,14 @@ function ShareEnrichmentAction(user, euscreen, enrichment_id, site_url) {
     console.log(response);
 }
 
-function LikeAction(user, video, site_url) {
+function LikeAction(user, video, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": video["euscreen"].toString(),
         "action": "explicit_rf",
@@ -110,13 +116,14 @@ function LikeAction(user, video, site_url) {
     console.log(response);
 }
 
-function DislikeAction(user, video, site_url) {
+function DislikeAction(user, video, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/actions", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
     var data = JSON.stringify({
         "euscreen": video["euscreen"].toString(),
         "action": "explicit_rf",
@@ -127,7 +134,7 @@ function DislikeAction(user, video, site_url) {
     console.log(response);
 }
 
-function UpdateProfile(user, video_euscreen, site_url) {
+function UpdateProfile(user, video_euscreen, site_url, api_key) {
     var csrftoken = Cookies.get('csrftoken');
     var xhttp = new XMLHttpRequest();
     // open(method, url, asynchronous)
@@ -135,6 +142,7 @@ function UpdateProfile(user, video_euscreen, site_url) {
     xhttp.open("POST", site_url.toString() + "/api/user/" + user.toString() + "/update_profile", false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.setRequestHeader("Api-Key", api_key);
 
     var data = JSON.stringify({
         "euscreen": video_euscreen});

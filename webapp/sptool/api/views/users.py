@@ -10,8 +10,13 @@ from ..algorithms import get_starting_vector
 
 from django.contrib.auth.models import User as Auth_user
 
+from rest_framework_api_key.permissions import HasAPIAccess
+
 
 class UserViewSet(viewsets.ModelViewSet):
+
+    permission_classes = (HasAPIAccess,)
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_value_regex = '[0-9 a-z.A-Z_]+'

@@ -11,6 +11,7 @@ django-cors-headers==2.1.0
 django-environ==0.4.0
 djangorestframework==3.5.1
 docutils==0.14
+drfapikey==0.0.3
 gensim==3.4.0
 idna==2.6
 jmespath==0.9.3

@@ -1,5 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework_api_key.permissions import HasAPIAccess
 
 from ..algorithms import video_recommendation, find_representatives
 from ..algorithms import video_recommendation_to_target
@@ -11,6 +13,7 @@ from ..models import Video, Enrichment, VideoEnrichments
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_videos(request, username, *args, **kwargs):
 
     if "num" in request.data:
@@ -43,6 +46,7 @@ def recommend_videos(request, username, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_videos_to_target(request, *args, **kwargs):
 
     if "num" in request.data:
@@ -89,6 +93,7 @@ def recommend_videos_to_target(request, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_enrichments(request, username, *args, **kwargs):
 
     try:
@@ -143,6 +148,7 @@ def recommend_enrichments(request, username, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_enrichments_to_target(request, *args, **kwargs):
 
     if "euscreen" in request.data:
@@ -208,6 +214,7 @@ def recommend_enrichments_to_target(request, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
 
     if "project_id" in request.data:
@@ -269,6 +276,7 @@ def recommend_enrichments_to_target_for_IEVCT(request, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
     try:
@@ -316,6 +324,7 @@ def recommend_enrichment_from_set(request, username, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def recommend_friends(request, username, *args, **kwargs):
 
     if "num" in request.data:

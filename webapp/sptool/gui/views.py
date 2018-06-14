@@ -21,21 +21,29 @@ def videos(request):
     current_user = request.user
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
     response = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_videos",
-                             data={"num": 10}
+                             data={"num": 10},
+                             headers={
+                                 "Api-Key": api_key,
+                             },
                              )
     recommended_videos_list = []
     for video in response.json()["videos"]:
         euscreen = video["video"]
-        vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+        vid = requests.get(site_url + "/api/video/" + str(euscreen),
+                           headers={
+                               "Api-Key": api_key,
+                           },
+                           ).json()
         recommended_videos_list.append({
             "title": vid["title"],
             "summary": vid["summary"],
             "euscreen": vid["euscreen"],
         })
 
-    context = {"recommended_videos": recommended_videos_list, "site_url": site_url}
+    context = {"recommended_videos": recommended_videos_list, "site_url": site_url, "api_key": api_key}
 
     return render(request, 'gui/videos.html', context)
 
@@ -45,20 +53,37 @@ def play_video(request, euscreen, *args, **kwargs):
     current_user = request.user
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
-    video = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+    video = requests.get(site_url + "/api/video/" + str(euscreen),
+                         headers={
+                             "Api-Key": api_key,
+                         },
+                         ).json()
 
     r = requests.post(site_url + "/api/user/" + str(current_user) + "/watch",
-                      data={"euscreen": str(euscreen)})
+                      data={"euscreen": str(euscreen)},
+                      headers={
+                          "Api-Key": api_key,
+                      },
+                      )
 
     enrichments = requests.post(site_url + "/api/user/" + str(current_user) + "/recommend_enrichments",
                                 data={"euscreen": str(euscreen),
-                                      "num": 0})
+                                      "num": 0},
+                                headers={
+                                    "Api-Key": api_key,
+                                },
+                                )
 
     enrichments_list = []
     for enrichment in enrichments.json()["enrichments"]:
         enrichment_id = enrichment["id"]
-        enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
+        enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/",
+                              headers={
+                                  "Api-Key": api_key,
+                              },
+                              ).json()
         enrichments_list.append({
             "time": enrichment["start_time"],
             "enrichment_id": enrich["enrichment_id"],
@@ -69,7 +94,7 @@ def play_video(request, euscreen, *args, **kwargs):
             "overlay_text_description": enrich["overlay_text_description"],
         })
     enrichments_list = sorted(enrichments_list, key=lambda x: x["time"], reverse=False)
-    context = {"video": video, "enrichments": enrichments_list, "site_url": site_url}
+    context = {"video": video, "enrichments": enrichments_list, "site_url": site_url, "api_key": api_key}
 
     return render(request, 'gui/play.html', context)
 
@@ -78,6 +103,7 @@ def play_video(request, euscreen, *args, **kwargs):
 def business(request):
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
     if request.method == 'POST':
         form = BusinessForm(request.POST)
@@ -104,7 +130,10 @@ def business(request):
                 data["education_id"] = education
 
             response = requests.post(site_url + "/api/videos_to_target",
-                                     data=data
+                                     data=data,
+                                     headers={
+                                         "Api-Key": api_key,
+                                     },
                                      ).json()
 
             videos_list = []
@@ -115,7 +144,11 @@ def business(request):
 
                 for video in rep_videos:
                     euscreen = video["video"]
-                    vid = requests.get(site_url + "/api/video/" + str(euscreen)).json()
+                    vid = requests.get(site_url + "/api/video/" + str(euscreen),
+                                       headers={
+                                           "Api-Key": api_key,
+                                       },
+                                       ).json()
                     videos_list.append({
                         "title": vid["title"],
                         "summary": vid["summary"],
@@ -130,7 +163,7 @@ def business(request):
         videos_list = []
         enrichments_list = []
 
-    context = {'form': form, 'videos': videos_list, 'enrichments': enrichments_list, 'site_url': site_url}
+    context = {'form': form, 'videos': videos_list, 'enrichments': enrichments_list, 'site_url': site_url, "api_key": api_key}
 
     return render(request, 'gui/business.html', context)
 
@@ -140,8 +173,13 @@ def profile(request):
     current_user = request.user
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
-    current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/").json()
+    current_profile = requests.get(site_url + "/api/user/" + str(current_user) + "/",
+                                   headers={
+                                       "Api-Key": api_key,
+                                   },
+                                   ).json()
 
     if request.method == 'POST':
         form = ProfileForm(request.POST)
@@ -163,7 +201,11 @@ def profile(request):
                                    'gender': gender,
                                    'country': country,
                                    'occupation': occupation,
-                                   'education': education})
+                                   'education': education},
+                             headers={
+                                 "Api-Key": api_key,
+                             },
+                             )
 
             return redirect('profile')
     else:
@@ -196,9 +238,14 @@ def delete(request):
     current_user = request.user
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
     # delete platform user
-    r = requests.delete(site_url + "/api/user/" + str(current_user))
+    r = requests.delete(site_url + "/api/user/" + str(current_user),
+                        headers={
+                            "Api-Key": api_key,
+                        },
+                        )
 
     # delete gui user
     current_user.delete()
@@ -210,6 +257,7 @@ def delete(request):
 def signup(request):
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -236,7 +284,11 @@ def signup(request):
                                     'gender': gender,
                                     'country': country,
                                     'occupation': occupation,
-                                    'education': education})
+                                    'education': education},
+                              headers={
+                                  "Api-Key": api_key,
+                              },
+                              )
 
             user = authenticate(username=username, password=raw_password)
             login(request, user)
@@ -273,6 +325,7 @@ def about(request, *args, **kwargs):
 def export(request, *args, **kwargs):
 
     site_url = os.environ.get("SITE_URL")
+    api_key = os.environ.get("API_KEY")
 
     if request.method == 'POST':
         # gives list of id of inputs
@@ -291,7 +344,11 @@ def export(request, *args, **kwargs):
             enrichment_id = data[0]
             time = data[1]
 
-            enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/").json()
+            enrich = requests.get(site_url + "/api/enrichment/" + str(enrichment_id) + "/",
+                                  headers={
+                                      "Api-Key": api_key,
+                                  },
+                                  ).json()
 
             print(enrich)
 
