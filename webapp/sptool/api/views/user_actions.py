@@ -1,11 +1,15 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework_api_key.permissions import HasAPIAccess
+
 from ..models import User, Video, VideoWatched, VideoInteractions
 from ..models import Action
 from ..models import Enrichment
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def user_watch(request, username, *args, **kwargs):
 
     euscreen = request.data["euscreen"]
@@ -30,6 +34,7 @@ def user_watch(request, username, *args, **kwargs):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def user_actions(request, username, *args, **kwargs):
 
     euscreen = request.data["euscreen"]

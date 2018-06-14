@@ -1,5 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework_api_key.permissions import HasAPIAccess
 
 from pathlib import Path
 
@@ -15,6 +17,7 @@ from decimal import *
 import json
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def import_video(request, *args, **kwargs):
 
     if "video" in request.data:
@@ -87,6 +90,7 @@ def import_video(request, *args, **kwargs):
     return Response({"message": "Imported \'%s\' video" % title})
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def delete_videos(request, *args, **kwargs):
 
     if "videos" in request.data:
@@ -171,6 +175,7 @@ def score_video(euscreen):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def import_enrichments(request, *args, **kwargs):
 
     json_data = json.loads(request.body)
@@ -269,6 +274,7 @@ def import_enrichments(request, *args, **kwargs):
     return Response({"message": "Imported %d enrichments" % len(items)})
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def delete_enrichments(request, *args, **kwargs):
 
     if "enrichments" in request.data:
@@ -290,6 +296,7 @@ def delete_enrichments(request, *args, **kwargs):
     return Response({"message": "Removed %d enrichments" % ii})
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def delete_enrichments_on_videos(request, *args, **kwargs):
 
     if "videos" in request.data:
@@ -312,6 +319,7 @@ def delete_enrichments_on_videos(request, *args, **kwargs):
     return Response({"message": "Removed all enrichments on %d videos" % ii})
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def delete_enrichments_on_project(request, *args, **kwargs):
 
     if "project_id" in request.data:

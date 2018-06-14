@@ -2,12 +2,17 @@ from ..models import Video
 from ..serializers import VideoSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+
+from rest_framework_api_key.permissions import HasAPIAccess
 
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 
 
 class VideoViewSet(viewsets.ModelViewSet):
+
+    permission_classes = (HasAPIAccess,)
+
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 
@@ -15,6 +20,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
+@permission_classes((HasAPIAccess, ))
 def search_videos(request, *args, **kwargs):
 
     if "query" in request.data:

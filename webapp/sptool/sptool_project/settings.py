@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'rest_framework',
+    'rest_framework_api_key',
     'social_django',
     'corsheaders',
     'api.apps.ApiConfig',
@@ -87,6 +88,9 @@ CACHES = {
 WSGI_APPLICATION = 'sptool_project.wsgi.application'
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERISSION_CLASSES': (
+        'rest_framework_api_key.permissions.HasAPIAccess',
+    )
     # 'PAGE_SIZE': 10
 }
 

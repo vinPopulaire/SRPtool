@@ -65,7 +65,7 @@
                                         <small>{{ video.summary }}</small>
                                     </div>
                                 </td>
-                                <td align="right"><a onclick="Recommend_enrichments({{ video }}, '{{ site_url }}')" href="#" class="fui-arrow-right"></a></td>
+                                <td align="right"><a onclick="Recommend_enrichments({{ video }}, '{{ site_url }}', '{{ api_key }}')" href="#" class="fui-arrow-right"></a></td>
                             </tr>
                         {% endfor %}
                     {% else %}
@@ -100,7 +100,7 @@
     </div> <!-- /container -->
 
     <script>
-    function Recommend_enrichments(video, site_url) {
+    function Recommend_enrichments(video, site_url, api_key) {
         var csrftoken = Cookies.get('csrftoken');
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange=function()
@@ -108,13 +108,14 @@
             if (xhttp.readyState==4 && xhttp.status==200)
             {
                 var response = JSON.parse(xhttp.responseText);
-                Display_enrichments(response, site_url);
+                Display_enrichments(response, site_url, api_key);
             }
         };
         // open(method, url, asynchronous)
         xhttp.open("POST", site_url.toString() + "/api/enrichments_to_target", false);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.setRequestHeader("Api-Key", api_key);
         var data = JSON.stringify({
             "euscreen": video["euscreen"].toString(),
             "num": 0});
@@ -124,7 +125,7 @@
         console.log(response);
     }
 
-    function Display_enrichments(response, site_url) {
+    function Display_enrichments(response, site_url, api_key) {
         var out = "";
         var i;
         var enrichments_list = response["representative 1"]["enrichments"];
@@ -145,6 +146,8 @@
             for(i = 0; i < enrichments_list.length; i++) {
                 var request = new XMLHttpRequest();
                 request.open("GET", site_url.toString() + "/api/enrichment/" + enrichments_list[i].id.toString() + "/", false);
+
+                request.setRequestHeader("Api-Key", api_key);
                 request.send();
                 var enrichment = JSON.parse(request.responseText);
                 out += '<tr>' +
