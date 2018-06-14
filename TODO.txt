@@ -3,3 +3,5 @@ https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#substituting-a-c
 in order to make email unique on auth user
 Now the signup form doesn't allow same email (SignupForm -> clean_email) but an api call
 can allow it (needs fixing).
+- API key in javascript probably need token
+https://www.reddit.com/r/javascript/comments/2a4qyi/api_keys_how_to_hide_them/
