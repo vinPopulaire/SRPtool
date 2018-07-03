@@ -5,3 +5,5 @@ Now the signup form doesn't allow same email (SignupForm -> clean_email) but an 
 can allow it (needs fixing).
 - API key in javascript probably need token
 https://www.reddit.com/r/javascript/comments/2a4qyi/api_keys_how_to_hide_them/
+
+Fix CORS now available for all
