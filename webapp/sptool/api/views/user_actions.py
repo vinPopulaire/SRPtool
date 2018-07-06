@@ -49,7 +49,14 @@ def user_actions(request, username, *args, **kwargs):
     if video_watched:
         message = store_video_interaction(video_watched[0], action, request)
     else:
-        message = "Video not yet watched"
+        video_watched = VideoWatched(
+            user_id=user.id,
+            video_id=video.id,
+            liked=0
+        )
+        video_watched.save()
+        print("Video watch saved")
+        message = store_video_interaction(video_watched, action, request)
 
     return Response({"result": "success", "message": message})
 
