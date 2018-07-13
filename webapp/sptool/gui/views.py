@@ -136,8 +136,14 @@ def business(request):
             videos_list = []
 
             if "representative 1" in response:
-                first_representative = response["representative 1"]
-                rep_videos = first_representative["videos"]
+                max_num_cluster = 0
+                for representative in response:
+                    if response[representative]["num_of_members"] > max_num_cluster:
+                        max_num_cluster = response[representative]["num_of_members"]
+                        max_representative = representative
+
+                representative = response[max_representative]
+                rep_videos = representative["videos"]
 
                 for video in rep_videos:
                     euscreen = video["video"]
