@@ -3,6 +3,7 @@ from .terms import Term
 
 
 class Enrichment(models.Model):
+    # TODO change title to description based on the IEVCT specifications
     enrichment_id = models.CharField(unique=True, max_length=50)
     enrichment_class = models.CharField(max_length=50, default='')
     dbpediaURL = models.CharField(max_length=150, default='')

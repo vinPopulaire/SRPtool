@@ -7,3 +7,5 @@ can allow it (needs fixing).
 https://www.reddit.com/r/javascript/comments/2a4qyi/api_keys_how_to_hide_them/
 
 Fix CORS now available for all
+
+Change enrichment model from "title" to "description" and on the manage_content view
