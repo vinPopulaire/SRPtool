@@ -8,7 +8,7 @@ volumes:
 
 services:
   db:
-    image: postgres
+    image: postgres:10
     volumes:
       - /opt/sptool/psql:/var/lib/postgresql/data
     ports:
