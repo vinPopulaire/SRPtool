@@ -66,7 +66,8 @@ def find_representatives(request):
     # TODO PCA to decrease dimensions for fixing curse of dimensionality
     # TODO find optimum number of clusters
     try:
-        kmeans = KMeans(n_clusters=2, random_state=0).fit(x)
+        num_clusters = 3
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(x)
         clusterheads = kmeans.cluster_centers_
         num_of_members = Counter(kmeans.labels_)
     except ValueError:

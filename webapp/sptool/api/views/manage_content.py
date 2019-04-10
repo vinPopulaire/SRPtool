@@ -197,6 +197,8 @@ def import_enrichments(request, *args, **kwargs):
         enrichments_list.append(enrichment_id)
         name = item["options"]["modelOptions"]['1']['1']['v']
 
+        # TODO [2][1][v] is the description
+        # [1][1][v] is the title
         if '2' in item["options"]["modelOptions"]:
             if '1' in item["options"]["modelOptions"]['2']:
                 if 'v' in item["options"]["modelOptions"]['2']['1']:
