@@ -15,7 +15,7 @@ drfapikey==0.0.3
 gensim==3.4.0
 idna==2.6
 jmespath==0.9.3
-numpy==1.14.2
+numpy==1.22.0
 oauthlib==2.0.6
 psycopg2==2.6.2
 PyJWT==1.5.3
